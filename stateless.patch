@@ -1,0 +1,39 @@
+diff --git a/pathnames.h.in b/pathnames.h.in
+index 003f4f4..75607fb 100644
+--- a/pathnames.h.in
++++ b/pathnames.h.in
+@@ -66,7 +66,7 @@
+  * NOTE: _PATH_SUDOERS is usually overridden by the Makefile.
+  */
+ #ifndef _PATH_SUDOERS
+-# define _PATH_SUDOERS		"/etc/sudoers"
++# define _PATH_SUDOERS		"/usr/share/defaults/sudo/sudoers"
+ #endif /* _PATH_SUDOERS */
+ 
+ /*
+diff --git a/plugins/sudoers/Makefile.in b/plugins/sudoers/Makefile.in
+index 0e40ec2..f97717a 100644
+--- a/plugins/sudoers/Makefile.in
++++ b/plugins/sudoers/Makefile.in
+@@ -101,7 +101,7 @@ shlib_opt = sudoers.opt
+ plugindir = @PLUGINDIR@
+ 
+ # Directory in which to install the sudoers file
+-sudoersdir = $(sysconfdir)
++sudoersdir = $(datarootdir)/defaults/sudo
+ 
+ # Directory in which to install sudoreplay.
+ replaydir = $(bindir)
+diff --git a/plugins/sudoers/sudoers.in b/plugins/sudoers/sudoers.in
+index b0c38bf..6c27d37 100644
+--- a/plugins/sudoers/sudoers.in
++++ b/plugins/sudoers/sudoers.in
+@@ -73,7 +73,7 @@
+ root ALL=(ALL) ALL
+ 
+ ## Uncomment to allow members of group wheel to execute any command
+-# %wheel ALL=(ALL) ALL
++%wheel ALL=(ALL) ALL
+ 
+ ## Same thing without a password
+ # %wheel ALL=(ALL) NOPASSWD: ALL

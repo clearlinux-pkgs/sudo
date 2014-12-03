@@ -1,0 +1,4 @@
+--with-pam
+--with-env-editor
+--with-ignore-dot
+--with-tty-tickets
