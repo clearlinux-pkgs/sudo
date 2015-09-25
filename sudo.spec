@@ -4,14 +4,16 @@
 #
 Name     : sudo
 Version  : 1.8.14p3
-Release  : 25
+Release  : 26
 URL      : http://www.sudo.ws/dist/sudo-1.8.14p3.tar.gz
 Source0  : http://www.sudo.ws/dist/sudo-1.8.14p3.tar.gz
+Source1  : sudo.tmpfiles
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : ISC MIT-Opengroup
 Requires: sudo-setuid
 Requires: sudo-bin
+Requires: sudo-config
 Requires: sudo-data
 Requires: sudo-doc
 Requires: sudo-locales
@@ -41,10 +43,19 @@ privileges as possible but still allow people to get their work done.
 Summary: bin components for the sudo package.
 Group: Binaries
 Requires: sudo-data
+Requires: sudo-config
 Requires: sudo-setuid
 
 %description bin
 bin components for the sudo package.
+
+
+%package config
+Summary: config components for the sudo package.
+Group: Default
+
+%description config
+config components for the sudo package.
 
 
 %package data
@@ -60,6 +71,7 @@ Summary: dev components for the sudo package.
 Group: Development
 Requires: sudo-bin
 Requires: sudo-data
+Provides: sudo-devel
 
 %description dev
 dev components for the sudo package.
@@ -113,6 +125,8 @@ rm -rf %{buildroot}
 %make_install INSTALL_OWNER=""
 %find_lang sudo
 %find_lang sudoers
+mkdir -p %{buildroot}/usr/lib/tmpfiles.d
+install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/tmpfiles.d/sudo.conf
 
 %files
 %defattr(-,root,root,-)
@@ -130,6 +144,10 @@ rm -rf %{buildroot}
 /usr/libexec/sudo/sudo_noexec.so
 /usr/libexec/sudo/sudoers.so
 /usr/libexec/sudo/system_group.so
+
+%files config
+%defattr(-,root,root,-)
+/usr/lib/tmpfiles.d/sudo.conf
 
 %files data
 %defattr(-,root,root,-)
