@@ -4,7 +4,7 @@
 #
 Name     : sudo
 Version  : 1.8.14p3
-Release  : 26
+Release  : 27
 URL      : http://www.sudo.ws/dist/sudo-1.8.14p3.tar.gz
 Source0  : http://www.sudo.ws/dist/sudo-1.8.14p3.tar.gz
 Source1  : sudo.tmpfiles
