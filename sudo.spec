@@ -4,7 +4,7 @@
 #
 Name     : sudo
 Version  : 1.8.16
-Release  : 30
+Release  : 31
 URL      : http://www.sudo.ws/dist/sudo-1.8.16.tar.gz
 Source0  : http://www.sudo.ws/dist/sudo-1.8.16.tar.gz
 Summary  : No detailed summary available
