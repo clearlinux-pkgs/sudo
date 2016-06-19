@@ -1,3 +1,833 @@
+2016-06-15  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* doc/sudo.conf.cat, doc/sudo.conf.man.in, doc/sudo.conf.mdoc.in:
+	Point the reader to the sudoers manual for the list of supported
+	arguments after the plugin path.
+	[40cbfa5deeb1]
+
+	* doc/sudoers.ldap.cat, doc/sudoers.ldap.man.in,
+	doc/sudoers.ldap.mdoc.in:
+	forgot to update date in last commit
+	[3872a46e229b]
+
+	* doc/sudoers.ldap.cat, doc/sudoers.ldap.man.in,
+	doc/sudoers.ldap.mdoc.in:
+	Fix typo; cn=default should be cn=defaults
+	[06e097667465]
+
+2016-06-13  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* lib/util/Makefile.in, lib/zlib/Makefile.in,
+	plugins/group_file/Makefile.in, plugins/sample/Makefile.in,
+	plugins/sudoers/Makefile.in, plugins/system_group/Makefile.in,
+	src/Makefile.in:
+	Fold lines at 80 characters for the clean: target
+	[651623231cd8]
+
+	* lib/util/Makefile.in:
+	Remove mksiglist, siglist.c, mksigname, signame.c as part of
+	"distclean"
+	[ed7f58685633]
+
+2016-06-12  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/po/it.mo, plugins/sudoers/po/it.po,
+	plugins/sudoers/po/pt_BR.mo, plugins/sudoers/po/pt_BR.po:
+	sync with translationproject.org
+	[a3bb8c15ef3d]
+
+	* plugins/sudoers/sssd.c:
+	LDAP sudoers doesn't support negated users, groups or netgroups.
+	[d6585245c24d]
+
+2016-06-09  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* NEWS:
+	Bug #746
+	[e0bba3ae78c2]
+
+	* plugins/sudoers/match.c:
+	When matching paths with glob(3), check returned matches against
+	user_cmnd first if it is fully-qualified. This avoids a lot of
+	needless stat(2) calls and avoids a mismatch between safe_cmnd and
+	argv[0] if there are multiple matches with the same inode/dev due to
+	links. Bug #746.
+	[29bdba0cf2eb]
+
+	* NEWS:
+	Add execve failure in pty bug fix.
+	[941672cc6793]
+
+	* plugins/sudoers/po/fi.mo, plugins/sudoers/po/fi.po:
+	sync with translationproject.org
+	[a4f789cedecc]
+
+	* src/exec_pty.c:
+	In handle_sigchld() fix the return value when we've already received
+	an exec error. We don't want to overwrite the error status but we do
+	need to indicate that the command is no longer running. Fixes as
+	hang on execve(2) error when running in a pty.
+	[797bed2c39a7]
+
+	* src/exec.c, src/exec_common.c:
+	Move sudo_debug_execve() call into sudo_execve().
+	[ab2ea3459a7c]
+
+	* plugins/sudoers/po/cs.mo, plugins/sudoers/po/cs.po,
+	plugins/sudoers/po/de.mo, plugins/sudoers/po/de.po,
+	plugins/sudoers/po/fi.mo, plugins/sudoers/po/fi.po,
+	plugins/sudoers/po/hr.mo, plugins/sudoers/po/hr.po,
+	plugins/sudoers/po/ja.mo, plugins/sudoers/po/ja.po,
+	plugins/sudoers/po/nb.mo, plugins/sudoers/po/nb.po,
+	plugins/sudoers/po/pl.mo, plugins/sudoers/po/pl.po,
+	plugins/sudoers/po/sv.mo, plugins/sudoers/po/sv.po,
+	plugins/sudoers/po/uk.mo, plugins/sudoers/po/uk.po,
+	plugins/sudoers/po/vi.mo, plugins/sudoers/po/vi.po,
+	plugins/sudoers/po/zh_CN.mo, plugins/sudoers/po/zh_CN.po, po/sr.mo,
+	po/sr.po, po/sv.mo, po/sv.po:
+	sync with translationproject.org
+	[046ba9a0fca8]
+
+2016-06-07  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* NEWS:
+	update for 1.8.17 final
+	[a2f02775aba5]
+
+	* lib/util/aix.c:
+	Fix setting of hard stack limit when stack_hard is not specified in
+	/etc/security/limits. When 64-bit resource limits are supported we
+	can use the default value of 8388608 512-byte blocks directly. We
+	should only resort to using RLIM_SAVED_MAX for 32-bit resource
+	limits.
+	[cc4933fc41bd]
+
+2016-06-06  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/po/sudoers.pot:
+	regen
+	[4ab85a46cf63]
+
+2016-06-05  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/sssd.c:
+	Ignore empty ipa_hostname
+	[9421ade7b47f]
+
+	* plugins/sudoers/sssd.c:
+	Better martching of ipa_hostname in sssd.conf
+	[abd53491cb4b]
+
+2016-06-04  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* INSTALL, configure, configure.ac, pathnames.h.in,
+	plugins/sudoers/sssd.c:
+	Use the value of ipa_hostname from /etc/sssd/sssd.conf if present
+	instead of the system hostname.
+	[3f5cffcd8432]
+
+2016-06-03  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/sssd.c:
+	When matching host, short-circuit the loop when we get a match. Only
+	check username as part of the netgroup when netgroup_tuple is
+	enabled.
+	[2eab4070dcf7]
+
+	* plugins/sudoers/ldap.c, plugins/sudoers/sssd.c:
+	Avoid using !strcmp()
+	[f976b3d973e0]
+
+2016-06-02  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/sssd.c:
+	SSSD doesn't handle netgroups, we have to ensure they are correctly
+	filtered in sudo. The rules may contain mixed sudoUser specification
+	so we have to check not only for netgroup membership but also for
+	user and group matches. Adapted from a patch from Daniel Kopecek.
+	[50d8d88bcc28]
+
+2016-06-01  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/auth/pam.c:
+	Return PAM_CONV_ERR from the conversation function if getpass
+	returns NULL or the user pressed ^C.
+	[bec7e2ec26ff]
+
+	* plugins/sudoers/base64.c:
+	Make base64 decoding table-driven.
+	[2d001c111552]
+
+	* plugins/sudoers/toke.c, plugins/sudoers/toke.l:
+	Back out cfa26b99228f, it was already fixed differently. Caught by
+	regress checks.
+	[0584f80e9951]
+
+2016-05-31  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/toke.c, plugins/sudoers/toke.l:
+	Allow double-quoted groups and netgroups to be part of a Defaults
+	spec. From Daniel Kopecek.
+	[cfa26b99228f]
+
+	* doc/sudoers.ldap.cat, doc/sudoers.ldap.man.in,
+	doc/sudoers.ldap.mdoc.in:
+	The sudoers.ldap manual is installed in section 4 or 5, not 1m or 8.
+	Also fix the section for ldap.conf cross-references.
+	[eb1c0a2b84a1]
+
+	* doc/sudoers.ldap.cat, doc/sudoers.ldap.man.in,
+	doc/sudoers.ldap.mdoc.in:
+	Fix copy pasta, "sudoNotAfter" not "sudoNotBefore". Add missing word
+	"order" in a sentence describing sudoOrder.
+	[653cb783f89b]
+
+	* plugins/sudoers/sssd.c:
+	For sudo -ll (long list) print the SSSD role just like we do for the
+	LDAP backend. Adapted from sudo-1.8.6p3-sssdrulenames.patch
+	[46f962b1f3ef]
+
+	* doc/sudoers.cat, doc/sudoers.man.in, doc/sudoers.mdoc.in:
+	Setting timestamp_timeout less than zero only lasts until the next
+	reboot. Adapted from a RedHat patch.
+	[f8ce1dfebfe9]
+
+	* po/it.mo, po/it.po, po/nb.mo, po/nb.po:
+	sync with translationproject.org
+	[31b55426358b]
+
+2016-05-25  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* src/conversation.c:
+	fputs() is now specified as returning non-negative on success, not
+	explicitly zero. Fixes a failure on glibc.
+	[55f8a25d4af4]
+
+	* src/conversation.c:
+	Don't try to dereference replies[] if it is a NULL pointer.
+	[c4fdd838f2f5]
+
+	* plugins/sudoers/policy.c:
+	sudo_version should be unsigned
+	[7719d425c65a]
+
+	* plugins/sudoers/po/ca.mo, plugins/sudoers/po/ca.po,
+	plugins/sudoers/po/da.mo, plugins/sudoers/po/da.po,
+	plugins/sudoers/po/hr.mo, plugins/sudoers/po/hr.po,
+	plugins/sudoers/po/sv.mo, plugins/sudoers/po/sv.po,
+	plugins/sudoers/po/zh_CN.mo, plugins/sudoers/po/zh_CN.po, po/ca.mo,
+	po/ca.po, po/cs.mo, po/cs.po, po/da.mo, po/da.po, po/de.mo,
+	po/de.po, po/fr.mo, po/fr.po, po/hr.mo, po/hr.po, po/ja.mo,
+	po/ja.po, po/pl.mo, po/pl.po, po/sk.mo, po/sk.po, po/sv.mo,
+	po/sv.po, po/uk.mo, po/uk.po, po/vi.mo, po/vi.po, po/zh_CN.mo,
+	po/zh_CN.po:
+	sync with translationproject.org
+	[e40cdc972d19]
+
+	* MANIFEST, NEWS, doc/CONTRIBUTORS, plugins/sudoers/po/ko.mo,
+	plugins/sudoers/po/ko.po, po/ko.mo, po/ko.po:
+	Korean translation for sudo and sudoers from translationproject.org.
+	[188ffbed5bf2]
+
+	* NEWS, plugins/sudoers/auth/pam.c:
+	Ignore PAM_SESSION_ERR from pam_open_session() since this can
+	apparently happen on systems using Solaris-derived PAM. Other errors
+	from pam_open_session() are treated as fatal. This avoids the
+	"policy plugin failed session initialization" error message seen on
+	some systems.
+	[0f7f3e7ead21]
+
+2016-05-24  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* NEWS, src/exec_pty.c:
+	Don't read from stdin when flushing final buffers in blocking mode.
+	Reading from the pipe can block too if the other end is not closed.
+	[a651f913a1ef]
+
+2016-05-23  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* NEWS:
+	Mention visudo -x change.
+	[2fd35df055b2]
+
+	* plugins/sudoers/regress/sudoers/test1.json.ok,
+	plugins/sudoers/regress/sudoers/test14.json.ok,
+	plugins/sudoers/regress/sudoers/test15.json.ok,
+	plugins/sudoers/regress/sudoers/test16.json.ok,
+	plugins/sudoers/regress/sudoers/test2.json.ok,
+	plugins/sudoers/visudo_json.c:
+	There's no need to escape forward slashes in JSON output. While it
+	is legal to escape a forward slash, it is not required.
+	[044710f516a9]
+
+	* doc/UPGRADE:
+	Document that in 1.8.12 sudo started being able to check the NIS
+	domain on Solaris.
+	[bced94478c0e]
+
+2016-05-20  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* NEWS:
+	Better description of the I/O logging pipe issue.
+	[6eee2f8a1fae]
+
+	* src/exec_pty.c:
+	In del_io_events(), avoid reading from the pty master in blocking
+	mode. We now do two passes, one with SUDO_EVLOOP_NONBLOCK and
+	another that could block if stdin is a pipe. This ensures we consume
+	the pipe until EOF.
+	[564ae2b4c305]
+
+	* lib/util/event.c:
+	Improve debug info in sudo_ev_add() and sudo_ev_del()
+	[ca839439ff22]
+
+	* src/exec_pty.c:
+	In pty_close(), call del_io_events with the SUDO_EVLOOP_ONCE flag so
+	the event loop will exit after a single run through. Otherwise, we
+	may hang at exit on non-BSD systems.
+	[e6c38d5a341b]
+
+2016-05-18  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* po/sudo.pot:
+	regen
+	[18a4570be506]
+
+2016-05-17  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* src/exec_pty.c:
+	Bump I/O buffer size to 64K. We don't use PIPE_BUF or _PC_PIPE_BUF
+	for this because that corresponds to the value for atomic pipe
+	writes. The actual pipe buffer is much larger on modern systems and
+	64K is what BSD and Linux support for large pipe buffers.
+	[3b5d995966ef]
+
+	* NEWS:
+	I/O logging bug fix
+	[934d755ac12c]
+
+	* src/exec_pty.c:
+	Don't use SUDO_EVLOOP_NONBLOCK when flushing buffers at pty close
+	time, only when the user suspends sudo. Fixes a problem where all
+	buffers might not get flushed at exit when logging I/O. Reproducible
+	via "sudo tar cf - foo | (cd /tmp && sudo tar xf -)" on OpenBSD.
+	[bbe0e18739ec]
+
+2016-05-16  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/visudo_json.c:
+	Don't try to fflush(export_fp) or ferror(export_fp) if export_fp is
+	NULL, which can happen on the error path.
+	[ccfb4dd260fa]
+
+	* plugins/sudoers/sudoers.c, src/exec.c, src/exec_pty.c, src/sudo.c,
+	src/tgetpass.c:
+	O_NOCTTY has no effect when opening /dev/tty as the open can only
+	succeed if there is already a controlling tty.
+	[9ca106c499b2]
+
+	* src/sudo.c:
+	Do not need to open /dev/tty with O_NONBLOCK, it doesn't block on
+	first open like a physical terminal. By definition, if you have a
+	controlling tty, the first open (which might block) has already
+	occurred.
+	[15a5f006836a]
+
+	* src/selinux.c:
+	Use O_NOCTTY when opening a tty.
+	[5f9fd6458be4]
+
+	* src/Makefile.in:
+	regen
+	[105ef4533724]
+
+	* plugins/sudoers/auth/sudo_auth.c:
+	No need to set pass to NULL after freeing at the end of the loop it
+	since it is already set to NULL each time through the loop.
+	[2657b0b4260d]
+
+2016-05-14  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* NEWS:
+	SELinux fixes in 1.8.17.
+	[f743cf0d9c62]
+
+	* plugins/sudoers/logging.h, plugins/sudoers/logwrap.c:
+	Check fprintf() return value in writeln_wrap() and return the number
+	of characters actually written, or -1 on error.
+	[4739e0f58fa3]
+
+	* src/conversation.c:
+	Check fputs() return value.
+	[e85778cbe0e3]
+
+	* plugins/sudoers/ldap.c, plugins/sudoers/sssd.c:
+	Do not write directly to stdout/stderr, use sudo_printf which calls
+	the conversation function.
+	[e86d5ed4dca7]
+
+	* plugins/sudoers/auth/dce.c, plugins/sudoers/auth/fwtk.c,
+	plugins/sudoers/auth/pam.c, plugins/sudoers/auth/securid5.c:
+	Do not write directly to stdout/stderr, use sudo_printf which calls
+	the conversation function.
+	[002a30fdb4e0]
+
+	* plugins/sudoers/iolog.c, plugins/sudoers/visudo_json.c:
+	Use ferror() after fflush() to check the error status of the stdio
+	stream we wrote to.
+	[fa1db13fe9ac]
+
+2016-05-13  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/parse.c:
+	printf() returns < 0 on error, not explicitly -1
+	[2a2385b941de]
+
+	* doc/sudo.cat, doc/sudo.conf.cat, doc/sudo_plugin.cat,
+	doc/sudoers.ldap.cat, doc/sudoreplay.cat, doc/visudo.cat:
+	Regen for 1.8.17
+	[e24b0f944000]
+
+	* doc/sudoers.cat, doc/sudoers.man.in, doc/sudoers.mdoc.in:
+	Document that you need to preserve EDITOR and/or VISUAL for
+	env_editor to be useful.
+	[ef0ce8917307]
+
+	* src/selinux.c:
+	Fix last commit, now that argc is not reset we need to explicitly
+	start the copy from argv[1]. From Daniel Kopecek
+	[f52403ef587a]
+
+2016-05-12  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* src/selinux.c:
+	cosmetic change to warning string
+	[a2893e3f9b70]
+
+	* plugins/sudoers/auth/pam.c:
+	Avoid adding an extraneous warning string to sudoers.pot.
+	[6b07043b48f7]
+
+	* lib/util/snprintf.c:
+	Use EOVERFLOW, not ENOMEM for overflow conditions. For snprintf()
+	and vsnprintf(), POSIX says we should return -1 and set errno to
+	EOVERFLOW if the size param is > INT_MAX; also zero out the string
+	in this case (not mandated by POSIX) for safety.
+	[294720fc981a]
+
+2016-05-11  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/auth/pam.c:
+	Now that pam_open_session() failure is fatal we should print and log
+	an error from it. Bug #744
+	[0e98a92ef910]
+
+	* src/selinux.c:
+	Repair SELinux support, broken by 397722cdd7ec. From Daniel Kopecek.
+	[1246583c7c1f]
+
+	* plugins/sudoers/iolog.c, plugins/sudoers/pwutil.c,
+	plugins/sudoers/sudoers.c, plugins/sudoers/sudoers.h,
+	plugins/sudoers/testsudoers.c, plugins/sudoers/visudo.c:
+	Remove sudo_mkpwcache() and sudo_mkgrcache(). We now create the
+	caches as needed on demand. Also remove calls to sudo_freepwcache()
+	and sudo_freegrcache() that are immediately followed by execve(),
+	they are not needed.
+	[60448afe813d]
+
+	* plugins/sudoers/iolog.c, plugins/sudoers/logging.c,
+	plugins/sudoers/pwutil.c, plugins/sudoers/sudoers.c,
+	plugins/sudoers/sudoers.h, plugins/sudoers/testsudoers.c,
+	plugins/sudoers/visudo.c:
+	Eliminate use of setpwent()/endpwent() and setgrent()/endgrent().
+	Sudo never iterates over the passwd or group file. Rename
+	sudo_set{pw,gr}ent() -> sudo_mk{pw,gr}cache() and use
+	sudo_free{pw,gr}cache() instead of sudo_end{pw,gr}ent().
+	[66e6f5e7b51b]
+
+2016-05-10  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/parse.h:
+	Remove unnecessary NULL checks in the RUNAS_CHANGED macro. The only
+	place where the pointers could be NULL is in visudo_json.c but we
+	already check for "next" being NULL there. Quiets a cppcheck
+	warning.
+	[a0d84832c154]
+
+2016-05-09  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/sudoreplay.c:
+	In replay_session() free iov at the end of the function (if needed)
+	instead of after processing each line from the timing file. Coverity
+	CID 104843.
+	[5112f514af87]
+
+	* plugins/sudoers/sudoreplay.c:
+	Add io_log_read() and io_log_gets() to hide differences between
+	gzread/fread and gzgets/fgets. Check for premature EOF and error
+	from io_log_read(). Also sanity check the index in the timing file.
+	Coverity CID 104630.
+	[6a3b9932f567]
+
+	* src/exec_pty.c:
+	Break up io_callback() into read_callback() and write_callback() to
+	make it clear that we can't get an event with both read and write
+	set.
+	[cd3a1e182dd4]
+
+2016-05-07  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* src/exec_pty.c:
+	In io_callback() make sure we clear SUDO_EV_READ if we close the fd.
+	It should not be possible for SUDO_EV_READ to be set when revent is
+	non-NULL but this makes static analyzers happier. Coverity CID
+	104124.
+	[7acc249fa098]
+
+	* plugins/sudoers/ldap.c:
+	In sudo_krb5_copy_cc_file() move the close(ofd) to the done: label
+	so we only have to cleanup in one place. Coverity CID 104577.
+	[0f189e70c59d]
+
+	* plugins/sudoers/ldap.c:
+	Fix memory leak in sudo_netgroup_lookup() in the non-error case.
+	Coverity CID 104572, 104573, 104574, 104575.
+	[7f9fb7a360b7]
+
+	* plugins/sudoers/ldap.c:
+	Fix fd leak in sudo_krb5_copy_cc_file() if restore_perms() fails.
+	Coverity CID 104571.
+	[d9434cdfb73c]
+
+	* plugins/sudoers/sudoreplay.c:
+	Free the events and event base before returning from
+	replay_session(). Coverity CID 104116, 104117.
+	[321216089e4a]
+
+	* src/sudo_edit.c:
+	In sudo_edit_create_tfiles(), fix fd leak if sudo_edit_mktemp()
+	fails. Coverity CID 104114.
+	[713de09ff956]
+
+	* src/sudo_edit.c:
+	Fix fd leak in sudo_edit_open_nonwritable() if dir_is_writable()
+	returns an error. Coverity CID 104113.
+	[314a57004f00]
+
+	* src/sudo_edit.c:
+	Fix memory leak of sesh_args in selinux_edit_copy_tfiles(). Coverity
+	CID 104112.
+	[ac7f0cbd07c9]
+
+	* plugins/sudoers/visudo.c:
+	Fix memory leak in get_editor() if resolve_editor() fails with an
+	error. Coverity CID 104107.
+	[e355b1f45bcb]
+
+	* src/sudo.c:
+	Fix memory leak on error if sudo_new_key_val() fails. Coverity CID
+	104103.
+	[c2ee1557aef2]
+
+	* plugins/sudoers/visudo.c:
+	Ignore the return value of the initial sudoersparse(), before we
+	have actually edited any files. Coverity CID 104078.
+	[184d9c6aec65]
+
+	* src/exec.c:
+	Ignore the result of send() on exec error, if it fails the other end
+	of the pipe is gone and we are headed for exit. Coverity CID 104066.
+	[cdcd7dfcbca1]
+
+	* plugins/sudoers/toke_util.c:
+	In fill_args() clean up properly if there is an internal overflow
+	(which should not be possible). Coverity CID 104569.
+	[0bc710e91ec4]
+
+	* plugins/sudoers/gc.c:
+	Fix logic inversion in sudoers_gc_remove(), currently unused.
+	Coverity CID 104568
+	[e29df8da11ea]
+
+2016-05-06  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/iolog.c:
+	In io_mkdirs(), change the order from stat then mkdir, to mkdir then
+	stat. This more closely matches what "mkdir -p" does. Coverity CID
+	104120.
+	[e462528ff7ea]
+
+	* plugins/sudoers/timestamp.c:
+	In ts_mkdirs(), change the order from stat then mkdir, to mkdir then
+	stat. This more closely matches what "mkdir -p" does. Coverity CID
+	104119.
+	[c0c0e2662883]
+
+	* plugins/sudoers/sudoers.c:
+	Newer versions of Ubuntu have switched from using the "admin" group
+	to the "sudo" group to align with Debian.
+	create_admin_success_flag() now accepts either one.
+	https://bugs.launchpad.net/ubuntu/+source/sudo/+bug/1387347
+	[17b4d725dac4]
+
+	* plugins/sudoers/timestamp.c:
+	Cast off_t printed via printf(3) instead of assuming it is long
+	long.
+	[b1d398f4a8dc]
+
+	* plugins/sudoers/sudoers.c:
+	Instead of using stat(2) to see if the admin flag file exists and
+	creating it if not, just try to create the file and treat EEXIST as
+	a non-error. Coverity CID 104121.
+	[bd58b0a35a3c]
+
+	* MANIFEST, plugins/sample/README:
+	README file for the sample plugin that tells the user how to build,
+	install and enable it.
+	[8d7096ce78cc]
+
+	* plugins/sample/sample_plugin.c:
+	Fix compilation error and export sample_policy struct. From Michael
+	Evans
+	[5280c1576e7f]
+
+	* NEWS:
+	Update for 1.8.17
+	[979688a5ef13]
+
+	* configure, configure.ac:
+	Sudo 1.8.17
+	[09311b2e9697]
+
+	* plugins/sudoers/logging.c:
+	Check return value of restore_perms() in vlog_warning(). Coverity
+	CID 104079.
+	[86555dd0942d]
+
+	* plugins/sudoers/editor.c:
+	Fix memory leaks in resolve_editor() in the error path. Coverity CID
+	104109, 104110
+	[6ac3f7e3ada9]
+
+	* plugins/sudoers/policy.c:
+	Fix memory leak of gid_list in sudoers_policy_exec_setup() in the
+	error path. Coverity CID 104111.
+	[eac1e9489367]
+
+	* plugins/sudoers/logging.c:
+	Fix fd leak in do_logfile() if we fail to lock the log file.
+	Coverity CID 104115.
+	[164a693207a8]
+
+	* plugins/sudoers/sssd.c:
+	Fix memory leak of sss_result in sudo_sss_lookup() Coverity CID
+	104106
+	[7dcee1e6d76f]
+
+	* plugins/sudoers/iolog.c:
+	Fix fd leak in open_io_fd() if gzdopen/fdopen fails. Coverity CID
+	104105
+	[c4c2848c1167]
+
+	* plugins/sudoers/iolog.c:
+	Fix fd leak in io_nextid() in error path. Coverity CID 104104
+	[8920cdaab5bd]
+
+2016-05-05  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/timestamp.c:
+	Check lseek() return value. Coverity CID 104061.
+	[bf3bb4c80cfc]
+
+	* plugins/sudoers/timestamp.c:
+	Ignore ts_write() return value when disabling an entry with a bogus
+	timestamp. We ignore the timestamp entry even it doesn't succeed.
+	Coverity CID 104062.
+	[5e5925ebbc75]
+
+	* plugins/sudoers/iolog.c, plugins/sudoers/match.c,
+	plugins/sudoers/tsgetgrpw.c, src/exec.c, src/exec_pty.c, src/sudo.c:
+	Cast the return value of fcntl() to void when setting FD_CLOEXEC.
+	Coverity CID 104063, 104064, 104069, 104070, 104071, 104072, 104073,
+	104074
+	[48720d2f6658]
+
+	* plugins/group_file/getgrent.c:
+	Cast the return value of fcntl() to void when setting FD_CLOEXEC.
+	Coverity CID 104075, 104076, 104077.
+	[7fe1d9f97321]
+
+	* plugins/sudoers/env.c:
+	Avoid a false positive. Coverity CID 104056.
+	[0256978219a6]
+
+	* plugins/sudoers/visudo_json.c:
+	Avoid calling fclose(NULL) on error in export_sudoers(). Coverity
+	CID 104091.
+	[2f73d86ab929]
+
+	* plugins/sudoers/toke_util.c:
+	In fill_args(), check for "arg_size == 0" instead of
+	"sudoerslval.command.args == NULL" since the latter leads Coverity
+	to imply that sudoerslval.command.args could be NULL later on.
+	Coverity CID 104093.
+	[bab505438881]
+
+	* plugins/sudoers/sudoers.c:
+	Avoid calling fclose(NULL) if the sudoers file is not secure and
+	restore_perms() fails. Coverity CID 104090.
+	[150db126c221]
+
+2016-05-04  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/toke.h, plugins/sudoers/toke_util.c:
+	In fill_args(), replace loop that increments arg_size() with a
+	simple add and mask. Should prevent a false positive from Coverity
+	CID 104094.
+	[411c7e398286]
+
+	* plugins/sudoers/sudoreplay.c:
+	In parse_expr(), move the "bad" label after the "default" case in
+	the switch(), not before it. This seemed to confuse Covertity,
+	resulting in a false positive, CID 104095.
+	[4371f26995fb]
+
+	* doc/sudoreplay.cat, doc/sudoreplay.man.in, doc/sudoreplay.mdoc.in:
+	For "sudoreplay -l", not all predicates may be shortened to a single
+	character. Both 'c' and 't' have more than one possibility.
+	[29a5a9a313e2]
+
+	* src/exec.c, src/exec_pty.c, src/sudo.c:
+	pid_t is defined by POSIX as a signed integer type so we don't need
+	a cast when comparing to -1.
+	[98f0a86260a0]
+
+	* src/exec.c:
+	In dispatch_signal() for stopped processes check for tcgetpgrp()
+	returning -1. Also change checks from "saved_pgrp != -1" to "fd !=
+	-1". Coverity CID 104098.
+	[42ac4ad85900]
+
+	* src/selinux.c:
+	In relabel_tty() always jump to bad: on error, regardless of the
+	value of se_state.enforcing. On error, return -1 if enforcing, else
+	0. Coverity CID 104099.
+	[db1a54d718f1]
+
+	* config.h.in, configure.ac:
+	Define NO_LEAKS when sudo is built with Coverity.
+	[f4209b9ade8c]
+
+	* src/exec_pty.c:
+	In io_callback() if we write the complete buffer and find that there
+	is no associated reader just return as there is nothing else to be
+	done. In practice is it not possible for SUDO_EV_READ to be set if
+	revent is NULL but an early return is harmless and possibly easier
+	to understand. Coverity CID 104124.
+	[3b3eb45b701e]
+
+	* src/sudo_edit.c:
+	Handle read() returning -1 when creating temporary files. Coverity
+	CID 104100
+	[e82af51e4f48]
+
+	* plugins/sudoers/policy.c:
+	Fix cut and paste error when checking cols for 0. Coverity CID
+	104081
+	[22a3b7d9bce1]
+
+	* plugins/sudoers/pwutil.c:
+	Use a single debug message for cache hit or store to avoid another
+	situation where they get out of sync. Bug #743
+	[4cf484e9b016]
+
+	* plugins/sudoers/pwutil.c:
+	Sync the "cache hit" debug messages with the "cached" debug
+	messages. This fixes a bug where we could dereference a NULL pointer
+	when we look up a negative cached entry which is stored as a NULL
+	passwd or group struct pointer. Bug #743.
+	[1d13341d53ec]
+
+2016-04-28  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* configure, configure.ac:
+	Remove the check for __sprintf_chk when checking for
+	_FORTIFY_SOURCE, Some implementations are purely header-file based.
+	As long as we can link a test program using sprintf() when
+	_FORTIFY_SOURCE=2 it should be safe to use.
+	[910af8ba4666]
+
+	* config.h.in, configure, configure.ac:
+	Remove configure checks for dev_t, id_t, ino_t, ptrdiff_t, size_t
+	and ssize_t. These have been specified by either ANSI C or POSIX for
+	long enough that if the system doesn't support them, it is unlikely
+	to be able to compile sudo anyway.
+	[c9fd433cfe27]
+
+	* src/sudo.c:
+	Do group setup in policy_init_session() before calling out to the
+	plugin. This makes it possible for the pam_group module to change
+	the group in pam_setcred(). It's a bit bogus since pam_setcred() is
+	documented as not changing the group or user ID, but pam_group is
+	shipped with stock Linux-PAM so we need to support it.
+	[814cda602541]
+
+2016-04-26  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/logging.c:
+	Add missing newline when logging to a file (not syslog) and
+	loglinelen is set to a non-positive number. Bug #742
+	[ef0a5428a574]
+
+2016-04-25  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* src/exec.c:
+	style fix; fork_cmnd should start on a new line
+	[e8211fe0f8d7]
+
+2016-04-22  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* doc/sudo_plugin.cat, doc/sudo_plugin.man.in,
+	doc/sudo_plugin.mdoc.in, plugins/sudoers/ldap.c,
+	plugins/sudoers/logging.c, src/signal.c, src/sudo.c, src/tgetpass.c:
+	Ignore SIGPIPE for the duration of sudo and not just in a few select
+	places. We have no control over what nss, PAM modules or sudo
+	plugins might do so ignoring SIGPIPE is safest.
+	[7c919101b8ec]
+
+	* src/selinux.c:
+	Use string_to_security_class() instead of pulling SECCLASS_CHR_FILE
+	from flask.h. Avoids a warning with new SELinux includes.
+	[24f357b419c4]
+
+2016-04-19  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/ldap.c, plugins/sudoers/parse.c,
+	plugins/sudoers/sssd.c, plugins/sudoers/sudoers.c,
+	plugins/sudoers/sudoers.h:
+	When determining whether or not "sudo -l" or "sudo -b" should prompt
+	for a password, take all sudoers sources into account. In other
+	words, if both file and ldap sudoers sources are in use, "sudo -v"
+	will now require that all entries in both sources be have NOPASSWD
+	(file) or !authenticate (ldap) in the entries.
+	[51e2a5ecacc6]
+
+2016-03-22  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/auth/aix_auth.c, plugins/sudoers/auth/pam.c,
+	plugins/sudoers/auth/sudo_auth.h:
+	If the auth_type setting in /etc/security/login.cfg is set to
+	PAM_AUTH but pam_start() fails, fall back to use AIX authentication.
+	Skip the auth_type check if sudo is not compiled with PAM support.
+	[cdbe432c465c]
+
+2016-03-17  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* doc/sudo.conf.cat, doc/sudo.conf.man.in, doc/sudo.conf.mdoc.in:
+	The header for sudo.conf(5) should be SUDO.CONF(5) not SUDO(5).
+	[d3afd5bd550f]
+
 2016-03-16  Todd C. Miller  <Todd.Miller@courtesan.com>
 
 	* plugins/sudoers/policy.c:
