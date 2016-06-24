@@ -1,3 +1,14 @@
+2016-06-22  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* NEWS, configure, configure.ac:
+	Sudo 1.8.17p1
+	[bc30a172370c]
+
+	* src/sudo.c, src/sudo.h:
+	Set user groups in exec_setup() if they were not already set by
+	policy_init_session(). Bug #749
+	[3bf16489800c]
+
 2016-06-15  Todd C. Miller  <Todd.Miller@courtesan.com>
 
 	* doc/sudo.conf.cat, doc/sudo.conf.man.in, doc/sudo.conf.mdoc.in:
