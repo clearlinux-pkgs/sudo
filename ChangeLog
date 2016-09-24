@@ -1,4 +1,893 @@
+2016-09-19  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* po/ca.mo, po/da.mo, po/eo.mo, po/es.mo, po/eu.mo, po/fi.mo,
+	po/gl.mo, po/hr.mo, po/hu.mo, po/ko.mo, po/nl.mo, po/ru.mo,
+	po/sk.mo, po/sl.mo, po/sr.mo, po/tr.mo:
+	recompile .po files
+	[3d91cbf75744]
+
+	* plugins/sudoers/ldap.c, plugins/sudoers/sssd.c:
+	Fix matching when no sudoRunAsUser is present in a sudoRole. If only
+	a sudoRunAsGroup is present, match on the invoking user if the -g
+	option was specified and the group matched. If no sudoRunAsGroup is
+	present and the -g option was specified, allow it if it matches the
+	passwd gid of the runas user. This matches the behavior of the
+	sudoers backend.
+	[e1a52c34da5e]
+
+	* plugins/sudoers/match.c:
+	runas_pw can no longer be NULL
+	[020c6ddcae11]
+
+2016-09-15  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* NEWS:
+	RunAsGroup without RunAsUser issues
+	[52d1547c9d3a]
+
+	* plugins/sudoers/ldap.c, plugins/sudoers/sssd.c:
+	user_matched and group_matched must be type int, not bool
+	[204d8de97a05]
+
+	* plugins/sudoers/ldap.c, plugins/sudoers/match.c,
+	plugins/sudoers/parse.h, plugins/sudoers/sssd.c:
+	Use RUNAS_USER_SPECIFIED and RUNAS_GROUP_SPECIFIED when deciding
+	whether to check runas user/group instead of checking runas_pw or
+	runas_gr.
+	[d17f223e8313]
+
+	* plugins/sudoers/ldap.c, plugins/sudoers/sssd.c:
+	When matching against runas_default use userpw_matches() instead of
+	just strcasecmp().
+	[ce70077c5861]
+
+	* plugins/sudoers/testsudoers.c:
+	Set RUNAS_USER_SPECIFIED when -u is specified and/or
+	RUNAS_GROUP_SPECIFIED when -g is specified.
+	[fa7a1035a058]
+
+	* plugins/sudoers/ldap.c, plugins/sudoers/sssd.c:
+	Fix printing of the default runas user when a RunAsGroup is
+	specified but no RunAsUser is present.
+	[c05dabd194a1]
+
+	* plugins/sudoers/ldap.c, plugins/sudoers/sssd.c:
+	Only match against runas_default if both sudoRunAsUser and
+	sudoRunAsGroup are missing.
+	[019084f428b2]
+
+	* plugins/sudoers/match.c:
+	runas_pw can no longer be NULL here
+	[e73dcebafa15]
+
+	* plugins/sudoers/ldap.c, plugins/sudoers/match.c,
+	plugins/sudoers/parse.h, plugins/sudoers/sssd.c:
+	Update check for whether or not the runas user was set in the ldap
+	and sssd backends to match the sudoers file backend. Introduces the
+	runas_user_set() macro to improve readability. Previously, runas_pw
+	was set late, now it is set before checking sudoers.
+	[d8280d8a96c9]
+
+	* doc/sudoers.ldap.cat, doc/sudoers.ldap.man.in,
+	doc/sudoers.ldap.mdoc.in:
+	Document that negated sudoHosts are only supported by 1.8.18 and
+	higher.
+	[f56824fe61bc]
+
+	* plugins/sudoers/Makefile.in,
+	plugins/sudoers/regress/testsudoers/test4.sh,
+	plugins/sudoers/regress/testsudoers/test5.sh:
+	Disable Address Sanitizer leak detection for tests which generate
+	parse errors. The parser leaks a bit on error.
+	[4b0ddb11df3a]
+
+	* plugins/sudoers/sssd.c:
+	Fix underflow in get_ipa_hostname() when trimming trailing
+	whitespace.
+	[875f2f5cd363]
+
+2016-09-14  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* NEWS:
+	Document negated sudoHost entries.
+	[41d9853f89f7]
+
+	* plugins/sudoers/sssd.c:
+	Support negated sudoHost entries.
+	[7c25f9111633]
+
+	* doc/sudoers.ldap.cat, doc/sudoers.ldap.man.in,
+	doc/sudoers.ldap.mdoc.in:
+	Document negated sudoHost entries.
+	[6c8444c6bc6c]
+
+	* plugins/sudoers/ldap.c:
+	Support negated sudoHost entries.
+	[1899906b8ef4]
+
+2016-09-13  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/match.c:
+	Don't check the username when matching a host netgroup unless
+	def_netgroup_tuple is enabled.
+	[238c8064542f]
+
+	* plugins/sudoers/match.c:
+	Move valid domain name check into a new valid_domain() function. Fix
+	memory leak if getdomainname(2) fails and avoid using heap garbage
+	for the domain name matching in this case.
+	[946f2441c90a]
+
+2016-09-12  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/po/it.mo, plugins/sudoers/po/it.po, po/it.mo,
+	po/it.po:
+	sync with translationproject.org
+	[40eab0801eae]
+
+2016-09-11  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* src/exec_pty.c:
+	Add back line mistakenly removed in 0cf2a9351740
+	[8622c83c1474]
+
+	* plugins/sudoers/po/nb.mo, plugins/sudoers/po/nb.po, po/nb.mo,
+	po/nb.po:
+	sync with translationproject.org
+	[f180826bb77b]
+
+2016-09-09  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* NEWS:
+	Bug #757
+	[de67bc9e26f8]
+
+	* plugins/sudoers/sudoers.c:
+	Fix typo that broke short host name matching when the fqdn flag is
+	enabled. Bug #757
+	[605c03afc80f]
+
+2016-09-08  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* include/sudo_debug.h, lib/util/aix.c, lib/util/fnmatch.c,
+	lib/util/getgrouplist.c, lib/util/secure_path.c,
+	lib/util/setgroups.c, lib/util/strtoid.c, lib/util/sudo_conf.c,
+	lib/util/sudo_debug.c, plugins/sample/sample_plugin.c,
+	plugins/sudoers/auth/aix_auth.c, plugins/sudoers/auth/securid5.c,
+	plugins/sudoers/auth/sudo_auth.c, plugins/sudoers/check.c,
+	plugins/sudoers/env.c, plugins/sudoers/goodpath.c,
+	plugins/sudoers/gram.c, plugins/sudoers/gram.y,
+	plugins/sudoers/interfaces.c, plugins/sudoers/iolog.c,
+	plugins/sudoers/ldap.c, plugins/sudoers/logging.c,
+	plugins/sudoers/match.c, plugins/sudoers/parse.c,
+	plugins/sudoers/policy.c, plugins/sudoers/pwutil.c,
+	plugins/sudoers/sudoers.c, plugins/sudoers/sudoreplay.c,
+	plugins/sudoers/timestamp.c, plugins/sudoers/visudo.c,
+	plugins/sudoers/visudo_json.c, src/env_hooks.c, src/exec.c,
+	src/exec_pty.c, src/get_pty.c, src/hooks.c, src/load_plugins.c,
+	src/regress/ttyname/check_ttyname.c, src/selinux.c, src/signal.c,
+	src/sudo.c, src/sudo_edit.c, src/tgetpass.c, src/ttyname.c,
+	src/utmp.c:
+	Be consistent with the naming of the variable used to store the
+	function return value. Previously, some code used "rval", some used
+	"ret". This standardizes on "ret" and uses "rc" for temporary return
+	codes.
+	[017866310d24]
+
+2016-09-07  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/po/ca.po, plugins/sudoers/po/cs.mo,
+	plugins/sudoers/po/cs.po, plugins/sudoers/po/da.po,
+	plugins/sudoers/po/de.mo, plugins/sudoers/po/de.po,
+	plugins/sudoers/po/el.po, plugins/sudoers/po/eo.po,
+	plugins/sudoers/po/eu.po, plugins/sudoers/po/fi.po,
+	plugins/sudoers/po/fr.po, plugins/sudoers/po/hr.po,
+	plugins/sudoers/po/hu.po, plugins/sudoers/po/it.po,
+	plugins/sudoers/po/ja.mo, plugins/sudoers/po/ja.po,
+	plugins/sudoers/po/ko.po, plugins/sudoers/po/lt.po,
+	plugins/sudoers/po/nb.po, plugins/sudoers/po/nl.po,
+	plugins/sudoers/po/pl.mo, plugins/sudoers/po/pl.po,
+	plugins/sudoers/po/pt_BR.mo, plugins/sudoers/po/pt_BR.po,
+	plugins/sudoers/po/ru.po, plugins/sudoers/po/sk.po,
+	plugins/sudoers/po/sl.po, plugins/sudoers/po/sr.po,
+	plugins/sudoers/po/sv.mo, plugins/sudoers/po/sv.po,
+	plugins/sudoers/po/tr.po, plugins/sudoers/po/uk.mo,
+	plugins/sudoers/po/uk.po, plugins/sudoers/po/vi.mo,
+	plugins/sudoers/po/vi.po, plugins/sudoers/po/zh_CN.mo,
+	plugins/sudoers/po/zh_CN.po, po/ca.po, po/cs.mo, po/cs.po, po/da.po,
+	po/de.mo, po/de.po, po/eo.po, po/es.po, po/eu.po, po/fi.po,
+	po/fr.mo, po/fr.po, po/gl.po, po/hr.po, po/hu.po, po/it.po,
+	po/ja.mo, po/ja.po, po/ko.po, po/nb.po, po/nl.po, po/pl.mo,
+	po/pl.po, po/pt_BR.mo, po/pt_BR.po, po/ru.po, po/sk.po, po/sl.po,
+	po/sr.po, po/sv.mo, po/sv.po, po/tr.po, po/uk.mo, po/uk.po,
+	po/vi.mo, po/vi.po, po/zh_CN.mo, po/zh_CN.po:
+	sync with translationproject.org
+	[6312962695df]
+
+	* MANIFEST, NEWS, doc/CONTRIBUTORS, po/nn.mo, po/nn.po:
+	Norwegian Nynorsk translation of sudo from translationproject.org
+	[05203a266265]
+
+	* NEWS:
+	Fix for Bug #756
+	[89ff21579216]
+
+2016-09-05  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/sudoers.c:
+	In sudoers_main() avoid setting rval prematurely. Prevents a crash
+	when auditing fails after successfully authenticating. Bug #756
+	[d17a06bce04c]
+
+	* plugins/sudoers/defaults.c:
+	Apply match_group_by_gid early.
+	[1259c7fd66ca]
+
+2016-09-02  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* NEWS:
+	update
+	[292a9e21474e]
+
+	* src/ttyname.c:
+	Don't disable large file support for Linux, just SVR4-style /proc.
+	Otherwise, stat(2) may fail on Linux when running a 32-bit sudo on a
+	64-bit machine. Bug #755
+	[09450ce8b8a8]
+
+2016-09-01  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* include/sudo_util.h:
+	Make sudo_parseln() flags hex to make it more obvious that they are
+	bit flags.
+	[b912a078047e]
+
+	* plugins/sudoers/env.c:
+	Don't try to support line continuation in /etc/environment.
+	[d7e30e821c0e]
+
+	* doc/sudoers.ldap.cat, doc/sudoers.ldap.man.in,
+	doc/sudoers.ldap.mdoc.in, plugins/sudoers/ldap.c:
+	No line continuation support in ldap.conf.
+	[211caaba2395]
+
+	* include/sudo_util.h, lib/util/parseln.c:
+	Add flag to sudo_parseln() to disable line continuation support.
+	[d2820247fc07]
+
+	* doc/sudoers.ldap.cat, doc/sudoers.ldap.man.in,
+	doc/sudoers.ldap.mdoc.in:
+	A comment character ('#') is only special at the beginning of the
+	line.
+	[b3b67b7e4fc0]
+
+	* include/sudo_util.h, lib/util/parseln.c,
+	lib/util/regress/sudo_parseln/parseln_test.c, lib/util/sudo_conf.c,
+	lib/util/util.exp.in, plugins/sudoers/env.c, plugins/sudoers/ldap.c,
+	plugins/sudoers/sudo_nss.c:
+	Add a flags option to sudo_parseln() and a flag to only mach
+	comments at the beginning of the line. Use the flag when parsing
+	ldap.conf.
+	[40c560fc9a10]
+
+	* src/sudo.c:
+	If get_process_ttyname() fails for errno != ENOENT, just warn
+	instead of making it a fatal error. Bug #755
+	[1a028b861801]
+
+2016-08-31  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/mkdefaults:
+	use strict
+	[681281bc0f6d]
+
+	* plugins/sudoers/def_data.h, plugins/sudoers/mkdefaults:
+	Define def_foo in terms of the I_FOO index instead of a bare number.
+	[abb119f84ae6]
+
+	* plugins/sudoers/po/cs.mo, plugins/sudoers/po/cs.po,
+	plugins/sudoers/po/de.mo, plugins/sudoers/po/de.po,
+	plugins/sudoers/po/fi.mo, plugins/sudoers/po/fi.po,
+	plugins/sudoers/po/hr.mo, plugins/sudoers/po/hr.po,
+	plugins/sudoers/po/it.mo, plugins/sudoers/po/it.po,
+	plugins/sudoers/po/ja.mo, plugins/sudoers/po/ja.po,
+	plugins/sudoers/po/nb.mo, plugins/sudoers/po/nb.po,
+	plugins/sudoers/po/pl.mo, plugins/sudoers/po/pl.po,
+	plugins/sudoers/po/uk.mo, plugins/sudoers/po/uk.po,
+	plugins/sudoers/po/vi.mo, plugins/sudoers/po/vi.po,
+	plugins/sudoers/po/zh_CN.mo, plugins/sudoers/po/zh_CN.po:
+	sync with translationproject.org
+	[d339717f8692]
+
+	* doc/sudoers.cat, doc/sudoers.man.in, doc/sudoers.mdoc.in:
+	Mention that match_group_by_gid has no effect when sudoers is stored
+	in LDAP.
+	[5eb6ae45c699]
+
+	* include/sudo_compat.h, src/sudo.c:
+	Use W_EXITCODE to construct the wait status if sudo could not
+	execute the command. Fixes the sudo exit value for exec(3) failure.
+	[95eae2d60292]
+
+	* src/exec.c:
+	fix brace style
+	[54448c10b6b5]
+
+	* plugins/sudoers/po/sudoers.pot, po/sudo.pot:
+	regen
+	[794b06ba727b]
+
+	* src/sudo.c:
+	It is possible for get_user_info() to fail for reasons other than
+	ENOMEM so print the warning message there rather than in main().
+	[8c24df8d6b78]
+
+2016-08-30  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* doc/sudoers.cat, doc/sudoers.man.in, doc/sudoers.mdoc.in:
+	match_group_by_gid is only available in sudo 1.8.18 and above
+	[dd237eb540d0]
+
+	* doc/UPGRADE:
+	Mention match_group_by_gid
+	[417f27e9059a]
+
+	* NEWS, doc/sudoers.cat, doc/sudoers.man.in, doc/sudoers.mdoc.in:
+	Document match_group_by_gid
+	[2234997acb8d]
+
+	* plugins/sudoers/def_data.c, plugins/sudoers/def_data.h,
+	plugins/sudoers/def_data.in, plugins/sudoers/pwutil.c:
+	Add match_group_by_gid Defaults option to allow sites with slow
+	group lookups and a small number of groups in sudoers to match
+	groups by group ID instead of by group name.
+	[20714580da96]
+
+2016-08-29  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* NEWS:
+	Mention "sudo -l command" bug fix.
+	[cb8ade186880]
+
+	* plugins/sudoers/ldap.c, plugins/sudoers/sssd.c:
+	Fix "sudo -l command" in the LDAP and SSS backends when the command
+	is not allowed.
+	[631038350b2a]
+
+2016-08-26  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/defaults.c:
+	Use sudo_strsplit() instead of doing the equivalent manually.
+	[9eb6d1cc78bd]
+
+2016-08-25  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* NEWS:
+	Move SIGPIPE bug fix to 1.8.18 where it belongs
+	[52509fd0100e]
+
+	* plugins/sudoers/defaults.c:
+	Fix memset size typo in previous commit.
+	[e00299f7c50f]
+
+	* plugins/sudoers/regress/visudo/test6.out.ok,
+	plugins/sudoers/regress/visudo/test6.sh:
+	Add regress for check_defaults() use-after-free bug.
+	[0b362678ca10]
+
+	* MANIFEST, plugins/sudoers/defaults.c:
+	Fix use-after-free in check_defaults(), reported by Radovan Sroka of
+	RedHat.
+	[ab3a4227c12f]
+
+2016-08-24  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* NEWS:
+	SIGPIPE bug fix
+	[24c9a12f7e59]
+
+	* src/signal.c:
+	Now that we ignore SIGPIPE in sudo we need to restore it at exec
+	time. Problem reported by Radovan Sroka of RedHat.
+	[3cfa7e3510ff]
+
+2016-08-22  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* mkpkg:
+	Fix appending to make_opts
+	[abe28b6b7663]
+
+	* NEWS:
+	Add Bug #753 and fix reference to Bug #752.
+	[e8c959e1cd6c]
+
+2016-08-21  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/po/da.mo, plugins/sudoers/po/da.po,
+	plugins/sudoers/po/nb.mo, plugins/sudoers/po/nb.po,
+	plugins/sudoers/po/sr.mo, plugins/sudoers/po/sr.po, po/da.mo,
+	po/da.po, po/pt_BR.mo, po/pt_BR.po:
+	sync with translationproject.org
+	[219c3f0aeee7]
+
+	* plugins/sudoers/po/sudoers.pot, po/sudo.pot:
+	regen pot files
+	[d0c56a4ff553]
+
+2016-08-17  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* NEWS:
+	Update with logging changes.
+	[f41beca23b99]
+
+	* plugins/sudoers/logging.c:
+	Avoid duplicate warnings when we cannot write to the log file. Also
+	send the warning in mail if possible.
+	[9b8509cff137]
+
+	* plugins/sudoers/iolog.c, src/exec_pty.c, src/sudo.c, src/sudo.h:
+	Move the ignoring of I/O log plugin errors into the I/O log plugin
+	itself.
+	[25b7fd056614]
+
+	* doc/sudoers.cat, doc/sudoers.man.in, doc/sudoers.mdoc.in,
+	plugins/sudoers/def_data.c, plugins/sudoers/def_data.h,
+	plugins/sudoers/def_data.in, plugins/sudoers/defaults.c,
+	plugins/sudoers/iolog.c, plugins/sudoers/policy.c,
+	plugins/sudoers/sudoers.c, src/exec_pty.c, src/sudo.c, src/sudo.h:
+	Make the behavior when we cannot write to a log or audit file
+	configurable. File log failures are ignored by default for
+	consistency with syslog. Audit errors are ignored by default to
+	allow the admin to fix the issue. I/O log file errors are still
+	fatal by default since if I/O logging is activated it is usually to
+	have an audit trail. Bug #751
+	[dbd085e7c736]
+
+2016-08-15  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/logging.c:
+	Make sure we print an error message to stderr (and not just send
+	mail) if do_logfile() fails. Bug #751
+	[7884a23a0cdc]
+
+2016-08-13  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/pwutil.c:
+	Separate out the supplemental group ID checks from the supplemental
+	group name checks in user_in_group(). We now call sudo_get_gidlist()
+	only when the group name in sudoers begins with a '#' (which is
+	seldom used).
+	[80534785d8b7]
+
+	* plugins/sudoers/ldap.c, plugins/sudoers/policy.c,
+	plugins/sudoers/pwutil.c, plugins/sudoers/pwutil.h,
+	plugins/sudoers/pwutil_impl.c, plugins/sudoers/set_perms.c,
+	plugins/sudoers/sudoers.c, plugins/sudoers/sudoers.h:
+	Cache the user's group IDs and group names separately and only
+	resolve group IDs -> names when needed. If the sudoers file doesn't
+	contain groups we will no longer try to resolve all the user's group
+	IDs to names, which can be expensive on some systems.
+	[8ce3564e896e]
+
+2016-08-12  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/defaults.c:
+	Remove the "op" parameter from all the store_foo() functions except
+	store_list() where it is actually needed. For the others, a NULL
+	value indicates the setting was negated. This unconfuses static
+	analyzers (and perhaps humans too).
+	[fca031b57f15]
+
+	* plugins/sudoers/defaults.c:
+	Flags always have a NULL value. Regression introduced by refactor of
+	set_default_entry().
+	[71fe4fad097b]
+
+	* plugins/sudoers/defaults.c:
+	Set rc to true when setting a flag Defaults value.
+	[cf016b6aedd4]
+
+	* src/utmp.c:
+	suppress a cppcheck false positive
+	[0d44aa7cf05c]
+
+	* plugins/sudoers/defaults.c:
+	Refactor the error parts of set_default_entry() so the switch() is
+	mostly just calls to store_foo() functions. Avoids a lot of
+	duplicated error checking and silences a cppcheck false positive.
+	[1112b894007c]
+
+	* plugins/sudoers/defaults.c:
+	In set_default_entry() check for unsupported Defaults type.
+	[beb1ae20179f]
+
+	* lib/util/aix.c:
+	Add missing break in switch that sets the max limit for
+	RLIMIT_NOFILE. Found by cppcheck.
+	[39b1979b1b92]
+
+	* plugins/sudoers/defaults.c:
+	Check sudoers_initlocale return value and treat as oom. Coverity CID
+	141832
+	[b1cad9d6c49d]
+
+2016-08-10  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* doc/sudoers.cat, doc/sudoers.man.in, doc/sudoers.mdoc.in,
+	plugins/sudoers/match.c, plugins/sudoers/parse.c,
+	plugins/sudoers/sudoers.c, plugins/sudoers/testsudoers.c:
+	Set runas_pw early and adjust runaslist_matches() to deal. Since we
+	now set runas_default early there is no need to call update_defaults
+	with SETDEF_RUNAS after sudoers has been parsed.
+	[35e0b08219a8]
+
+2016-08-09  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* doc/sudoers.cat, doc/sudoers.man.in, doc/sudoers.mdoc.in,
+	plugins/sudoers/defaults.c, plugins/sudoers/group_plugin.c,
+	plugins/sudoers/sudoers.c, plugins/sudoers/sudoers.h,
+	plugins/sudoers/testsudoers.c:
+	Load sudoers group plugin via an early callback.
+	[0fc4382cd6e4]
+
+	* sudo.pp:
+	System Integrity Protection on Mac OS X won't allow us to write
+	directly to /etc or /var. We must install in /private/{etc,var}
+	instead.
+	[831c78241e78]
+
+	* doc/sudoers.cat, doc/sudoers.man.in, doc/sudoers.mdoc.in:
+	Document that fqdn, runas_default and sudoers_locale are parsed
+	early.
+	[beb4868c449e]
+
+	* doc/sudo.cat, doc/sudo.conf.cat, doc/sudo_plugin.cat,
+	doc/sudoers.cat, doc/sudoers.ldap.cat, doc/sudoreplay.cat,
+	doc/visudo.cat:
+	Regen for 1.8.18
+	[eb4feabb8fee]
+
+2016-08-08  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/defaults.h, plugins/sudoers/ldap.c,
+	plugins/sudoers/sssd.c:
+	Avoid passing around struct defaults when it is not needed. As a
+	result, we no longer need to include gram.h in the LDAP and SSSD
+	backends.
+	[14d0bfdc8bd2]
+
+	* plugins/sudoers/defaults.c, plugins/sudoers/defaults.h,
+	plugins/sudoers/ldap.c, plugins/sudoers/sssd.c:
+	Instead of deferring setting early defaults until we have traversed
+	the entire defaults list, just defer running the callbacks.
+	Otherwise, if the last early default setting we see has a bad value
+	we won't set any defaults of that type even if there was an earlier
+	one that was valid.
+	[552863e5a097]
+
+	* plugins/sudoers/defaults.c:
+	Run callbacks once in set_default_entry() instead of each of the
+	store_foo() functions.
+	[b92b51c67845]
+
+2016-08-03  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* mkpkg:
+	Use /proc/cpuinfo on Linux instead of running lscpu
+	[450ea436dbe4]
+
+	* mkpkg:
+	If using GNU make on a multi-cpu system, use the -j flag to run make
+	jobs in parallel, up to the number of cpus/cores.
+	[7a6670de96dc]
+
+2016-07-31  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/visudo.c:
+	Only check SUDO_USER if euid is 0
+	[f42d00c94817]
+
+2016-07-30  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/visudo.c:
+	Initialize sudo_user based on the SUDO_USER environment variable if
+	present. This allows things like :Defaults:username editor=foo" to
+	work when visudo is run via sudo.
+	[a526d6f74198]
+
+2016-07-28  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* src/exec_pty.c:
+	Add function name in "command resumed" debug message
+	[e209f199a79f]
+
+	* src/exec_pty.c:
+	If waitpid() returns 0 or -1, display a warning, this should never
+	happen. Add a check for unhandled wait status (also should never
+	happen).
+	[983a0b79b527]
+
+	* plugins/sudoers/defaults.c:
+	Flag settings have a NULL value so we can't use that to test whether
+	an entry in struct early_default is set or not. Add a "set" member
+	and use that instead.
+	[68a7c0de9b0e]
+
+2016-07-27  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* src/exec_pty.c:
+	Explicitly check for a continued process with waitpid(2). Otherwise,
+	waitpid() will return 0 when the command is resumed after being
+	suspended, which we were treating the same as -1. Fixes suspend and
+	resume on Linux and probably others.
+	[54a464b116ad]
+
+	* plugins/sudoers/defaults.c:
+	Fix --with-fqdn, the value should be NULL since it is a flag.
+	[95bc8b82911e]
+
+	* plugins/sudoers/defaults.c, plugins/sudoers/defaults.h,
+	plugins/sudoers/ldap.c, plugins/sudoers/sssd.c:
+	Add support for early defaults to the ldap and sssd backends.
+	[3a034360c177]
+
+2016-07-25  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* src/sudo_edit.c:
+	Repair symlink check in sudo_edit_openat_nofollow() on systems
+	without O_NOFOLLOW, it must be done relative to dfd. Previously the
+	lstat() would always fail, possibly leading to a false positive.
+	Also add an early symlink check like in sudo_edit() while here.
+	[f72901c7f7cc]
+
+	* src/sudo_edit.c:
+	On systems that lack the O_NOFOLLOW open(2) flag, check in
+	sudo_edit_open() whether the path to be opened is symlink before
+	opening it. This is racey but we detect losing the last post-open
+	and it is better to fail early if possible. When editing a link to a
+	non-existent file, a zero-length file will be left behind but it is
+	too dangerous to try and remove it after the fact. Bug #753
+	[dac04f305262]
+
+	* src/sudo_edit.c:
+	Update debug_decl for sudo_edit_openat_nofollow() Remove unused
+	variables when O_NOFOLLOW is not present.
+	[8dc0afb1de58]
+
+2016-07-23  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/defaults.c, plugins/sudoers/visudo.c:
+	Split set_default_entry() out of set_default() so we can call it
+	from check_defaults() to validate the defaults value. In visudo,
+	suppress warnings from update_defaults() and rely on
+	check_defaults() to provide warnings.
+	[7d9b50f42d0b]
+
+	* plugins/sudoers/defaults.c:
+	Split binding match code out of default_type_matches() into
+	default_binding_matches(). We can now use default_type_matches() in
+	check_defaults().
+	[c158768b12c5]
+
+	* plugins/sudoers/visudo.c:
+	Pass quiet flag to init_parser() and update_defaults() when doing
+	first parse of sudoers.
+	[3af76c1a0d84]
+
+2016-07-22  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/defaults.c, plugins/sudoers/defaults.h,
+	plugins/sudoers/ldap.c, plugins/sudoers/parse.c,
+	plugins/sudoers/sssd.c, plugins/sudoers/sudoers.c,
+	plugins/sudoers/testsudoers.c, plugins/sudoers/visudo.c:
+	Update defaults in visudo after sudoers has been edited so we pick
+	up locale changes. The init_defaults() function will now re-init the
+	sudoers locale.
+	[ceb099392289]
+
+2016-07-20  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/testsudoers.c:
+	Set sudoers locale before calling sudoersparse(). We don't need to
+	restore the user's locale since warnings are displayed in the user's
+	locale anyway.
+	[c44a38a496d1]
+
+	* plugins/sudoers/visudo.c:
+	Set the locale to the sudoers locale when parsing and restore the
+	user's locale afterward. Also set the warn/fatal locale helper
+	function so warning messages during a sudoers parse are displayed in
+	the user's own locale.
+	[a0b2cdb69d43]
+
+	* plugins/sudoers/logging.h:
+	Add forward decl of union sudo_defs_val to silence a gcc warning.
+	[9e717510f132]
+
+	* plugins/sudoers/sudoers.c:
+	Set the warn/fatal locale helper function in sudoers_policy_init()
+	so warning messages during sudoers loading are displayed in the
+	user's own locale.
+	[b6c7bab1ca80]
+
+	* plugins/sudoers/locale.c, plugins/sudoers/logging.h,
+	plugins/sudoers/sudoers.c, plugins/sudoers/testsudoers.c,
+	plugins/sudoers/visudo.c:
+	Move sudoers locale callback function to locale.c and user it in
+	visudo and testsudoers.
+	[7c4e9a71e252]
+
+	* plugins/sudoers/sudoers.c:
+	In cb_sudoers_locale() actually set the locale in addition to
+	storing its name. Otherwise, it won't take effect until sudoers
+	lookup time.
+	[ceb446c2168b]
+
+	* plugins/sudoers/defaults.c:
+	Fix regression that would cause early defaults entries to be set
+	multiple times.
+	[5f5cd02d5f0f]
+
+	* NEWS, configure, configure.ac:
+	sudo 1.8.18
+	[7c778904c39b]
+
+2016-07-19  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/defaults.c, plugins/sudoers/sudoers.c:
+	Only set early defaults once, regardless of how many times the
+	variable is set in sudoers. This avoids running an early callback
+	more than once. For example, we don't want to call cb_fqdn() if sudo
+	is compiled with FQDN set but sudoers has "Defaults !fqdn".
+	[0c5d80939ea2]
+
+	* plugins/sudoers/defaults.c, plugins/sudoers/defaults.h:
+	Make strings const in functions that set defaults as they are not
+	modified.
+	[d01f22ab1902]
+
+	* plugins/sudoers/sudoers.c:
+	In cb_fqdn() just return if the fqdn flag is set to false.
+	[0cb3d78aa944]
+
+2016-07-18  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/defaults.c:
+	Implement callbacks for defaults flags (T_FLAG).
+	[936adcc98800]
+
+	* plugins/sudoers/sudoers.c:
+	add debug_decl for cb_runas_default and cb_sudoers_locale
+	[4667b1e14172]
+
+	* plugins/sudoers/defaults.c, plugins/sudoers/sudoers.c:
+	Convert fqdn to a callback and add it to the list of early defaults.
+	[df863787cf5e]
+
+	* plugins/sudoers/defaults.c, plugins/sudoers/defaults.h,
+	plugins/sudoers/iolog.c, plugins/sudoers/sudoers.c,
+	plugins/sudoers/sudoers.h, plugins/sudoers/testsudoers.c:
+	Change defaults callbacks to take a union sudo_defs_val * instead of
+	a char *.
+	[c7730fa19e46]
+
+	* plugins/sudoers/defaults.c:
+	When updating defaults, process certain values fist since they can
+	influence how other defaults are parsed. Currently, runas_default
+	and sudoers_locale are processed early.
+	[32062737a1ae]
+
+2016-07-16  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/toke_util.c:
+	Fix typo introduced in last commit to fix fill_args() overflow
+	check.
+	[535d13b81c5d]
+
+	* plugins/sudoers/toke_util.c:
+	Fix underflow checl in fill_args().
+	[2c6852e65ad6]
+
+	* plugins/sudoers/toke_util.c:
+	Make sure we account for the trailing NUL when computing arg_size in
+	fill_args(). Bug #752
+	[c73c1ea4b230]
+
+	* plugins/sudoers/toke_util.c:
+	Make arg_size and arg_len unsigned since we do bitwise operations on
+	them.
+	[0a551c7a5e67]
+
+2016-07-08  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* lib/util/Makefile.in, lib/zlib/Makefile.in,
+	plugins/group_file/Makefile.in, plugins/sample/Makefile.in,
+	plugins/sudoers/Makefile.in, plugins/system_group/Makefile.in,
+	src/Makefile.in:
+	Only remove backup files as part of "make uninstall" when
+	INSTALL_BACKUP is set.
+	[c2541d2de89c]
+
+	* configure, configure.ac, lib/util/Makefile.in, lib/zlib/Makefile.in,
+	plugins/group_file/Makefile.in, plugins/sample/Makefile.in,
+	plugins/sudoers/Makefile.in, plugins/system_group/Makefile.in,
+	src/Makefile.in:
+	Only keep backups of installed files on HP-UX where you cannot
+	unlink a shared library that is in use.
+	[8763a1d0d515]
+
+2016-07-03  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/toke.c, plugins/sudoers/toke.l:
+	Ignore a missing or insecure #includedir, it is not a fatal error.
+	[8a82818c9f0d]
+
+	* plugins/sudoers/toke.c, plugins/sudoers/toke.l:
+	Make sure we always call sudoerserror() on error in
+	read_dir_files(), otherwise sudo will not treat it as a fatal error.
+	[1a38da425ca0]
+
+2016-06-30  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/sudoers.c:
+	Set the sudoers locale before opening the sudoers file. Previously
+	the sudoers locale was used when evaluating sudoers but not during
+	the inital parse. Bug #748
+	[c8deb0da75b4]
+
+	* plugins/sudoers/locale.c:
+	Add debugging
+	[5fbe2f109b92]
+
+	* plugins/sudoers/Makefile.in:
+	Don't link test programs with the sudoers-specific locale code if we
+	don't need to.
+	[41224154534e]
+
+	* plugins/sudoers/Makefile.in:
+	sudoreplay does not need to link with the sudoers-specific locale
+	code.
+	[348638a68f69]
+
+2016-06-27  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/gram.c, plugins/sudoers/gram.y:
+	new_digest was prototyped as static but not explicitly declared
+	static.
+	[52949a024acb]
+
+	* configure, configure.ac:
+	Some versions of HP-UX 11.11 do not expose struct sockaddr_ext if
+	_XOPEN_SOURCE_EXTENDED is defined. Only define
+	_XOPEN_SOURCE_EXTENDED if we can still compile net/if.h.
+	[0189ff7daa63]
+
+	* plugins/sudoers/Makefile.in:
+	Some versions of HP-UX make will ignore suffix rules if they are
+	empty.
+	[cffeee232752]
+
+2016-06-23  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* src/exec_pty.c:
+	Don't skip debug printfs in handle_sigchld() just because execve()
+	returned an error.
+	[0cf2a9351740]
+
+	* include/compat/charclass.h, include/sudo_compat.h, lib/util/aix.c,
+	lib/util/getaddrinfo.c, lib/util/sudo_debug.c,
+	plugins/sudoers/insults.h,
+	plugins/sudoers/regress/parser/check_base64.c,
+	plugins/sudoers/regress/parser/check_fill.c,
+	plugins/sudoers/sudoers_debug.c:
+	Add definition of nitems for those without it and use it throughout.
+	[4b30c8834fdd]
+
 2016-06-22  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* sudo.pp:
+	Update copyright year.
+	[638c964e44fd]
 
 	* NEWS, configure, configure.ac:
 	Sudo 1.8.17p1
