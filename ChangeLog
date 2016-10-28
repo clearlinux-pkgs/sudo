@@ -1,3 +1,57 @@
+2016-10-10  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* src/sudo_noexec.c:
+	Need RTLD_NEXT for wordexp() on dlopen() systems. It is missing on
+	AIX 5.1 at least.
+	[167a518d8129]
+
+	* src/sudo_noexec.c:
+	add missing guard around wordexp()
+	[7b8357b0a358]
+
+	* NEWS:
+	expand on 1.8.18p1 changes
+	[f560e06ad584]
+
+2016-10-09  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* NEWS, configure, configure.ac:
+	sudo 1.8.18p1
+	[a36e17d1c5db]
+
+	* config.h.in, configure, configure.ac, src/sudo_noexec.c:
+	Fix configure check for seccomp filter on Linux
+	[5d88d7cda853]
+
+2016-10-08  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* config.h.in, configure, configure.ac, src/sudo_noexec.c:
+	Use a seccomp filter on Linux to disable execve(2) and execveat(2).
+	This still relies on LD_PRELOAD to work so it has the same issues as
+	the existing mether with respect to running 32-bit binaries on a
+	64-bit kernel.
+	[59d76bdc0f0c]
+
+	* src/Makefile.in:
+	regen
+	[9e313cb0900b]
+
+	* plugins/sudoers/Makefile.in:
+	regen
+	[5ca77049e5cd]
+
+2016-10-05  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* aclocal.m4, config.h.in, configure, configure.ac, src/sudo_noexec.c:
+	Wrap wordexp(3) in sudo_noexec.
+	[e7d09243e51b]
+
+2016-09-26  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/Makefile.in:
+	Clean .json files created by "make check"
+	[d214117fbda1]
+
 2016-09-19  Todd C. Miller  <Todd.Miller@courtesan.com>
 
 	* po/ca.mo, po/da.mo, po/eo.mo, po/es.mo, po/eu.mo, po/fi.mo,
