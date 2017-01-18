@@ -5,14 +5,14 @@
 # Source0 file verified with key 0x5A89DFA27EE470C4 (Todd.Miller@courtesan.com)
 #
 Name     : sudo
-Version  : 1.8.18p1
-Release  : 37
-URL      : http://www.sudo.ws/dist/sudo-1.8.18p1.tar.gz
-Source0  : http://www.sudo.ws/dist/sudo-1.8.18p1.tar.gz
-Source99 : http://www.sudo.ws/dist/sudo-1.8.18p1.tar.gz.sig
+Version  : 1.8.19p2
+Release  : 38
+URL      : http://www.sudo.ws/dist/sudo-1.8.19p2.tar.gz
+Source0  : http://www.sudo.ws/dist/sudo-1.8.19p2.tar.gz
+Source99 : http://www.sudo.ws/dist/sudo-1.8.19p2.tar.gz.sig
 Summary  : No detailed summary available
 Group    : Development/Tools
-License  : ISC MIT-Opengroup
+License  : ISC
 Requires: sudo-setuid
 Requires: sudo-bin
 Requires: sudo-data
@@ -87,14 +87,14 @@ setuid components for the sudo package.
 
 
 %prep
-%setup -q -n sudo-1.8.18p1
+%setup -q -n sudo-1.8.19p2
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
 
 %build
 export LANG=C
-export SOURCE_DATE_EPOCH=1484455242
+export SOURCE_DATE_EPOCH=1484750203
 %configure --disable-static --with-pam \
 --with-env-editor \
 --with-ignore-dot \
@@ -109,7 +109,7 @@ export no_proxy=localhost
 make check || :
 
 %install
-export SOURCE_DATE_EPOCH=1484455242
+export SOURCE_DATE_EPOCH=1484750203
 rm -rf %{buildroot}
 %make_install INSTALL_OWNER=""
 %find_lang sudo

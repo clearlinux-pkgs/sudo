@@ -1,3 +1,828 @@
+2017-01-13  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* configure, configure.ac:
+	Define HAVE_NANOSLEEP if we find nanosleep in librt
+	[ec8d949bf411]
+
+	* configure, configure.ac:
+	sudo_nanosleep not nanosleep in util.exp.in
+	[18a3bca78962]
+
+	* configure, configure.ac:
+	add nanosleep to util.exp.in if needed
+	[6ac2e9266d67]
+
+	* NEWS, configure, configure.ac:
+	sudo 1.8.19p2
+	[9c15593a007a]
+
+	* lib/util/vsyslog.c:
+	Double the size of new_fmt[] and remove an extraneous break in the
+	%m handling that was leftover from an earlier edit.
+	[fcb28dc9cd4e]
+
+	* lib/util/vsyslog.c:
+	Fix typo, want vsnprintf not snprintf.
+	[2717f2125ecd]
+
+	* plugins/sudoers/logging.c:
+	move va_start() in mysyslog()
+	[b58ec40bbfc3]
+
+	* plugins/sudoers/sudoers.c:
+	Only treat failure of expand_iolog_path() as fatal if
+	ignore_iolog_errors is not set.
+	[1ba009311cf7]
+
+2017-01-12  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* MANIFEST, config.h.in, configure, configure.ac,
+	include/sudo_compat.h, lib/util/Makefile.in, lib/util/nanosleep.c,
+	mkdep.pl, src/exec_pty.c:
+	When waiting for the parent to grant us the tty, use nanosleep
+	instead of spinning to avoid hogging the CPU.
+	[76335b380d7c]
+
+	* src/sudo.c:
+	Use ROOT_UID instead of 0
+	[5ed03a4e0b0b]
+
+2017-01-09  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/Makefile.in:
+	regen
+	[99b26e2c523d]
+
+2017-01-07  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* MANIFEST, plugins/sudoers/interfaces.c,
+	plugins/sudoers/regress/visudo/test9.out.ok,
+	plugins/sudoers/regress/visudo/test9.sh, plugins/sudoers/visudo.c:
+	Fix crash in visudo introduced in sudo 1.8.9 when an IP address or
+	network is used in a host-based Defaults entry. Bug #766
+	[ff9001f126b5]
+
+2017-01-05  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* configure, configure.ac, doc/LICENSE:
+	Avoid using the system strnlen/strndup on AIX < 6. Even if configure
+	correctly detects it is working on the build machine, the sudo
+	package may be run on a system with an old libc were it is broken.
+	[28d148db0aaa]
+
+2016-12-20  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* NEWS, configure, configure.ac:
+	sudo 1.8.19p1
+	[7bfd43fa5caf]
+
+	* plugins/sudoers/defaults.c:
+	Fix logic bug when matching syslog priority and facility.
+	[576cc9eb850f]
+
+	* doc/HISTORY:
+	Dell spun off Quest so simplify the history by just talking about
+	Quest and not Dell.
+	[a66120495435]
+
+2016-12-19  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* doc/LICENSE:
+	Fix copyright year
+	[3122e55195a6]
+
+	* NEWS:
+	typo
+	[ffe9e84928b6]
+
+2016-12-18  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* include/sudo_compat.h:
+	HAVE_DECL_GETGROUPLIST_2 is always defined if HAVE_GETGROUPLIST_2
+	is, we need to check its value, not whether it is defined.
+	[849eb3113149]
+
+2016-12-15  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/po/ko.mo, plugins/sudoers/po/ko.po:
+	sync with translationproject.org
+	[abf5d356a33b]
+
+2016-12-13  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* configure, plugins/sudoers/po/cs.mo, plugins/sudoers/po/cs.po,
+	plugins/sudoers/po/da.mo, plugins/sudoers/po/da.po,
+	plugins/sudoers/po/de.mo, plugins/sudoers/po/de.po,
+	plugins/sudoers/po/it.mo, plugins/sudoers/po/it.po,
+	plugins/sudoers/po/ja.mo, plugins/sudoers/po/ja.po,
+	plugins/sudoers/po/nb.mo, plugins/sudoers/po/nb.po,
+	plugins/sudoers/po/pl.mo, plugins/sudoers/po/pl.po,
+	plugins/sudoers/po/pt_BR.mo, plugins/sudoers/po/pt_BR.po,
+	plugins/sudoers/po/sr.mo, plugins/sudoers/po/sr.po,
+	plugins/sudoers/po/uk.mo, plugins/sudoers/po/uk.po,
+	plugins/sudoers/po/vi.mo, plugins/sudoers/po/vi.po,
+	plugins/sudoers/po/zh_CN.mo, plugins/sudoers/po/zh_CN.po, po/sr.mo,
+	po/sr.po:
+	sync with translationproject.org
+	[fec672d5a4c7]
+
+	* config.h.in, configure.ac, include/sudo_compat.h,
+	plugins/sudoers/pwutil_impl.c, src/sudo.c:
+	Use getgrouplist_2() on macOS if available.
+	[3bf58af56d18]
+
+2016-12-03  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/po/sudoers.pot:
+	regen
+	[3f4d52230317]
+
+	* plugins/sudoers/interfaces.c:
+	In set_interfaces() treat a parse error as fatal.
+	[7d0048108b1d]
+
+2016-12-02  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* lib/util/regress/atofoo/atofoo_test.c:
+	Fix a clang warning on macOS
+	[58e9d192e907]
+
+2016-12-01  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/po/ko.mo, plugins/sudoers/po/ko.po,
+	plugins/sudoers/po/vi.mo, plugins/sudoers/po/vi.po, po/ko.mo,
+	po/ko.po, po/vi.mo, po/vi.po:
+	sync with translationproject.org
+	[99cce0f5fddc]
+
+	* NEWS:
+	update for 1.8.19b2
+	[18cfc9b8b8e7]
+
+	* plugins/sudoers/timestamp.c:
+	Ignore a boot time that is in the future, which can happen when the
+	clock is corrected down after boot. Otherwise, the timestamp file
+	will be unlinked each time sudo is run and a password is always
+	required.
+	[dd3b2b7ae709]
+
+2016-11-30  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* doc/sudoers.cat, doc/sudoers.man.in, doc/sudoers.mdoc.in,
+	plugins/sudoers/def_data.c, plugins/sudoers/def_data.in,
+	plugins/sudoers/defaults.c, plugins/sudoers/logging.c:
+	Allow syslog priority to be negated or set to "none" to disable
+	logging successes or failures.
+	[624eddac4ab1]
+
+	* doc/sudoreplay.cat, doc/sudoreplay.man.in, doc/sudoreplay.mdoc.in,
+	plugins/sudoers/sudoreplay.c:
+	Allow stdin and ttyin to be displayed too. The only one that is
+	really useful in sudoreplay is stdin when input is from a pipe.
+	[5aa8b3a90c84]
+
+	* src/regress/noexec/check_noexec.c:
+	Solaris 10 wordexp() returns 127 on execve() failure like popen()
+	does.
+	[f927c50dda17]
+
+	* config.h.in, configure, configure.ac, include/sudo_debug.h,
+	lib/util/regress/atofoo/atofoo_test.c, lib/util/strtoid.c,
+	lib/util/sudo_debug.c, lib/util/util.exp.in:
+	id_t is 64-bits on FreeBSD so use strtoll() there. Fixes the strtoid
+	regress.
+	[448a9857e89f]
+
+2016-11-29  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* NEWS:
+	fix typo
+	[92ea657a87f5]
+
+	* plugins/sudoers/sudoers.c:
+	Fix the "all" setting for verifypw and listpw; nopass would never be
+	true even if all the user's entries had the NOPASSWD tag. Regression
+	introduce in sudo 1.8.17. Bug #762
+	[c672e3ebfbe2]
+
+2016-11-28  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/po/ca.mo, plugins/sudoers/po/cs.mo,
+	plugins/sudoers/po/cs.po, plugins/sudoers/po/da.mo,
+	plugins/sudoers/po/de.mo, plugins/sudoers/po/de.po,
+	plugins/sudoers/po/el.mo, plugins/sudoers/po/eo.mo,
+	plugins/sudoers/po/eu.mo, plugins/sudoers/po/fi.mo,
+	plugins/sudoers/po/fr.mo, plugins/sudoers/po/hr.mo,
+	plugins/sudoers/po/hr.po, plugins/sudoers/po/hu.mo,
+	plugins/sudoers/po/it.mo, plugins/sudoers/po/it.po,
+	plugins/sudoers/po/ja.mo, plugins/sudoers/po/ja.po,
+	plugins/sudoers/po/ko.mo, plugins/sudoers/po/ko.po,
+	plugins/sudoers/po/lt.mo, plugins/sudoers/po/nb.mo,
+	plugins/sudoers/po/nb.po, plugins/sudoers/po/nl.mo,
+	plugins/sudoers/po/pl.mo, plugins/sudoers/po/pl.po,
+	plugins/sudoers/po/pt_BR.mo, plugins/sudoers/po/pt_BR.po,
+	plugins/sudoers/po/ru.mo, plugins/sudoers/po/sk.mo,
+	plugins/sudoers/po/sl.mo, plugins/sudoers/po/sr.mo,
+	plugins/sudoers/po/tr.mo, plugins/sudoers/po/uk.mo,
+	plugins/sudoers/po/uk.po, plugins/sudoers/po/zh_CN.mo,
+	plugins/sudoers/po/zh_CN.po, po/cs.mo, po/cs.po, po/de.mo, po/de.po,
+	po/es.mo, po/es.po, po/fr.mo, po/fr.po, po/hr.mo, po/hr.po,
+	po/it.mo, po/it.po, po/ja.mo, po/ja.po, po/ko.mo, po/ko.po,
+	po/nb.mo, po/nb.po, po/pl.mo, po/pl.po, po/pt_BR.mo, po/pt_BR.po,
+	po/tr.mo, po/tr.po, po/uk.mo, po/uk.po, po/zh_CN.mo, po/zh_CN.po:
+	sync with translationproject.org
+	[8a4ab570d132]
+
+2016-11-25  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/sudoreplay.c, plugins/sudoers/testsudoers.c,
+	plugins/sudoers/visudo.c, src/openbsd.c:
+	Just use malloc_options "S" on OpenBSD instead of "AFGJPR".
+	[2851cd2da1c7]
+
+2016-11-22  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/po/sudoers.pot, po/sudo.pot:
+	Update year in license
+	[e370bf3d1035]
+
+2016-11-21  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/po/sudoers.pot, po/sudo.pot:
+	regen
+	[d524f0306467]
+
+	* doc/sudo.conf.cat, doc/sudoers.ldap.cat, doc/sudoreplay.cat:
+	regen
+	[185328ea20c3]
+
+	* include/sudo_debug.h, lib/util/sudo_debug.c,
+	plugins/sudoers/iolog.c, plugins/sudoers/policy.c,
+	plugins/sudoers/sudoers.h, plugins/sudoers/sudoers_debug.c,
+	plugins/sudoers/visudo.c, src/sudo.c:
+	Add SUDO_DEBUG_INSTANCE_ERROR return value for sudo_debug_register()
+	and check for it in places where we check the return value of
+	sudo_debug_register().
+	[d1e74c5f21a6]
+
+2016-11-20  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* NEWS:
+	update for 1.8.19
+	[b248866c511d]
+
+2016-11-17  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* config.h.in, configure, configure.ac, plugins/sudoers/getspwuid.c:
+	Add support for getpwnam_shadow() on OpenBSD
+	[4db7ed374c33]
+
+	* doc/sudo_plugin.cat, doc/sudo_plugin.man.in,
+	doc/sudo_plugin.mdoc.in, plugins/sudoers/policy.c, src/sudo.c:
+	Add umask to user_info passed in from the front end to the plugin.
+	[4a4eee52a717]
+
+	* plugins/sudoers/auth/rfc1938.c:
+	Fix sign compare warning.
+	[8732d632cbff]
+
+	* MANIFEST, aclocal.m4, configure, configure.ac, m4/ax_append_flag.m4,
+	m4/sudo.m4:
+	Use AX_APPEND_FLAG instead of SUDO_APPEND_CPPFLAGS and direct
+	modification of LDFLAGS.
+	[c1464dcd45e0]
+
+	* MANIFEST, configure, configure.ac, plugins/sudoers/aixcrypt.exp:
+	Remove aixcrypt.exp, it was a remnant of the 90's crypto wars where
+	crypt() was not exported.
+	[785d57666d41]
+
+	* doc/TROUBLESHOOTING:
+	Remove obsolete solaris issue with snprintf
+	[3ce6cc899026]
+
+	* INSTALL:
+	SunOS 4.x is no longer supported
+	[2239eb30ff2c]
+
+2016-11-16  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* lib/util/regress/sudo_conf/test1.in, lib/util/sudo_conf.c:
+	Plug memory leak when a particular Path is set more than once.
+	[debc97dac01d]
+
+	* plugins/sudoers/ldap.c, plugins/sudoers/sssd.c:
+	Add sudo_ldap_is_negated() and sudo_ldap_is_negated() functions and
+	use them to parse negated entries instead of doing it manually.
+	[12010b64afe5]
+
+	* plugins/sudoers/ldap.c:
+	Fix printing of sudoedit_follow in "sudo -l"
+	[2094a8f880c4]
+
+	* plugins/sudoers/sssd.c:
+	For "sudo -l" print sudoOption sudoedit_follow as FOLLOW.
+	[9c860b1fa721]
+
+	* config.h.in, configure, configure.ac, include/sudo_conf.h,
+	lib/util/regress/sudo_conf/conf_test.c,
+	lib/util/regress/sudo_conf/test1.out.ok, lib/util/sudo_conf.c,
+	lib/util/util.exp.in, plugins/sudoers/policy.c, src/exec_common.c,
+	src/load_plugins.c, src/parse_args.c:
+	Always define _PATH_SUDO_NOEXEC, _PATH_SUDO_SESH,
+	_PATH_SUDO_PLUGIN_DIR, even if only defined to NULL. This means the
+	accessors can always be present.
+
+	Use RTLD_PRELOAD_VAR instead of _PATH_SUDO_NOEXEC to tell when
+	noexec is available.
+
+	Add ENABLE_SUDO_PLUGIN_API and use it instead of
+	_PATH_SUDO_PLUGIN_DIR to tell when the plugin API is available.
+
+	Add sudo_conf_clear_paths() to clear the path values so the regress
+	tests are not affected by compile-time settings.
+	[2b05e4a143d9]
+
+	* plugins/sudoers/ldap.c:
+	Use readline() in sudo_ldap_read_secret()
+	[3f0506e5cbe3]
+
+2016-11-15  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* lib/util/sudo_conf.c:
+	Get rid of struct sudo_conf_paths and just use #defined index values
+	to access the path values. Make all accessors available even when
+	the feature is not enabled.
+	[58d1ec6170a8]
+
+	* configure, configure.ac, lib/util/Makefile.in, lib/zlib/Makefile.in,
+	mkdep.pl, plugins/group_file/Makefile.in,
+	plugins/sample/Makefile.in, plugins/sudoers/Makefile.in,
+	plugins/system_group/Makefile.in, src/Makefile.in:
+	Add ASAN_CFLAGS and ASAN_LDFLAGS and use -Wc prefix in ASAN_LDFLAGS
+	to prevent libtool from strippign them out. Avoid using ASAN flags
+	when building sudo_noexec.so.
+	[9644dd92e586]
+
+2016-11-14  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* configure, configure.ac:
+	Disable noexec for HP-UX 10.x which probably doesn't support
+	LD_PRELOAD
+	[d87bc5ea4688]
+
+	* config.h.in, configure, configure.ac, plugins/sudoers/getspwuid.c:
+	Remove SunOS 4 support, it is not modern enough to run sudo.
+	[b6e15f8360b6]
+
+	* config.h.in, configure, configure.ac, plugins/sudoers/getspwuid.c:
+	Remove HP-UX 9 support, it is not modern enough for sudo.
+	[226dda48c1e1]
+
+	* config.h.in, configure, configure.ac, plugins/sudoers/auth/passwd.c,
+	plugins/sudoers/getspwuid.c:
+	Remove Ultrix support, modern sudo can't run on Ultrix anyway.
+	[95a11ef29a2b]
+
+	* MANIFEST, configure, configure.ac, lib/util/sudo_conf.c,
+	src/Makefile.in, src/exec_common.c,
+	src/regress/noexec/check_noexec.c, src/sudo_exec.h:
+	Add regress for noexec functionality
+	[2cadd8e04677]
+
+	* src/Makefile.in:
+	Unbreak sudo_noexec on macOS where shared libraries and dynamic
+	modules are different. We still want to install sudo_noexec.so
+	without the "lib" prefix so some hackery is required.
+	[93d7b69491a1]
+
+	* configure, configure.ac:
+	Don't enable noexec for AIX 5.0-5.2, we need 5.3 and above.
+	[92cad0180239]
+
+2016-11-13  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* src/Makefile.in:
+	Need to link sudo_noexec.so with -ldl for dlsym() on some platforms.
+	Otherwise, the wordexp(3) wrapper will fail due to an undefined
+	symbol. Bug #761
+	[120a317ce25b]
+
+	* plugins/sudoers/visudo.c:
+	In strict mode, go to the file/line with an undefined aliases or
+	aliases cycle directly.
+	[b4f51b79bd9e]
+
+2016-11-12  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* doc/visudo.cat, doc/visudo.man.in, doc/visudo.mdoc.in,
+	plugins/sudoers/alias.c, plugins/sudoers/gram.c,
+	plugins/sudoers/gram.y, plugins/sudoers/parse.h,
+	plugins/sudoers/regress/visudo/test2.err.ok,
+	plugins/sudoers/regress/visudo/test3.err.ok,
+	plugins/sudoers/visudo.c:
+	Store the file/lineno for alias and userspec entries so we can
+	provide that info if there is an error.
+	[7deb4e41ca7b]
+
+2016-11-11  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* MANIFEST, plugins/sudoers/Makefile.in, plugins/sudoers/gram.c,
+	plugins/sudoers/gram.y, plugins/sudoers/rcstr.c,
+	plugins/sudoers/sudoers.h, plugins/sudoers/toke.c,
+	plugins/sudoers/toke.l, plugins/sudoers/visudo.c,
+	plugins/sudoers/visudo_json.c:
+	Add simple reference-counted string allocator and use it for passing
+	around references to the sudoers path. This lets us avoid making
+	copies of the sudoers path for the errorfile as well as each
+	Defaults entry.
+	[afcff7b5b647]
+
+	* lib/util/sha2.c:
+	Cast len from size_t to uint64_t before bit shifting since we are
+	adding to count which is also uint64_t. Quiets a PVS-Studio warning.
+	[167210670b30]
+
+2016-11-10  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* MANIFEST, plugins/sudoers/regress/visudo/test7.out.ok,
+	plugins/sudoers/regress/visudo/test7.sh,
+	plugins/sudoers/regress/visudo/test8.err.ok,
+	plugins/sudoers/regress/visudo/test8.out.ok,
+	plugins/sudoers/regress/visudo/test8.sh:
+	Add checks for sudoers_locale early Defaults
+	[582c08c9418c]
+
+2016-11-09  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/defaults.c, plugins/sudoers/defaults.h,
+	plugins/sudoers/gram.c, plugins/sudoers/gram.y,
+	plugins/sudoers/ldap.c, plugins/sudoers/parse.c,
+	plugins/sudoers/parse.h,
+	plugins/sudoers/regress/parser/check_fill.c, plugins/sudoers/sssd.c,
+	plugins/sudoers/testsudoers.c, plugins/sudoers/visudo.c,
+	plugins/sudoers/visudo_json.c:
+	Go back to parsing Defaults entries in update_defaults instead of as
+	sudoers is read. Otherwise, we cannot properly support early
+	defaults like sudoers_locale.
+	[ff1328a86b97]
+
+2016-11-10  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* src/parse_args.c, src/sudo.c, src/sudo.h:
+	Add the argument vector allocated for -s and -i mode to the garbage
+	collector list. Avoids an ASAN warning on exit when the -s or -i
+	flags are used.
+	[652691a5216b]
+
+2016-11-09  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/iolog.c:
+	add missing sudo_pw_delref/sudo_gr_delref to plug memory leak
+	[c4ba4c26e0c1]
+
+	* mkpkg:
+	Use expr instead of POSIX sh numerical expression to avoid a syntax
+	error on older shells.
+	[638383bb40d5]
+
+2016-11-08  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* doc/sudo_plugin.cat, doc/sudo_plugin.man.in,
+	doc/sudo_plugin.mdoc.in, include/sudo_plugin.h:
+	Bump plugin minor version to 10 for sudo_mode, sudo_group and
+	sudo_user.
+	[0c65dc1f2874]
+
+	* plugins/sudoers/ldap.c, plugins/sudoers/sssd.c:
+	Fix a bug in host matching where a negated sudoHost entry would
+	prevent other sudoHosts following it from matching.
+	[40cbd5790106]
+
+	* plugins/sudoers/defaults.c:
+	Zero out sd_un before calling parse_default() so we don't try to
+	free stack garbage in the ldap/sssd backends.
+	[6b64a8e3a19d]
+
+2016-11-07  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/ldap.c:
+	Use "ret", not "rc" for the function return value.
+	[fdfe637adee6]
+
+	* include/sudo_compat.h, lib/util/strtomode.c,
+	plugins/sudoers/defaults.c, plugins/sudoers/goodpath.c,
+	plugins/sudoers/logging.c, plugins/sudoers/policy.c,
+	plugins/sudoers/sudoers.c, plugins/sudoers/timestamp.c,
+	plugins/sudoers/visudo.c, src/sesh.c, src/sudo.c, src/sudo_edit.c:
+	Use sys/stat.h defines instead of bare octal values.
+	[215c80e09830]
+
+	* doc/sudo_plugin.cat, doc/sudo_plugin.man.in,
+	doc/sudo_plugin.mdoc.in, doc/sudoers.cat, doc/sudoers.man.in,
+	doc/sudoers.mdoc.in, plugins/sudoers/iolog.c,
+	plugins/sudoers/policy.c:
+	Pass iolog mode, group and user from policy plugin to I/O log
+	plugin.
+	[1ed4967771c8]
+
+2016-11-06  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/defaults.c, plugins/sudoers/defaults.h,
+	plugins/sudoers/gram.c, plugins/sudoers/gram.y,
+	plugins/sudoers/ldap.c, plugins/sudoers/parse.h,
+	plugins/sudoers/regress/parser/check_fill.c, plugins/sudoers/sssd.c:
+	Instead of parsing sudoers Defaults twice, parse once while reading
+	sudoers and then just set the parsed value in update_defaults().
+	[370d51681c6e]
+
+	* plugins/sudoers/defaults.c:
+	Use "struct defaults *d" instead of "struct defaults *def"
+	throughout for consistency and to avoid confusino with "struct
+	def_values *def". Use "str" not "var" for the string argument to
+	convert and store in sd_un for the store_* functions.
+	[5cc3efc609df]
+
+	* plugins/sudoers/parse.c:
+	In display_bound_defaults() rename dtype arg -> deftype.
+	[b3323960e1db]
+
+2016-11-03  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* lib/util/regress/sudo_conf/test4.err.ok,
+	lib/util/regress/sudo_conf/test5.err.ok,
+	plugins/sudoers/regress/visudo/test2.err.ok,
+	plugins/sudoers/regress/visudo/test3.err.ok:
+	Update error output to match quoting changes.
+	[27bbf5004d1e]
+
+	* plugins/sudoers/defaults.c:
+	Avoid passing in a struct sudo_defs_types pointer to the store
+	functions. Pass in a pointer to the union to fill instead.
+	[ea956d00aae3]
+
+	* plugins/sudoers/defaults.h:
+	no longer need struct defaults forward referebce
+	[21e34ca85de5]
+
+2016-11-02  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* lib/util/sudo_conf.c, plugins/sudoers/alias.c,
+	plugins/sudoers/defaults.c, plugins/sudoers/logging.c,
+	plugins/sudoers/sudoers.c, plugins/sudoers/visudo.c,
+	plugins/sudoers/visudo_json.c, src/load_plugins.c:
+	Use "double quotes" in messages instead of a combination of the
+	accent (grave) mark and apostrophe.
+	[10dee3ecf3e1]
+
+	* plugins/sudoers/defaults.c, plugins/sudoers/defaults.h,
+	plugins/sudoers/gram.c, plugins/sudoers/gram.y,
+	plugins/sudoers/ldap.c, plugins/sudoers/sssd.c:
+	Add file:linenumber prefix to all Defaults warnings so we can see
+	them when running sudo too. For LDAP/SSSD we print the sudoRole
+	instead of the file name and omit the line number.
+	[5c6b95cd3792]
+
+	* doc/sudo.cat, doc/sudo.man.in, doc/sudo.mdoc.in:
+	Use sudoedit in examples instead of "sudo vi"
+	[6008c208682c]
+
+2016-11-01  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/gram.c, plugins/sudoers/gram.y,
+	plugins/sudoers/parse.c, plugins/sudoers/parse.h,
+	plugins/sudoers/testsudoers.c, plugins/sudoers/visudo.c,
+	plugins/sudoers/visudo_json.c:
+	Only treat an unknown Defaults entry as a parse error in visudo, not
+	in sudo itself.
+	[8d8aa7ac5a32]
+
+	* plugins/sudoers/defaults.c, plugins/sudoers/defaults.h,
+	plugins/sudoers/gram.c, plugins/sudoers/gram.y,
+	plugins/sudoers/visudo.c:
+	Instead of checking Defaults values after the fact, check them at
+	sudoers parse time. This makes it possible to display the file and
+	line number with the problem and for visudo to go right to the
+	error.
+	[ac66bd690d05]
+
+	* plugins/sudoers/alias.c, plugins/sudoers/gram.c,
+	plugins/sudoers/gram.y, plugins/sudoers/parse.h:
+	Refactor freeing of a member_list into free_members().
+	[d29daa01bb9c]
+
+	* plugins/sudoers/gram.c, plugins/sudoers/gram.y:
+	add_defaults() now calls sudoerserror() itself instead of the caller
+	assuming any error means out of member.
+	[a25e51321e0b]
+
+	* plugins/sudoers/defaults.c, plugins/sudoers/mkdir_parents.c:
+	s/rval/ret/g -- old habits die hard
+	[fa55d08b233a]
+
+2016-10-31  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/sudoers.c:
+	Remove inaccurate XXX comment, sudo_file_parse() sends mail on parse
+	error.
+	[052b0e112839]
+
+	* plugins/sudoers/visudo.c:
+	The fix for Bug #408 broke editing of files in an include dir that
+	have a syntax error. Normally, visudo does not edit those files, but
+	if a syntax error is detected in one, the user gets a chance to fix
+	it.
+	[6b00f9bfff31]
+
+	* plugins/sudoers/gram.c, plugins/sudoers/gram.y,
+	plugins/sudoers/sudoers.h, plugins/sudoers/visudo.c,
+	plugins/sudoers/visudo_json.c:
+	Make a copy of the current sudoers path when assigning errorfile.
+	Fixes a potential use after free in visudo when there is an error in
+	one of the include files.
+	[eb6db5d15b61]
+
+	* plugins/sudoers/sudoers_debug.c:
+	sudoers_debug_register() was not setting the active debug instance
+	to sudoers_debug_instance when called from the I/O log plugin. This
+	is because it relied on sudo_debug_register to do that but
+	sudoers_debug_parse_flags() doesn't set debug_files[]
+	sudoers_debug_instance is already set (we can only init sudoers
+	debug once).
+
+	To work around this, just make sudoers_debug_instance the active
+	debug instance in sudoers_debug_register() when it is already set.
+	[71b0221c8c28]
+
+	* src/load_plugins.c:
+	Fix pasto when setting I/O plugin debug files
+	[03c3aab22e65]
+
+	* plugins/sudoers/iolog.c:
+	use cp instead of *cur when comparing against plugin_path
+	[f2dfe69549f5]
+
+2016-10-30  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/mkdir_parents.c:
+	In sudo_mkdir_parents() inherit the gid of / instead of using gid 0
+	for the first component.
+	[5f2bf33bccb5]
+
+	* plugins/sudoers/iolog.c:
+	We want to inherit the gid from the parent directory when not
+	setting permissions on intermerdiate directories.
+	[845f5a20b5fa]
+
+2016-10-29  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* MANIFEST, plugins/sudoers/Makefile.in, plugins/sudoers/iolog.c,
+	plugins/sudoers/mkdir_parents.c, plugins/sudoers/sudoers.h,
+	plugins/sudoers/timestamp.c:
+	Move io_mkdir_parents() to its own file and use it in ts_mkdirs().
+	[c1d55f588a60]
+
+	* doc/sudoers.cat, doc/sudoers.man.in, doc/sudoers.mdoc.in,
+	plugins/sudoers/def_data.c, plugins/sudoers/def_data.h,
+	plugins/sudoers/def_data.in, plugins/sudoers/defaults.c,
+	plugins/sudoers/iolog.c, plugins/sudoers/sudoers.c,
+	plugins/sudoers/sudoers.h:
+	Make the I/O log file/dir permissions and owner configurable.
+	[e7a74f3dfa56]
+
+	* lib/util/Makefile.in, mkdep.pl:
+	Add vsyslog.lo
+	[18362a9ae32e]
+
+	* configure, configure.ac:
+	sudo 1.8.19
+	[97743604e6e3]
+
+2016-10-28  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/defaults.c:
+	Don't try to syntax check an unrecognized Defaults value in visudo.
+	[e4972655b5d3]
+
+2016-10-26  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/iolog.c:
+	Create I/O log files with the same gid as the parent directory.
+	[0da5824e006d]
+
+	* plugins/sudoers/ldap.c:
+	Check for sudo_ldap_result_last_search() returning NULL. This can't
+	happen in practice because we always call
+	sudo_ldap_result_add_search() first which guarantees there is a
+	result to be found. Quiets a PVS-Studio warning.
+	[4f6074f40fbc]
+
+	* src/exec_pty.c:
+	Quiet a PVS-Studio warning about the spin loop when waiting for the
+	parent to assign us the terminal pgrp.
+	[d063a283477b]
+
+	* plugins/sudoers/env.c:
+	Fix incorrect strncmp() lengths. The check for USERNAME was only
+	looking at the first 5 characters (copy and paste error). The check
+	for SUDO_PS1 was not checking the trailing '=' character (off by one
+	error). Found by PVS-Studio.
+	[297380eb6940]
+
+	* plugins/sudoers/env.c:
+	When checking for old-style bash functions in the environment, check
+	for values starting with "() " (note the trailing space) rather than
+	"()". Bash will only treat the value as a function if the space
+	after "()" is present. The trailing space was already present in the
+	compare string but when it was added, the length passed to strncmp()
+	was not updated from 3 to 4. Found by PVS-Studio. No security
+	impact.
+	[7e35f39d356b]
+
+	* plugins/sudoers/set_perms.c:
+	Add some missing casts from uid_t/gid_t to int when printing uid/gid
+	values. We print these as signed so a value of -1 (no change) is
+	obvious. Quiets PVS-Studio warnings.
+	[9773e5b166e1]
+
+	* plugins/sudoers/timestamp.c:
+	def_timestamp_timeout is a double so compare against 0.0 not 0 to
+	avoid making it appear to be an integer type.
+	[8675db470ab7]
+
+	* plugins/sudoers/defaults.c:
+	When checking syslog facility or priority, move the string compare
+	into the body of the loop and return if it matches. If we finish the
+	loop it means we didn't find a match. This makes the code a little
+	bit more readable.
+	[d1df1649a01e]
+
+	* lib/util/strlcpy.c, lib/util/strnlen.c, plugins/sudoers/defaults.c,
+	plugins/sudoers/env.c, plugins/sudoers/logging.c,
+	plugins/sudoers/visudo_json.c, src/env_hooks.c, src/exec_pty.c:
+	Replace bare ";" in the body of for() loops with "continue;" for
+	improved readability.
+	[92eff8dbe5f8]
+
+2016-10-21  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* config.guess, config.sub:
+	Update from http://git.savannah.gnu.org/gitweb/?p=config.git
+	[86e6144dfdd7]
+
+	* config.guess, config.sub, configure, ltmain.sh, m4/libtool.m4,
+	m4/ltoptions.m4, m4/ltsugar.m4, m4/ltversion.m4, m4/lt~obsolete.m4:
+	Update to libtool 2.4.6
+	[8d85d9e8687b]
+
+2016-10-19  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* lib/util/vsyslog.c:
+	Use a static buffer if possible.
+	[758ce6478994]
+
+	* MANIFEST, configure, configure.ac, include/sudo_compat.h,
+	lib/util/vsyslog.c, plugins/sudoers/logging.c:
+	add vsyslog() for systems without it.
+	[c6457f333252]
+
+	* doc/sudoers.cat, doc/sudoers.man.in, doc/sudoers.mdoc.in:
+	There are now 14 tag values, not 10. Don't bother mentioning the
+	number since it keeps increasing. Bug #759
+	[17e4c900dc12]
+
+2016-10-18  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* config.h.in, configure, configure.ac, plugins/sudoers/logging.c:
+	Use vsyslog() if available.
+	[ea9b7a51eaec]
+
+	* doc/sudoers.cat, doc/sudoers.man.in, doc/sudoers.mdoc.in,
+	plugins/sudoers/def_data.c, plugins/sudoers/def_data.h,
+	plugins/sudoers/def_data.in, plugins/sudoers/defaults.c,
+	plugins/sudoers/logging.c:
+	Add syslog_maxlen to control the max size of syslog messages.
+	[5f9872d2073f]
+
+2016-10-17  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* src/tgetpass.c:
+	Don't generate SIGTOU when restoring the terminal modes. It doen't
+	make sense to suspend the process only to restore the terminal
+	settings since in this case the shell has already taken ownership of
+	the tty.
+	[981c26f3fc8f]
+
+	* plugins/sudoers/sudoreplay.c, src/exec_pty.c, src/tgetpass.c:
+	The flush parameter of sudo_term_restore() is bool, not int.
+	[c2597f1881f3]
+
+2016-10-14  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* doc/sudo.conf.cat, doc/sudo.conf.man.in, doc/sudo.conf.mdoc.in:
+	Add wordexp() to the list of functions wrapped by sudo_noexec.so.
+	[2e847ce3f02f]
+
 2016-10-10  Todd C. Miller  <Todd.Miller@courtesan.com>
 
 	* src/sudo_noexec.c:
