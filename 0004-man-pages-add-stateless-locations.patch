@@ -1,0 +1,117 @@
+--- sudo-1.8.19p2/doc/sudoers.man.in~	2017-04-19 12:21:03.703580388 -0700
++++ sudo-1.8.19p2/doc/sudoers.man.in	2017-04-19 12:24:59.924596331 -0700
+@@ -38,7 +38,7 @@
+ policy plugin.
+ The policy is driven by
+ the
+-\fI@sysconfdir@/sudoers\fR
++\fI/usr/share/defaults/sudo/sudoers\fR
+ file or, optionally in LDAP.
+ The policy format is described in detail in the
+ \fISUDOERS FILE FORMAT\fR
+@@ -2247,14 +2247,14 @@
+ .TP 18n
+ ignore_local_sudoers
+ If set via LDAP, parsing of
+-\fI@sysconfdir@/sudoers\fR
++\fI/usr/share/defaults/sudo/sudoers\fR
+ will be skipped.
+ This is intended for Enterprises that wish to prevent the usage of local
+ sudoers files so that only LDAP is used.
+ This thwarts the efforts of rogue operators who would attempt to add roles to
+-\fI@sysconfdir@/sudoers\fR.
++\fI/usr/share/defaults/sudo/sudoers\fR
+ When this option is present,
+-\fI@sysconfdir@/sudoers\fR
++\fI/usr/share/defaults/sudo/sudoers\fR
+ does not even need to exist.
+ Since this option tells
+ \fBsudo\fR
+@@ -4023,7 +4023,7 @@
+ administrator via email.
+ Possible errors include:
+ .TP 3n
+-parse error in @sysconfdir@/sudoers near line N
++parse error in /usr/share/defaults/sudo/sudoers near line N
+ \fBsudoers\fR
+ encountered an error when parsing the specified file.
+ In some cases, the actual error may be one line above or below the
+@@ -4045,7 +4045,7 @@
+ \fItimestampowner\fR
+ setting, could not be found in the password database.
+ .TP 3n
+-unable to open/read @sysconfdir@/sudoers
++unable to open/read /usr/share/defaults/sudo/sudoers
+ The
+ \fIsudoers\fR
+ file could not be opened for reading.
+@@ -4059,7 +4059,7 @@
+ \fIsudoers\fR
+ file using group permissions to avoid this problem.
+ Consider either changing the ownership of
+-\fI@sysconfdir@/sudoers\fR
++\fI/usr/share/defaults/sudo/sudoers\fR
+ or adding an argument like
+ \(Lqsudoers_uid=N\(Rq
+ (where
+@@ -4073,17 +4073,17 @@
+ sudo.conf(@mansectform@)
+ file.
+ .TP 3n
+-unable to stat @sysconfdir@/sudoers
++unable to stat /usr/share/defaults/sudo/sudoers
+ The
+-\fI@sysconfdir@/sudoers\fR
++\fI/usr/share/defaults/sudo/sudoers\fR
+ file is missing.
+ .TP 3n
+-@sysconfdir@/sudoers is not a regular file
++/usr/share/defaults/sudo/sudoers is not a regular file
+ The
+-\fI@sysconfdir@/sudoers\fR
++\fI/usr/share/defaults/sudo/sudoers\fR
+ file exists but is not a regular file or symbolic link.
+ .TP 3n
+-@sysconfdir@/sudoers is owned by uid N, should be 0
++/usr/share/defaults/sudo/sudoers is owned by uid N, should be 0
+ The
+ \fIsudoers\fR
+ file has the wrong owner.
+@@ -4102,7 +4102,7 @@
+ sudo.conf(@mansectform@)
+ file.
+ .TP 3n
+-@sysconfdir@/sudoers is world writable
++/usr/share/defaults/sudo/sudoers is world writable
+ The permissions on the
+ \fIsudoers\fR
+ file allow all users to write to it.
+@@ -4119,7 +4119,7 @@
+ sudo.conf(@mansectform@)
+ file.
+ .TP 3n
+-@sysconfdir@/sudoers is owned by gid N, should be 1
++/usr/share/defaults/sudo/sudoers is owned by gid N, should be 1
+ The
+ \fIsudoers\fR
+ file has the wrong group ownership.
+@@ -4320,7 +4320,7 @@
+ \fI@sysconfdir@/sudo.conf\fR
+ Sudo front end configuration
+ .TP 26n
+-\fI@sysconfdir@/sudoers\fR
++\fI/usr/share/defaults/sudo/sudoers\fR
+ List of who can run what
+ .TP 26n
+ \fI/etc/group\fR
+--- sudo-1.8.19p2/doc/visudo.man.in~	2017-04-19 12:18:22.791569528 -0700
++++ sudo-1.8.19p2/doc/visudo.man.in	2017-04-19 12:25:05.048596677 -0700
+@@ -154,7 +154,7 @@
+ \fIsudoers\fR
+ file of your choice,
+ instead of the default,
+-\fI@sysconfdir@/sudoers\fR.
++\fI/usr/share/defaults/sudo/sudoers\fR.
+ The lock file used is the specified
+ \fIsudoers\fR
+ file with

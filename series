@@ -1,3 +1,4 @@
-stateless.patch
-0001-Add-read-only-sudoers.d-dir.patch
-0001-visudo-Use-sane-default-file.patch
+0001-stateless.patch
+0002-Add-read-only-sudoers.d-dir.patch
+0003-visudo-Use-sane-default-file.patch
+0004-man-pages-add-stateless-locations.patch

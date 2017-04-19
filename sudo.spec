@@ -5,14 +5,14 @@
 # Source0 file verified with key 0x5A89DFA27EE470C4 (Todd.Miller@courtesan.com)
 #
 Name     : sudo
-Version  : 1.8.19p2
-Release  : 38
+Version  : 1.8.192
+Release  : 39
 URL      : http://www.sudo.ws/dist/sudo-1.8.19p2.tar.gz
 Source0  : http://www.sudo.ws/dist/sudo-1.8.19p2.tar.gz
 Source99 : http://www.sudo.ws/dist/sudo-1.8.19p2.tar.gz.sig
 Summary  : No detailed summary available
 Group    : Development/Tools
-License  : ISC
+License  : BSD-3-Clause ISC
 Requires: sudo-setuid
 Requires: sudo-bin
 Requires: sudo-data
@@ -22,9 +22,10 @@ BuildRequires : Linux-PAM-dev
 BuildRequires : bison
 BuildRequires : groff
 BuildRequires : zlib-dev
-Patch1: stateless.patch
-Patch2: 0001-Add-read-only-sudoers.d-dir.patch
-Patch3: 0001-visudo-Use-sane-default-file.patch
+Patch1: 0001-stateless.patch
+Patch2: 0002-Add-read-only-sudoers.d-dir.patch
+Patch3: 0003-visudo-Use-sane-default-file.patch
+Patch4: 0004-man-pages-add-stateless-locations.patch
 
 %description
 The sudo philosophy
@@ -91,10 +92,11 @@ setuid components for the sudo package.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 export LANG=C
-export SOURCE_DATE_EPOCH=1484750203
+export SOURCE_DATE_EPOCH=1492630188
 %configure --disable-static --with-pam \
 --with-env-editor \
 --with-ignore-dot \
@@ -109,7 +111,7 @@ export no_proxy=localhost
 make check || :
 
 %install
-export SOURCE_DATE_EPOCH=1484750203
+export SOURCE_DATE_EPOCH=1492630188
 rm -rf %{buildroot}
 %make_install INSTALL_OWNER=""
 %find_lang sudo
