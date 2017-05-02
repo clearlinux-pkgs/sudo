@@ -6,7 +6,7 @@
 #
 Name     : sudo
 Version  : 1.8.192
-Release  : 39
+Release  : 40
 URL      : http://www.sudo.ws/dist/sudo-1.8.19p2.tar.gz
 Source0  : http://www.sudo.ws/dist/sudo-1.8.19p2.tar.gz
 Source99 : http://www.sudo.ws/dist/sudo-1.8.19p2.tar.gz.sig
