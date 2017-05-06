@@ -34,7 +34,7 @@ index b0c38bf..6c27d37 100644
  ## Uncomment to allow members of group wheel to execute any command
 -# %wheel ALL=(ALL) ALL
 +%wheel ALL=(ALL) ALL
-+%wheel ALL=(ALL) NOPASSWD:ALL
++%wheelnopw ALL=(ALL) NOPASSWD:ALL
  
  ## Same thing without a password
  # %wheel ALL=(ALL) NOPASSWD: ALL
