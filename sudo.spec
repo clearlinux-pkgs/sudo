@@ -6,7 +6,7 @@
 #
 Name     : sudo
 Version  : 1.8.192
-Release  : 40
+Release  : 41
 URL      : http://www.sudo.ws/dist/sudo-1.8.19p2.tar.gz
 Source0  : http://www.sudo.ws/dist/sudo-1.8.19p2.tar.gz
 Source99 : http://www.sudo.ws/dist/sudo-1.8.19p2.tar.gz.sig
@@ -95,8 +95,11 @@ setuid components for the sudo package.
 %patch4 -p1
 
 %build
+export http_proxy=http://127.0.0.1:9/
+export https_proxy=http://127.0.0.1:9/
+export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1492630188
+export SOURCE_DATE_EPOCH=1494103605
 %configure --disable-static --with-pam \
 --with-env-editor \
 --with-ignore-dot \
@@ -107,11 +110,11 @@ make V=1  %{?_smp_mflags}
 export LANG=C
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
-export no_proxy=localhost
+export no_proxy=localhost,127.0.0.1,0.0.0.0
 make check || :
 
 %install
-export SOURCE_DATE_EPOCH=1492630188
+export SOURCE_DATE_EPOCH=1494103605
 rm -rf %{buildroot}
 %make_install INSTALL_OWNER=""
 %find_lang sudo
