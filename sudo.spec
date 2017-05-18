@@ -6,7 +6,7 @@
 #
 Name     : sudo
 Version  : 1.8.20
-Release  : 43
+Release  : 44
 URL      : http://www.sudo.ws/dist/sudo-1.8.20.tar.gz
 Source0  : http://www.sudo.ws/dist/sudo-1.8.20.tar.gz
 Source99 : http://www.sudo.ws/dist/sudo-1.8.20.tar.gz.sig
