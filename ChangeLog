@@ -1,8 +1,408 @@
+2017-08-23  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* sudo.pp:
+	Fix path to LICENSE and NEWS files that get used in the installer.
+	Previously, the installed versions were used instead of the ones in
+	the destdir.
+	[689a5806f2de]
+
+2017-08-20  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/po/fi.mo, plugins/sudoers/po/fi.po, po/fi.mo,
+	po/fi.po:
+	sync with translationproject.org
+	[32a0f3bbba31]
+
+2017-08-18  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* po/es.mo, po/es.po:
+	sync with translationproject.org
+	[bfa5659d66f2]
+
+2017-08-12  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/po/it.mo, plugins/sudoers/po/it.po, po/it.mo,
+	po/it.po:
+	sync with translationproject.org
+	[05cd6ff68a4b]
+
+2017-08-11  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* NEWS:
+	Preserving environment variables on the command line was bug #279
+	[46f2c7931a84]
+
+2017-08-10  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* MANIFEST, NEWS, doc/CONTRIBUTORS, po/fur.mo, po/fur.po:
+	Add Friulian translation for sudo from Fabio Tomat via
+	translationproject.org
+	[77fdb76e83c8]
+
+2017-08-08  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/po/cs.mo, plugins/sudoers/po/cs.po,
+	plugins/sudoers/po/de.mo, plugins/sudoers/po/de.po,
+	plugins/sudoers/po/ko.mo, plugins/sudoers/po/ko.po,
+	plugins/sudoers/po/nb.mo, plugins/sudoers/po/nb.po,
+	plugins/sudoers/po/pl.mo, plugins/sudoers/po/pl.po,
+	plugins/sudoers/po/pt_BR.mo, plugins/sudoers/po/pt_BR.po,
+	plugins/sudoers/po/sr.mo, plugins/sudoers/po/sr.po,
+	plugins/sudoers/po/sv.mo, plugins/sudoers/po/sv.po,
+	plugins/sudoers/po/vi.mo, plugins/sudoers/po/vi.po,
+	plugins/sudoers/po/zh_CN.mo, plugins/sudoers/po/zh_CN.po, po/cs.mo,
+	po/cs.po, po/fr.mo, po/fr.po, po/ko.mo, po/ko.po, po/nb.mo,
+	po/nb.po, po/pl.mo, po/pl.po, po/pt_BR.mo, po/pt_BR.po, po/sr.mo,
+	po/sr.po, po/sv.mo, po/sv.po, po/vi.mo, po/vi.po, po/zh_CN.mo,
+	po/zh_CN.po:
+	sync with translationproject.org
+	[0f18e2f30ff5]
+
+2017-08-04  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* doc/sudoers.cat, doc/sudoers.man.in, doc/sudoers.mdoc.in:
+	In the Runas example that uses "boulder" make it clear that
+	"boulder" is a host name.
+	[6bca59aa5579]
+
+2017-08-03  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/po/sudoers.pot, po/sudo.pot:
+	regen
+	[9bb78048656f]
+
+	* NEWS, doc/sudo.cat, doc/sudo.man.in, doc/sudo.mdoc.in,
+	src/parse_args.c:
+	Allow the user to specify a list of environment variables to
+	preserve. This adds an option paramter to the --preserve-env option,
+	a comma-separated list of variable names.
+	[a6bc511a2e81]
+
+2017-08-01  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* INSTALL, NEWS, config.h.in, configure, configure.ac,
+	doc/sudoers.cat, doc/sudoers.man.in, doc/sudoers.mdoc.in,
+	plugins/sudoers/def_data.c, plugins/sudoers/def_data.h,
+	plugins/sudoers/def_data.in, plugins/sudoers/defaults.c,
+	plugins/sudoers/sudoers.c, plugins/sudoers/timestamp.c:
+	Replace tty_tickets option with timestamp_type which can be global,
+	ppid or tty. Defaults to tty (no change in behavior). Some users
+	want the ppid behavior.
+	[426161a2e06f]
+
+	* lib/util/Makefile.in, plugins/sudoers/Makefile.in:
+	regen
+	[b396e70a4a8b]
+
+	* plugins/sudoers/sudoers.c:
+	Don't send email about an unresolvable host name if fqdn is enabled
+	and the user specified the run host via the -h flag.
+	[59d7a8743943]
+
+2017-07-31  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/sudoreplay.c:
+	fix playback of stdout/stderr without embedded carriage returns
+	[f1a5b47be2db]
+
+2017-07-28  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/ldap.c:
+	Avoid unused variable warning when sasl is not used.
+	[3010fd3c5a7f]
+
+	* INSTALL, configure, configure.ac:
+	Add support for --enable-sasl and --disable-sasl to make it possible
+	to enable/disable support for LDAP with SASL authentication. Sudo
+	compiles in support for SASL authentiation by default if the
+	ldap_sasl_interactive_bind_s() function is detected. Bug #788
+	[cf94d407d576]
+
+	* NEWS:
+	List the correct pattern ("*=()*") in the env_delete description.
+	Use pseudo-tty instead of pseudo terminal for consistency.
+	[f2df0baea2f0]
+
+2017-07-27  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* lib/util/closefrom.c:
+	Include pathnames.h for /dev/fd on FreeBSD and Mac OS X.
+	[b190dc607277]
+
+	* NEWS:
+	update for 1.8.21
+	[a3a38f6cba66]
+
+	* src/exec_pty.c:
+	No need to call sudo_ev_del() before sudo_ev_free(); sudo_ev_free()
+	will delete the event from its base before freeing it.
+	[ebf3dedcba5c]
+
+	* src/exec_pty.c:
+	Terminate the command if an I/O log function returns 0 or -1. This
+	was mistakenly removed by 25b7fd056614 in Sudo 1.8.18 with the
+	removal of the ignore_iolog_errors variable.
+	[e1dd18d95815]
+
+	* plugins/sudoers/sudoreplay.c:
+	Quiet a coverity false positive.
+	[b7a9c9e35fd0]
+
+	* plugins/sudoers/sudoreplay.c:
+	Change to a single event loop in sudoreplay and use signal events.
+	[7320de46cf48]
+
+2017-07-21  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* doc/sudo.conf.cat, doc/sudo.conf.man.in, doc/sudo.conf.mdoc.in:
+	start new sentences on a new line
+	[ae35ab253de5]
+
+	* doc/sudo.cat, doc/sudo.man.in, doc/sudo.mdoc.in, doc/sudoers.cat,
+	doc/sudoers.man.in, doc/sudoers.mdoc.in:
+	Clarify how the variable prompt options interact with each other and
+	PAM.
+	[342b936c4aaa]
+
+	* plugins/sudoers/sudoers.c:
+	Don't set passprompt_override when SUDO_PROMPT is present. This
+	effectively reverts ed77d255f383.
+
+	We treat the SUDO_PROMPT environment variable similar to passprompt
+	in sudoers: it will only override a PAM prompt if the PAM prompt is
+	either "Password:" or "username's Password:".
+	[6dad2bd126d1]
+
+2017-07-20  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* doc/sudoers.cat, doc/sudoers.man.in, doc/sudoers.mdoc.in,
+	plugins/sudoers/def_data.c, plugins/sudoers/def_data.h,
+	plugins/sudoers/def_data.in, plugins/sudoers/logging.c:
+	Add syslog_pid sudoers option to log sudo's process ID when logging
+	via syslog. This is disabled by default to match historic behavior.
+	[f4dc29b0052c]
+
+	* plugins/sudoers/auth/pam.c:
+	When deciding which prompt to use (PAM's or sudo's) treat the PAM
+	prompt "username's Password:" as equivalent to "Password:". Some PAM
+	modules (on AIX at least) use this prompt.
+	[96651906de42]
+
+	* plugins/sudoers/def_data.c, plugins/sudoers/def_data.in:
+	Add missing argument to a few of the defaults strings in the "sudo
+	-V" output.
+	[44546c4b87c3]
+
+	* plugins/sudoers/policy.c, plugins/sudoers/sudoers.c,
+	plugins/sudoers/visudo.c:
+	When examining environment variables or variables passed in from the
+	front-end, ignore variables with no value specified.
+	[8537a7fc6190]
+
+	* doc/sudo.cat, doc/sudo.man.in, doc/sudo.mdoc.in:
+	Document that "-p prompt" overrides SUDO_PROMPT.
+	[d2e6b518d00d]
+
+	* plugins/sudoers/sudoers.c:
+	Enable passprompt_override by default if SUDO_PROMPT is present in
+	the environment. This is consistent with how "sudo -p prompt" is
+	handled.
+	[ed77d255f383]
+
+2017-07-17  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/sudoreplay.c:
+	When reading a single character via a switch() use "default: instead
+	of "case 1:" to quiet a coverity warning.
+	[ddcfc40159e4]
+
+	* plugins/sudoers/sudoreplay.c:
+	Initialize ch in getsize_cb() in case we are called with the wrong
+	initial state.
+	[a31431c59e14]
+
+	* plugins/sudoers/sudoreplay.c:
+	remove unused variable
+	[488054411049]
+
+	* plugins/sudoers/visudo.c:
+	Call install_sudoers() even when doedit is false. If a file in a
+	#includedir has a syntax error it will still have been edited and we
+	need to install the edited temp file.
+	[ab833e2d1791]
+
+	* plugins/sudoers/visudo.c:
+	Reparse sudoers if a new #include file was added. Otherwise the new
+	file will not get its syntax checked. Bug #791
+	[e584dc8bf306]
+
+2017-07-14  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/sudoreplay.c:
+	don't restore the cursor when setting terminal size, we don't want
+	the cursor to move
+	[9cbcb3372bcd]
+
+	* plugins/sudoers/sudoreplay.c:
+	Read the xterm terminal size using an event so we can easily time
+	out if needed.
+	[634524476741]
+
+	* lib/util/event.c, src/exec_nopty.c, src/exec_pty.c:
+	If we free the default base in sudo_ev_base_free(), reset the
+	default base to NULL.
+	[2a8f7938618b]
+
+2017-07-13  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* include/sudo_event.h, lib/util/event.c, lib/util/util.exp.in,
+	src/exec_monitor.c, src/exec_nopty.c, src/exec_pty.c:
+	Add the ability to set a default event base, to be used by plugins
+	which don't have access to the event base.
+	[dc159ea98b25]
+
+	* doc/sudoreplay.cat, doc/sudoreplay.man.in, doc/sudoreplay.mdoc.in,
+	plugins/sudoers/sudoreplay.c:
+	Allow sudoreplay to adjust the window size on xterm-like terminals.
+	[3358b1a9f01c]
+
+2017-07-12  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/iolog.c, plugins/sudoers/sudoreplay.c:
+	Log window size change events in the sudoers I/O plugin. Let
+	sudoreplay parse a timing file with window change events (currently
+	ignored).
+	[a67f4627dfa7]
+
+	* doc/sudo_plugin.cat, doc/sudo_plugin.man.in,
+	doc/sudo_plugin.mdoc.in, include/sudo_plugin.h, src/exec_pty.c:
+	Pass window size change events to the plugin.
+	[529b5c9d16a4]
+
+	* lib/util/term.c:
+	Clear input, output, control and local flags before copying them
+	from the source terminal. Otherwise, flags that are disabled in the
+	source terminal may still be enabled in the destination.
+	[ead41242b820]
+
+	* Makefile.in, doc/Makefile.in, examples/Makefile.in,
+	include/Makefile.in, lib/util/Makefile.in, lib/zlib/Makefile.in,
+	plugins/group_file/Makefile.in, plugins/sample/Makefile.in,
+	plugins/sudoers/Makefile.in, plugins/system_group/Makefile.in,
+	src/Makefile.in:
+	Remove pointless subshells in targets that simply change the
+	directory and execute a command. The command is already run in a
+	shell so there is no need to execute a subshell in this case.
+	[e57639cb2f97]
+
+2017-07-10  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* src/sudo.c:
+	Store the debug instance ID for I/O plugins too. Now iolog_open() is
+	consistent with policy_open().
+	[519abb3c09d0]
+
+2017-06-01  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* lib/util/event.c:
+	Move the bits to fill in the new event base to sudo_ev_base_init(),
+	which is not currently exported.
+	[9be46693bed1]
+
+2017-06-29  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* config.h.in, configure, configure.ac, lib/util/mktemp.c:
+	Use getentropy() in mkstemp/mkdtemp replacement.
+	[8d8e45266858]
+
+	* configure, configure.ac, lib/util/closefrom.c, lib/util/mktemp.c,
+	pathnames.h.in, src/exec_pty.c, src/get_pty.c, src/ttyname.c:
+	Use _PATH_DEV consistently
+	[ca10a91539e0]
+
+2017-06-15  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* lib/util/term.c:
+	When copying terminal settings from one tty to another only copy a
+	subset of the flags. Sudo now copies the same set of flags that
+	OpenSSH uses, which should be safe.
+	[2f12bc7a87d1]
+
+	* src/exec_monitor.c, src/exec_nopty.c:
+	Add debug warning when we have wait status but don't overwrite the
+	existing cstat.
+	[5ae8f8e75104]
+
+	* src/exec_monitor.c:
+	Better handling of SIGCONT from in command in the monitor. It is
+	useful to know when the command continued but we don't want to
+	inform the parent or store the wait status in this case. Fixes a
+	hang after multiple suspends on Linux.
+	[9cdbbb7ff3dd]
+
+2017-06-09  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/parse.h:
+	avoid padding in struct cmndspec
+	[2529551a9c2d]
+
+2017-06-07  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* doc/sudo.cat, doc/sudo.conf.cat, doc/sudo.conf.man.in,
+	doc/sudo.conf.mdoc.in, doc/sudo.man.in, doc/sudo.mdoc.in,
+	doc/sudoers.cat, doc/sudoers.ldap.cat, doc/sudoers.man.in,
+	doc/sudoers.mdoc.in:
+	Fix the man section of sudo_plugin in cross-references.
+	[f964de570403]
+
+2017-06-05  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* src/sudo_edit.c:
+	Don't treat an unchanged file as an error. From Xin Li.
+	[503e04f7856e]
+
+	* src/sudo_edit.c:
+	sudo_edit() must return a wait status but if there is an error, or
+	even if no changes were made to the file, it was returning 1 instead
+	which would be interpreted as the command having received SIGHUP.
+	Use the W_EXITCODE() to construct a proper wait status in the error
+	case too.
+	[62515bd6c64c]
+
+2017-06-03  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* src/ttyname.c:
+	Avoid sign extension when assigning the value of tty_nr in
+	/proc/self/stat on Linux. It is an unsigned int value that is
+	printed as a signed int but dev_t is unsigned long long. We need to
+	cast to unsigned int before assigning to a dev_t.
+	[c198d1317560]
+
+	* doc/sudoers.cat, doc/sudoers.man.in, doc/sudoers.mdoc.in,
+	plugins/sudoers/env.c:
+	Instead of hard-coding a check for bash functions in
+	env_should_delete(), use a "*=()* " pattern in
+	initial_badenv_table[] to match them instead. This allows the user
+	to remove the check via env_delete.
+	[90c4dfd1d3a3]
+
+2017-06-02  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* INSTALL.configure, configure.ac, doc/sudo_plugin.cat,
+	doc/sudo_plugin.man.in, doc/sudo_plugin.mdoc.in, doc/sudoers.cat,
+	doc/sudoers.man.in, doc/sudoers.mdoc.in, mkpkg, sudo.pp:
+	Mac OS X -> macOS
+	[08f793d1f496]
+
+	* doc/sudo.conf.cat, doc/sudo.conf.man.in, doc/sudo.conf.mdoc.in:
+	devsearch is ignored on BSD, macOS and Solaris
+	[b041a1d64eda]
+
 2017-05-31  Todd C. Miller  <Todd.Miller@courtesan.com>
 
-	* NEWS, configure, configure.ac:
+	* NEWS:
 	Sudo 1.8.20p2
-	[47836f4c9834]
+	[39f199a38383]
 
 	* src/ttyname.c:
 	A command name may also contain newline characters so read
@@ -12,21 +412,34 @@
 
 	This is not exploitable due to the /dev traversal changes in sudo
 	1.8.20p1 (thanks Solar!).
-	[15a46f4007dd]
+	[9ad60fe663e5]
 
 2017-05-30  Todd C. Miller  <Todd.Miller@courtesan.com>
 
 	* src/ttyname.c:
 	Use /proc/self consistently on Linux. As far as I know, only AIX
 	doesn't support /proc/self.
-	[6f3d9816541b]
+	[ef737b5d4ed8]
 
+	* INSTALL, configure, configure.ac, doc/sudo.conf.cat,
+	doc/sudo.conf.man.in, doc/sudo.conf.mdoc.in, include/sudo_conf.h,
+	lib/util/sudo_conf.c, lib/util/util.exp.in, pathnames.h.in,
+	src/ttyname.c:
+	Add a new "devsearch" Path setting to sudo.conf for configuring the
+	/dev paths to traverse instead of hard-coding a list in ttyname.c
+	The default value can be set at configure time.
+	[7ab1be502dc3]
+
+	* src/selinux.c:
+	After opening a tty device, fstat() and error out if it is not a
+	character device.
+	[e03cfa98f2b6]
 
 2017-05-29  Todd C. Miller  <Todd.Miller@courtesan.com>
 
-	* NEWS, configure, configure.ac:
+	* NEWS, configure:
 	Sudo 1.8.20p1
-	[94d010e2bb50]
+	[c34da84ae8e4]
 
 	* src/ttyname.c:
 	Fix for CVE-2017-1000367, parsing of /proc/pid/stat on Linux when
@@ -38,13 +451,152 @@
 	Also stop performing a breadth-first traversal of /dev when looking
 	for the device. Only the directories specified in search_devs[] are
 	checked.
-	[d5dd22356194]
+	[b5460cbbb11b]
+
+2017-05-23  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* lib/util/event_select.c:
+	Fix potential memory leak on reallocarray() error. Coverity CID
+	169639
+	[c303e6eecc78]
+
+	* plugins/sudoers/bsm_audit.c:
+	Only fall back to deprecated getaudit() on FreeBSD. Fixes compiler
+	warnings on macOS.
+	[18f4699e417c]
+
+	* mkpkg:
+	Use clang on macOS if present
+	[a963454d1b9e]
+
+	* sudo.pp:
+	fix paths to LICENSE and NEWS files for macOS packages
+	[47103614311b]
+
+2017-05-18  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* src/exec_monitor.c, src/exec_nopty.c, src/exec_pty.c:
+	To avoid overwriting existing command status, check for CMD_INVALID
+	instead of CMD_ERRNO or CMD_WSTATUS.
+	[5fec1fa81482]
+
+	* plugins/sudoers/regress/env_match/data:
+	Add some patterns that could result in exponential run time for
+	poorly written '*' matching.
+	[98f4d085c919]
+
+2017-05-15  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* lib/util/ttysize.c, src/exec_pty.c:
+	On HP-UX 11.0, sys/ioctl.h is not sufficient to make struct winsize
+	visisble, we need termios.h too.
+	[211510123ad6]
+
+	* lib/util/ttysize.c:
+	Always used TIOCGWINSZ.
+	[82e679b8cd00]
+
+	* src/exec.c, src/sudo.c, src/sudo.h:
+	Move exec_setup(), unlimit_nproc() and restore_nproc() from sudo.c
+	to exec.c.
+	[9127e50cf4ec]
+
+	* src/sudo_edit.c:
+	No need to include selinux.h here.
+	[8bb07a8f4203]
+
+	* plugins/sudoers/regress/env_match/check_env_pattern.c:
+	Fix compilation error on macOS
+	[bc5e5c3d44f2]
+
+2017-05-12  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/auth/sudo_auth.c, plugins/sudoers/ldap.c:
+	Avoid a clang analyzer false positive.
+	[9f4f915a2e28]
+
+	* Makefile.in:
+	Add cov-build and cov-submit targets for checking with coverity.
+	[bf88b4439c7b]
+
+	* plugins/sudoers/iolog.c, plugins/sudoers/mkdir_parents.c,
+	plugins/sudoers/set_perms.c, plugins/sudoers/timestamp.c,
+	plugins/sudoers/visudo.c:
+	Use debug logging instead of ignore_result() where possible.
+	[9c9fde5b52cc]
+
+	* config.h.in, configure, configure.ac, include/sudo_compat.h,
+	lib/util/term.c, plugins/sudoers/auth/bsdauth.c,
+	plugins/sudoers/auth/sudo_auth.c, plugins/sudoers/sudoreplay.c,
+	plugins/sudoers/visudo.c, src/exec_monitor.c, src/exec_nopty.c,
+	src/exec_pty.c, src/signal.c, src/sudo.c, src/tcsetpgrp_nobg.c,
+	src/tgetpass.c:
+	Remove use of non-standard sigaction_t
+	[81a57af4c7a9]
+
+	* include/sudo_compat.h, plugins/sudoers/timestamp.c,
+	src/tcsetpgrp_nobg.c, src/tgetpass.c:
+	Remove use of the non-standard SA_INTERRUPT
+	[3ec05ffb0dcb]
+
+	* configure, configure.ac:
+	sudo 1.8.21
+	[76aa5455903e]
+
+	* MANIFEST, doc/sudoers.cat, doc/sudoers.man.in, doc/sudoers.mdoc.in,
+	plugins/sudoers/Makefile.in, plugins/sudoers/env.c,
+	plugins/sudoers/env_pattern.c,
+	plugins/sudoers/regress/env_match/check_env_pattern.c,
+	plugins/sudoers/regress/env_match/data, plugins/sudoers/sudoers.h:
+	Add support for multiple '*' in env_keep, env_check and env_delete
+	entries.
+	[b55270a8ecc4]
+
+	* src/signal.c:
+	Add SIGCHLD to the list of signals we install sudo_handler() for.
+	Otherwise, it is possible for the command to exit before the SIGCHLD
+	handler is installed. POSIX says that signals that are ignored by
+	default are still ignored even if the signal mask would block them.
+	We need to have a handler installed for SIGCHLD before the fork().
+	[a26f04459c37]
+
+	* lib/util/event.c:
+	Activate the sigevents inside the signal pipe callback itself and
+	call signal_pipe_cb() directly if the backend returns EINTR and the
+	signal_caught flag is set. This has the side effect of processing
+	signal events in the current pass of the event loop instead of the
+	next one.
+	[d94e202b8e57]
+
+	* src/exec.c, src/exec_monitor.c, src/exec_nopty.c, src/exec_pty.c,
+	src/signal.c, src/sudo.h, src/sudo_exec.h:
+	Use SUDO_EV_SIGNAL and SUDO_EV_SIGINFO instead of managing the
+	signal_pipe explicitly.
+	[841e2ca6a4a6]
+
+	* include/sudo_event.h, lib/util/event.c:
+	Handle the possibility of the siginfo parameter in sa_sigaction
+	handler being NULL.
+	[0835ca553426]
+
+	* include/sudo_event.h, lib/util/event.c:
+	Add support for signal events in sudo's event subsystem
+	[0d48fab2dec8]
+
+	* plugins/sudoers/sudoreplay.c:
+	Restore the error message for sudo_ev_add() failure.
+	[267305606577]
+
+	* include/sudo_queue.h:
+	Add workaround for clang static analyzer being confused by
+	LIST_REMOVE and TAILQ_REMOVE.
+	[ff8d278e8526]
 
 2017-05-11  Todd C. Miller  <Todd.Miller@courtesan.com>
 
 	* plugins/sudoers/Makefile.in:
 	Fix "make check" when openssl or gcrypt is used. Bug #787
-	[fd76c0bd8b80]
+	[7968686742e2]
 
 2017-05-10  Todd C. Miller  <Todd.Miller@courtesan.com>
 

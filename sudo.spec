@@ -5,11 +5,11 @@
 # Source0 file verified with key 0x5A89DFA27EE470C4 (Todd.Miller@courtesan.com)
 #
 Name     : sudo
-Version  : 1.8.202
-Release  : 46
-URL      : http://www.sudo.ws/dist/sudo-1.8.20p2.tar.gz
-Source0  : http://www.sudo.ws/dist/sudo-1.8.20p2.tar.gz
-Source99 : http://www.sudo.ws/dist/sudo-1.8.20p2.tar.gz.sig
+Version  : 1.8.21
+Release  : 47
+URL      : http://www.sudo.ws/dist/sudo-1.8.21.tar.gz
+Source0  : http://www.sudo.ws/dist/sudo-1.8.21.tar.gz
+Source99 : http://www.sudo.ws/dist/sudo-1.8.21.tar.gz.sig
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : ISC
@@ -88,7 +88,7 @@ setuid components for the sudo package.
 
 
 %prep
-%setup -q -n sudo-1.8.20p2
+%setup -q -n sudo-1.8.21
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -99,7 +99,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1496430771
+export SOURCE_DATE_EPOCH=1503529313
 %configure --disable-static --with-pam \
 --with-env-editor \
 --with-ignore-dot \
@@ -114,7 +114,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make check || :
 
 %install
-export SOURCE_DATE_EPOCH=1496430771
+export SOURCE_DATE_EPOCH=1503529313
 rm -rf %{buildroot}
 %make_install INSTALL_OWNER=""
 %find_lang sudo

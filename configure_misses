@@ -1,0 +1,51 @@
+Configure miss: at which syslog priority to log commands
+Configure miss: whether to send mail when user listed but not for this host
+Configure miss: whether to send mail when a user tries a disallowed command
+Configure miss: whether to expect fully qualified hosts in sudoers
+Configure miss: whether to include insults
+Configure miss: whether to override the user's path
+Configure miss: whether to use an askpass helper
+Configure miss: whether to disable running the mailer as root
+Configure miss: whether to disable shadow password support
+Configure miss: whether to log the hostname in the log file
+Configure miss: whether to invoke a shell if sudo is given no arguments
+Configure miss: whether to set $HOME to target user in shell mode
+Configure miss: whether to disable 'command not found' messages
+Configure miss: whether to enable environment debugging
+Configure miss: sendmail
+Configure miss: vi
+Configure miss: netgroup.h
+Configure miss: sys/bsdtypes.h
+Configure miss: procfs.h usability
+Configure miss: procfs.h presence
+Configure miss: procfs.h
+Configure miss: struct psinfo.pr_ttydev
+Configure miss: rsize_t
+Configure miss: errno_t
+Configure miss: struct utmpx.ut_exit.__e_termination
+Configure miss: struct kinfo_proc.ki_tdev
+Configure miss: struct kinfo_proc2.p_tdev
+Configure miss: struct kinfo_proc.p_tdev
+Configure miss: struct kinfo_proc.kp_eproc.e_tdev
+Configure miss: openpty
+Configure miss: whether unsetenv returns void
+Configure miss: whether putenv takes a const argument
+Configure miss: memset_s
+Configure miss: pw_dup
+Configure miss: closefrom
+Configure miss: whether F_CLOSEM is declared
+Configure miss: strtonum
+Configure miss: struct tm.tm_gmtoff
+Configure miss: struct stat.st_mtim.st__tim
+Configure miss: sha2.h usability
+Configure miss: sha2.h presence
+Configure miss: sha2.h
+Configure miss: exect
+Configure miss: execvP
+Configure miss: struct dirent.d_namlen
+Configure miss: getprogname
+Configure miss: sig2str
+Configure miss: whether sys_signame is declared
+Configure miss: whether _sys_signame is declared
+Configure miss: whether sys_sigabbrev is declared
+Configure miss: time zone data directory
