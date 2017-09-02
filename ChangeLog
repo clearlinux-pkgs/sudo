@@ -1,3 +1,65 @@
+2017-09-01  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* NEWS, configure, configure.ac:
+	Sudo 1.8.21p1
+	[7e6bf56cb06c]
+
+	* mkpkg:
+	The Fedora sudo package uses /etc/ldap.conf not /etc/sudo-ldap.conf.
+	[7b4e6f50e138]
+
+	* plugins/sudoers/ldap.c, plugins/sudoers/sssd.c:
+	The fix for matching when no sudoRunAsUser is present in a sudoRole
+	was incomplete. If no -g option was specified on the command line
+	but sudoRunAsGroup is present in a sudoRole, we need to treat the
+	group match as failed instead of missing.
+	[3aaeeebd924c]
+
+	* plugins/sudoers/check.c, plugins/sudoers/defaults.c:
+	Sprinkle a few more debugging printfs.
+	[f7a40f9985cf]
+
+	* plugins/sudoers/sudoreplay.c:
+	Fix replaying sessions that contain input logs. When the inter-
+	record timeout expires we need to read the next record if there is
+	nothing to output.
+	[443b329ddc60]
+
+	* doc/visudo.cat:
+	regen
+	[7ace4ac32116]
+
+	* doc/sudo.cat, doc/sudo.man.in, doc/sudo.mdoc.in:
+	Fix typo (Auguest vs. August). From David Pocock.
+	[98a792ff1c90]
+
+2017-08-31  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/sudo_nss.c:
+	Go back to returning true from display_privs() on non-error. This
+	results in "sudo -U otheruser -l" exiting with a status of 0 even
+	when otheruser is not allowed to run commands. This is appropriate
+	since the "sudo -l" command was successful. This does not change the
+	exit value when otheruser runs "sudo -l" themselves, the exit status
+	will be 1 since that user is not allowed to run commands. Requested
+	by Radovan Sroka.
+	[055b78015fcb]
+
+	* plugins/sudoers/ldap.c:
+	Fix the pass2 ldap query string when no search filter is defined.
+	Due to the addition of "(sudoUser=*)" to the query we always need
+	the AND operator, even if no search filter is present.
+	[631243487d27]
+
+2017-08-29  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* src/exec_nopty.c:
+	Don't forward SIGINFO to the child when it is send by the kernel
+	(not another user process). This is consistent with the handling of
+	other keyboard-generated signals such as SIGINT, SIGQUIT and
+	SIGTSTP. Bug #796
+	[29603b0a4315]
+
 2017-08-23  Todd C. Miller  <Todd.Miller@courtesan.com>
 
 	* sudo.pp:
