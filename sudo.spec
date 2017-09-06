@@ -6,7 +6,7 @@
 #
 Name     : sudo
 Version  : 1.8.211
-Release  : 48
+Release  : 49
 URL      : http://www.sudo.ws/dist/sudo-1.8.21p1.tar.gz
 Source0  : http://www.sudo.ws/dist/sudo-1.8.21p1.tar.gz
 Source99 : http://www.sudo.ws/dist/sudo-1.8.21p1.tar.gz.sig
@@ -26,6 +26,7 @@ Patch1: 0001-stateless.patch
 Patch2: 0002-Add-read-only-sudoers.d-dir.patch
 Patch3: 0003-visudo-Use-sane-default-file.patch
 Patch4: 0004-man-pages-add-stateless-locations.patch
+Patch5: 0005-The-read-and-write-sides-of-signal_pipe-were-swapped.patch
 
 %description
 The sudo philosophy
@@ -93,13 +94,14 @@ setuid components for the sudo package.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1504314029
+export SOURCE_DATE_EPOCH=1504733603
 %configure --disable-static --with-pam \
 --with-env-editor \
 --with-ignore-dot \
@@ -114,7 +116,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make check || :
 
 %install
-export SOURCE_DATE_EPOCH=1504314029
+export SOURCE_DATE_EPOCH=1504733603
 rm -rf %{buildroot}
 %make_install INSTALL_OWNER=""
 %find_lang sudo
