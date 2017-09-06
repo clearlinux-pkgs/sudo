@@ -9,6 +9,8 @@ Subject: [PATCH] The read and write sides of signal_pipe[] were swapped,
 Backport of revision 7668f93e6544 (post 1.8.21p1) from the upstream
 Mercurial repository.
 
+Bug report: https://bugzilla.sudo.ws/show_bug.cgi?id=800
+
 Signed-off-by: Patrick McCarty <patrick.mccarty@intel.com>
 
 ---
