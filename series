@@ -2,4 +2,3 @@
 0002-Add-read-only-sudoers.d-dir.patch
 0003-visudo-Use-sane-default-file.patch
 0004-man-pages-add-stateless-locations.patch
-0005-The-read-and-write-sides-of-signal_pipe-were-swapped.patch

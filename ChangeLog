@@ -1,3 +1,34 @@
+2017-09-06  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* NEWS, configure, configure.ac:
+	sudo 1.8.21p2
+	[94d18888e7c4]
+
+	* src/exec.c:
+	sudo_terminated() should not return true when SIGCHLD is pending.
+	Bug #801
+	[57f636b6489f]
+
+	* src/tgetpass.c:
+	Set SIGCHLD handler to SIG_DFL before forking the askpass command
+	and restore after. Otherwise, SIGCHLD will end up in the list of
+	pending signals and sudo_execute() will not execute the command.
+	[c171eeabdc72]
+
+	* lib/util/event.c:
+	The read and write sides of signal_pipe[] were swapped, resulting in
+	EBADF reading from and writing to the signal pipe on Linux and
+	probably others. On systems with bidirectional pipes this was not an
+	issue.
+	[7668f93e6544]
+
+2017-09-05  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/auth/pam.c:
+	Fix a logic error in 96651906de42 which prevented sudo from using
+	the PAM-supplied prompt. Bug #799
+	[6ee5cc13af69]
+
 2017-09-01  Todd C. Miller  <Todd.Miller@courtesan.com>
 
 	* NEWS, configure, configure.ac:
