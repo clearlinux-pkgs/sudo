@@ -6,7 +6,7 @@
 #
 Name     : sudo
 Version  : 1.8.212
-Release  : 50
+Release  : 51
 URL      : https://www.sudo.ws/dist/sudo-1.8.21p2.tar.gz
 Source0  : https://www.sudo.ws/dist/sudo-1.8.21p2.tar.gz
 Source99 : https://www.sudo.ws/dist/sudo-1.8.21p2.tar.gz.sig
