@@ -23,6 +23,7 @@ Configure miss: struct psinfo.pr_ttydev
 Configure miss: rsize_t
 Configure miss: errno_t
 Configure miss: struct utmpx.ut_exit.__e_termination
+Configure miss: devname
 Configure miss: struct kinfo_proc.ki_tdev
 Configure miss: struct kinfo_proc2.p_tdev
 Configure miss: struct kinfo_proc.p_tdev
@@ -43,7 +44,6 @@ Configure miss: sha2.h
 Configure miss: exect
 Configure miss: execvP
 Configure miss: struct dirent.d_namlen
-Configure miss: getprogname
 Configure miss: sig2str
 Configure miss: whether sys_signame is declared
 Configure miss: whether _sys_signame is declared

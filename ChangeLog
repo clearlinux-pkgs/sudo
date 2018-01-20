@@ -1,3 +1,691 @@
+2018-01-15  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/tsdump.c:
+	treat uid as unsigned in error message
+	[2672d4ca3479]
+
+	* MANIFEST, plugins/sudoers/po/fur.mo:
+	Add missing plugins/sudoers/po/fur.mo file to repo.
+	[cfa503d7fcd4]
+
+	* NEWS:
+	Mention new sudoers_timestamp manual.
+	[f96ad00c4ba4]
+
+2018-01-12  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* .hgignore:
+	ignore tsdump
+	[39306d37c846]
+
+	* plugins/sudoers/tsdump.c:
+	Convert from mono time to real time before displaying time stamps.
+	[12f9e1f5e8e5]
+
+2018-01-11  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/solaris_audit.c:
+	Use PATH_MAX, not MAXPATHLEN.
+	[d3c7466aad1d]
+
+	* MANIFEST, config.h.in, configure, configure.ac, include/sudo_util.h,
+	lib/util/Makefile.in, lib/util/ttyname_dev.c, lib/util/util.exp.in,
+	plugins/sudoers/Makefile.in, plugins/sudoers/check.h,
+	plugins/sudoers/tsdump.c, src/ttyname.c:
+	Add tsdump, a simple utility to dump a timestamp file. To build, run
+	"make tsdump" in the plugins/sudoers directory (it is not built by
+	default). In order to map the tty device number to a name,
+	sudo_ttyname_dev() has been moved into libsudo_util.
+	[b79ae30fe6a4]
+
+2018-01-04  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/po/uk.mo, plugins/sudoers/po/uk.po, po/uk.mo,
+	po/uk.po:
+	sync with translationproject.org
+	[71140a551c60]
+
+	* doc/LICENSE:
+	Welcome to 2018
+	[3ddea360d414]
+
+2017-12-28  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/po/de.mo, plugins/sudoers/po/de.po,
+	plugins/sudoers/po/fur.po, plugins/sudoers/po/nb.mo,
+	plugins/sudoers/po/nb.po, plugins/sudoers/po/zh_CN.mo,
+	plugins/sudoers/po/zh_CN.po:
+	sync with translationproject.org
+	[fbd54c7f59f1]
+
+2017-12-22  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/logging.c:
+	Silence a clang analyzer false positive.
+	[bfcdfe2c1376]
+
+	* doc/Makefile.in:
+	Remove extra $(srcdir)/sudoreplay.man.in target added by mistake.
+	[7e83806cc17e]
+
+	* plugins/sudoers/po/cs.mo, plugins/sudoers/po/cs.po,
+	plugins/sudoers/po/da.mo, plugins/sudoers/po/da.po,
+	plugins/sudoers/po/de.mo, plugins/sudoers/po/de.po,
+	plugins/sudoers/po/eo.mo, plugins/sudoers/po/eo.po,
+	plugins/sudoers/po/hr.mo, plugins/sudoers/po/hr.po,
+	plugins/sudoers/po/it.mo, plugins/sudoers/po/it.po,
+	plugins/sudoers/po/ja.mo, plugins/sudoers/po/ja.po,
+	plugins/sudoers/po/nb.mo, plugins/sudoers/po/nb.po,
+	plugins/sudoers/po/nl.mo, plugins/sudoers/po/nl.po,
+	plugins/sudoers/po/pl.mo, plugins/sudoers/po/pl.po,
+	plugins/sudoers/po/pt_BR.mo, plugins/sudoers/po/pt_BR.po,
+	plugins/sudoers/po/sv.mo, plugins/sudoers/po/sv.po,
+	plugins/sudoers/po/vi.mo, plugins/sudoers/po/vi.po, po/ja.mo,
+	po/ja.po:
+	sync with translationproject.org
+	[27cf5abeeb1a]
+
+	* plugins/sudoers/timestamp.c:
+	Use a tty lock even for kernel time stamps so we can avoid
+	simultaneous password prompts.
+	[90a55098176b]
+
+	* NEWS:
+	visudo changes
+	[06c99aab6f7a]
+
+	* doc/sudoers.cat, doc/sudoers.man.in, doc/sudoers.mdoc.in,
+	doc/visudo.cat, doc/visudo.man.in, doc/visudo.mdoc.in,
+	plugins/sudoers/editor.c, plugins/sudoers/sudoers.c,
+	plugins/sudoers/sudoers.h, plugins/sudoers/visudo.c:
+	Also honor SUDO_EDITOR in visudo. Previously is was only used by
+	sudoedit.
+	[9bccc7171a53]
+
+2017-12-21  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/sudoers.c:
+	Stop looking for an editor as soon as we find one. A similar fix was
+	made to visudo some time ago.
+	[c6c5d968612a]
+
+	* doc/sudoers_timestamp.cat, doc/sudoers_timestamp.man.in,
+	doc/sudoers_timestamp.mdoc.in:
+	The session ID was added in 1.8.6p7 to prevent a user in another
+	session from re-using the time stamp file. Other minor cleanups.
+	[f733f7ea97a7]
+
+	* plugins/sudoers/check.h:
+	"time stamp" not "timestamp"
+	[af0f2d8b6d52]
+
+2017-12-20  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* NEWS, doc/sudoers.cat, doc/sudoers.man.in, doc/sudoers.mdoc.in,
+	plugins/sudoers/def_data.c, plugins/sudoers/def_data.h,
+	plugins/sudoers/def_data.in, plugins/sudoers/timestamp.c:
+	Add "kernel" as a possible value of timestamp_type. Currently only
+	supported on OpenBSD.
+	[ca1a2a03e37d]
+
+	* MANIFEST, doc/Makefile.in, doc/sudoers.cat, doc/sudoers.man.in,
+	doc/sudoers.mdoc.in, doc/sudoers_timestamp.cat,
+	doc/sudoers_timestamp.man.in, doc/sudoers_timestamp.mdoc.in,
+	plugins/sudoers/check.h:
+	Document the sudoers time stamp file format.
+	[d3470da8fde9]
+
+2017-12-19  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/regress/starttime/check_starttime.c:
+	Verify start time of the current process, allowing for some clock
+	drift. For Linux, process start time is relative to boot time, not
+	wallclock time.
+	[4928645eaa1c]
+
+2017-12-18  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* NEWS:
+	sync
+	[aeffb7f82e10]
+
+	* plugins/sudoers/po/sudoers.pot:
+	regen
+	[8be51858eec1]
+
+	* MANIFEST, plugins/sudoers/Makefile.in,
+	plugins/sudoers/regress/starttime/check_starttime.c:
+	Trivial test for process start time. We don't try to check the
+	resulting timespec as it differs by platform. On most it is
+	wallclock time, on others it is relative to boot time (Linux).
+	[e74cf3bd4c87]
+
+	* lib/util/Makefile.in:
+	regen
+	[6de26735d666]
+
+2017-12-17  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/starttime.c:
+	Support start time on macOS and 4.4BSD
+	[81f2eebc7edb]
+
+2017-12-16  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/regress/env_match/check_env_pattern.c:
+	Include sys/types.h for mode_t used in sudoers.h.
+	[bdff1606f111]
+
+	* plugins/sudoers/starttime.c:
+	Fix compilation error on FreeBSD
+	[2c4962a7812c]
+
+	* plugins/sudoers/starttime.c:
+	Fix debug_decl(), it should be SUDOERS_DEBUG_UTIL Add debugging for
+	the successful case For Linux, don't NUL out *ep before parsing with
+	strtoull().
+	* * * Add missing debug info for the System V /proc version.
+	[2394c6d9375d]
+
+	* MANIFEST, doc/sudoers.cat, doc/sudoers.man.in, doc/sudoers.mdoc.in,
+	plugins/sudoers/Makefile.in, plugins/sudoers/check.h,
+	plugins/sudoers/starttime.c, plugins/sudoers/timestamp.c:
+	In the timestamp record, include the start time of the terminal
+	session leader for tty-based timestamps or the start time of the
+	parent process for ppid-based timestamps. Idea from Duncan
+	Overbruck.
+	[f0964b4cf4ac]
+
+2017-12-15  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/timestamp.c:
+	If the lock record doesn't match the expected record size we need to
+	seek to the end of the record as we otherwise may have gone too far
+	(or not far enough). Fixes interop problems when the time stamp
+	record changes size.
+	[e8e4c3815db5]
+
+2017-12-12  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* src/exec_pty.c:
+	No need for a loop around the recv() now that we don't have to worry
+	about EINTR. CID 180697
+	[7cb966d69bc6]
+
+	* doc/sudo.cat, doc/sudo.man.in, doc/sudo.mdoc.in:
+	Try to be clearer about sudo's exit value when the -l option is
+	used.
+	[efbddaa576a7]
+
+	* NEWS:
+	sync
+	[99fc4b347250]
+
+	* doc/sudoers.ldap.cat, doc/sudoers.ldap.man.in,
+	doc/sudoers.ldap.mdoc.in, plugins/sudoers/ldap.c,
+	plugins/sudoers/sssd.c:
+	An empty RunAsUser means run as the invoking user, similar to how
+	the sudoers files works.
+	[576172386594]
+
+	* doc/sudoers.cat, doc/sudoers.man.in:
+	regen
+	[9b6d0064f410]
+
+2017-12-11  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* doc/sudoers.cat, doc/sudoers.man.in, doc/sudoers.mdoc.in,
+	plugins/sudoers/def_data.c, plugins/sudoers/def_data.h,
+	plugins/sudoers/def_data.in, plugins/sudoers/logging.c:
+	Add authfail_message sudoers option to allow the user to override
+	the default message of %d incorrect password attempt(s).
+	[f11e9d64a6da]
+
+	* plugins/sudoers/policy.c, src/parse_args.c:
+	Allow the plugin to determine whether or not an empty timeout is
+	allowed. For sudoers, an error will be returned for an empty
+	timeout.
+	[26511c049fb1]
+
+	* plugins/sudoers/timeout.c:
+	Return an error for an empty timeout string. Just use strtol() for
+	syntax checking instead of scanning with strspn().
+	[1fa1b712fbcc]
+
+	* src/parse_args.c, src/sudo_edit.c:
+	Change some _() into U_() since they are used for warn/fatal. We
+	always want to issue warnings in the user's locale.
+	[684331aee66e]
+
+	* Makefile.in:
+	update my email address
+	[b4ec26be6203]
+
+2017-12-10  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* log2cl.pl:
+	Don't print mercurial branch info for merges.
+	[489881774e52]
+
+	* log2cl.pl:
+	Use log size instead of using a separator between the log entry and
+	the file names.
+	[620c231f789b]
+
+	* src/parse_args.c:
+	Print usage and return an error when an empty argument is given for
+	all command line arguments other than -p and -E. Bug #817
+	[143be1bc8316]
+
+	* plugins/sudoers/policy.c:
+	Better input validation of settings passed by the sudo front-end.
+	Instead of ignoring an empty setting, throw an error.
+	[93cc4f4761f3]
+
+	* log2cl.pl:
+	Treat a blank line in a commit message as a line break. There
+	doesn't appear to be a way to make perl's format use a blank field
+	but at least the line break happens now.
+	[fbc3ff819341]
+
+2017-12-09  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* MANIFEST, Makefile.in, log2cl.pl:
+	Add script to generate ChangeLog from git log output.
+	[e8bfbd1ae6ef]
+
+2017-12-08  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/defaults.c, plugins/sudoers/logging.c,
+	plugins/sudoers/logging.h:
+	Don't include syslog.h from logging.h, just include it in the two .c
+	files it is actually needed.
+	[9ffc5ca9eb49]
+
+2017-12-06  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* doc/visudo.cat, doc/visudo.man.in, doc/visudo.mdoc.in:
+	Document that in check mode, visudo does not check the owner/mode on
+	files specified with the -f flag.
+	[f5d86019e4c7]
+
+2017-12-03  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* Makefile.in, configure.ac, doc/HISTORY, doc/LICENSE,
+	doc/Makefile.in, doc/fixman.sh, doc/fixmdoc.sh,
+	doc/sudo.conf.man.in, doc/sudo.conf.mdoc.in, doc/sudo.man.in,
+	doc/sudo.mdoc.in, doc/sudo_plugin.man.in, doc/sudo_plugin.mdoc.in,
+	doc/sudoers.ldap.man.in, doc/sudoers.ldap.mdoc.in,
+	doc/sudoers.man.in, doc/sudoers.mdoc.in, doc/sudoreplay.man.in,
+	doc/sudoreplay.mdoc.in, doc/visudo.man.in, doc/visudo.mdoc.in,
+	examples/Makefile.in, include/Makefile.in,
+	include/compat/charclass.h, include/compat/endian.h,
+	include/compat/fnmatch.h, include/compat/nss_dbdefs.h,
+	include/compat/sha2.h, include/sudo_compat.h, include/sudo_conf.h,
+	include/sudo_debug.h, include/sudo_dso.h, include/sudo_event.h,
+	include/sudo_fatal.h, include/sudo_gettext.h, include/sudo_lbuf.h,
+	include/sudo_plugin.h, include/sudo_util.h, lib/util/Makefile.in,
+	lib/util/aix.c, lib/util/closefrom.c, lib/util/event.c,
+	lib/util/event_poll.c, lib/util/event_select.c, lib/util/fatal.c,
+	lib/util/getgrouplist.c, lib/util/gethostname.c, lib/util/getline.c,
+	lib/util/getopt_long.c, lib/util/gettime.c, lib/util/gidlist.c,
+	lib/util/glob.c, lib/util/isblank.c, lib/util/key_val.c,
+	lib/util/lbuf.c, lib/util/locking.c, lib/util/memrchr.c,
+	lib/util/memset_s.c, lib/util/mksiglist.c, lib/util/mksigname.c,
+	lib/util/mktemp.c, lib/util/nanosleep.c, lib/util/parseln.c,
+	lib/util/pipe2.c, lib/util/progname.c, lib/util/pw_dup.c,
+	lib/util/regress/atofoo/atofoo_test.c,
+	lib/util/regress/fnmatch/fnm_test.c,
+	lib/util/regress/glob/globtest.c,
+	lib/util/regress/parse_gids/parse_gids_test.c,
+	lib/util/regress/progname/progname_test.c,
+	lib/util/regress/strsplit/strsplit_test.c,
+	lib/util/regress/sudo_conf/conf_test.c,
+	lib/util/regress/sudo_parseln/parseln_test.c,
+	lib/util/regress/tailq/hltq_test.c,
+	lib/util/regress/vsyslog/vsyslog_test.c, lib/util/secure_path.c,
+	lib/util/setgroups.c, lib/util/sha2.c, lib/util/sig2str.c,
+	lib/util/snprintf.c, lib/util/strlcat.c, lib/util/strlcpy.c,
+	lib/util/strndup.c, lib/util/strnlen.c, lib/util/strsignal.c,
+	lib/util/strsplit.c, lib/util/strtobool.c, lib/util/strtoid.c,
+	lib/util/strtomode.c, lib/util/strtonum.c, lib/util/sudo_conf.c,
+	lib/util/sudo_debug.c, lib/util/sudo_dso.c, lib/util/term.c,
+	lib/util/ttysize.c, lib/util/utimens.c, lib/util/vsyslog.c,
+	lib/zlib/Makefile.in, m4/sudo.m4, mkdep.pl, mkpkg, pathnames.h.in,
+	plugins/group_file/Makefile.in, plugins/group_file/getgrent.c,
+	plugins/group_file/group_file.c, plugins/group_file/plugin_test.c,
+	plugins/sample/Makefile.in, plugins/sample/sample_plugin.c,
+	plugins/sudoers/Makefile.in, plugins/sudoers/alias.c,
+	plugins/sudoers/audit.c, plugins/sudoers/auth/afs.c,
+	plugins/sudoers/auth/aix_auth.c, plugins/sudoers/auth/bsdauth.c,
+	plugins/sudoers/auth/dce.c, plugins/sudoers/auth/fwtk.c,
+	plugins/sudoers/auth/kerb5.c, plugins/sudoers/auth/pam.c,
+	plugins/sudoers/auth/passwd.c, plugins/sudoers/auth/rfc1938.c,
+	plugins/sudoers/auth/secureware.c, plugins/sudoers/auth/securid5.c,
+	plugins/sudoers/auth/sia.c, plugins/sudoers/auth/sudo_auth.c,
+	plugins/sudoers/auth/sudo_auth.h, plugins/sudoers/base64.c,
+	plugins/sudoers/boottime.c, plugins/sudoers/bsm_audit.c,
+	plugins/sudoers/bsm_audit.h, plugins/sudoers/check.c,
+	plugins/sudoers/check.h, plugins/sudoers/defaults.c,
+	plugins/sudoers/defaults.h, plugins/sudoers/digestname.c,
+	plugins/sudoers/editor.c, plugins/sudoers/env.c,
+	plugins/sudoers/env_pattern.c, plugins/sudoers/filedigest.c,
+	plugins/sudoers/filedigest_gcrypt.c,
+	plugins/sudoers/filedigest_openssl.c, plugins/sudoers/find_path.c,
+	plugins/sudoers/gc.c, plugins/sudoers/gentime.c,
+	plugins/sudoers/getspwuid.c, plugins/sudoers/gmtoff.c,
+	plugins/sudoers/goodpath.c, plugins/sudoers/gram.c,
+	plugins/sudoers/gram.y, plugins/sudoers/group_plugin.c,
+	plugins/sudoers/hexchar.c, plugins/sudoers/ins_2001.h,
+	plugins/sudoers/ins_classic.h, plugins/sudoers/ins_csops.h,
+	plugins/sudoers/ins_goons.h, plugins/sudoers/insults.h,
+	plugins/sudoers/interfaces.c, plugins/sudoers/interfaces.h,
+	plugins/sudoers/iolog.c, plugins/sudoers/iolog.h,
+	plugins/sudoers/iolog_path.c, plugins/sudoers/ldap.c,
+	plugins/sudoers/linux_audit.c, plugins/sudoers/linux_audit.h,
+	plugins/sudoers/locale.c, plugins/sudoers/logging.c,
+	plugins/sudoers/logging.h, plugins/sudoers/logwrap.c,
+	plugins/sudoers/match.c, plugins/sudoers/match_addr.c,
+	plugins/sudoers/mkdir_parents.c, plugins/sudoers/parse.c,
+	plugins/sudoers/parse.h, plugins/sudoers/po/sudoers.pot,
+	plugins/sudoers/policy.c, plugins/sudoers/prompt.c,
+	plugins/sudoers/pwutil.c, plugins/sudoers/pwutil.h,
+	plugins/sudoers/pwutil_impl.c, plugins/sudoers/rcstr.c,
+	plugins/sudoers/redblack.c, plugins/sudoers/redblack.h,
+	plugins/sudoers/regress/check_symbols/check_symbols.c,
+	plugins/sudoers/regress/env_match/check_env_pattern.c,
+	plugins/sudoers/regress/iolog_path/check_iolog_path.c,
+	plugins/sudoers/regress/logging/check_wrap.c,
+	plugins/sudoers/regress/parser/check_addr.c,
+	plugins/sudoers/regress/parser/check_base64.c,
+	plugins/sudoers/regress/parser/check_digest.c,
+	plugins/sudoers/regress/parser/check_fill.c,
+	plugins/sudoers/regress/parser/check_gentime.c,
+	plugins/sudoers/regress/parser/check_hexchar.c,
+	plugins/sudoers/set_perms.c, plugins/sudoers/sssd.c,
+	plugins/sudoers/sudo_nss.c, plugins/sudoers/sudo_nss.h,
+	plugins/sudoers/sudo_printf.c, plugins/sudoers/sudoers.c,
+	plugins/sudoers/sudoers.h, plugins/sudoers/sudoers2ldif,
+	plugins/sudoers/sudoers_debug.c, plugins/sudoers/sudoers_debug.h,
+	plugins/sudoers/sudoers_version.h, plugins/sudoers/sudoreplay.c,
+	plugins/sudoers/testsudoers.c, plugins/sudoers/timeout.c,
+	plugins/sudoers/timestamp.c, plugins/sudoers/timestr.c,
+	plugins/sudoers/toke.c, plugins/sudoers/toke.h,
+	plugins/sudoers/toke.l, plugins/sudoers/toke_util.c,
+	plugins/sudoers/tsgetgrpw.c, plugins/sudoers/tsgetgrpw.h,
+	plugins/sudoers/visudo.c, plugins/sudoers/visudo_json.c,
+	plugins/system_group/Makefile.in,
+	plugins/system_group/system_group.c, po/sudo.pot, src/Makefile.in,
+	src/conversation.c, src/env_hooks.c, src/exec.c, src/exec_common.c,
+	src/exec_monitor.c, src/exec_nopty.c, src/exec_pty.c, src/get_pty.c,
+	src/hooks.c, src/load_plugins.c, src/net_ifs.c, src/openbsd.c,
+	src/parse_args.c, src/preload.c, src/preserve_fds.c,
+	src/regress/noexec/check_noexec.c,
+	src/regress/ttyname/check_ttyname.c, src/selinux.c, src/sesh.c,
+	src/signal.c, src/solaris.c, src/sudo.c, src/sudo.h,
+	src/sudo_edit.c, src/sudo_exec.h, src/sudo_noexec.c,
+	src/sudo_plugin_int.h, src/sudo_usage.h.in, src/tcsetpgrp_nobg.c,
+	src/tgetpass.c, src/ttyname.c, src/utmp.c, sudo.pp:
+	update my email to Todd.Miller@sudo.ws
+	[96110003e904]
+
+2017-12-02  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/sudoreplay.c:
+	Add missing carriage return before prompt when replay is done.
+	[cf4b8bfcb3dd]
+
+	* src/exec_pty.c:
+	Track window size changes that happen while sudo is suspended
+	[cae06f75bde9]
+
+2017-12-01  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/po/sudoers.pot, po/sudo.pot:
+	regen
+	[26ae754b8416]
+
+	* doc/sudo.cat, doc/sudo.conf.cat, doc/sudo_plugin.cat,
+	doc/sudoers.cat, doc/sudoers.ldap.cat, doc/sudoreplay.cat,
+	doc/visudo.cat:
+	regen for sudo 1.8.22
+	[596d82da0158]
+
+	* NEWS, configure, configure.ac:
+	Sudo 1.8.22
+	[6b32c2f5d020]
+
+	* doc/sudo.cat, doc/sudo.man.in, doc/sudo.mdoc.in:
+	Background processes started by the command will no longer receive
+	SIGHUP.
+	[47bcc3ae4362]
+
+	* src/exec_monitor.c:
+	When the command completes, make the monitor the foreground process
+	group before informing the main sudo process of the command's exit
+	status. This will prevent processes started by the command (which
+	runs in a different process group) from receiving SIGHUP since the
+	kernel sends SIGHUP to the foreground process group associated with
+	the terminal session. The monitor has a SIGHUP handler installed so
+	the signal is effectively ignored.
+	[9e163efe4afb]
+
+	* src/sudo.c:
+	Add debug printfs around group list retrieval.
+	[5f307b00153b]
+
+2017-11-30  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* src/exec_pty.c:
+	Move call to sudo_ev_loopcontinue() into schedule_signal() itself.
+	We always want to prioritize signal forwarding.
+	[4b25dc24038b]
+
+	* src/exec_monitor.c, src/exec_nopty.c, src/exec_pty.c:
+	Don't loop over read/write, recv/send or tcgetpgrp/tcsetpgrp trying
+	to handle EINTR. We now use SA_RESTART with signals so this is not
+	needed and is potentially dangerous if it is possible to receive
+	SIGTTIN or SIGTTOU (which it currently is not).
+	[ba6885b57891]
+
+2017-11-21  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* doc/sudo.cat, doc/sudo.man.in, doc/sudo.mdoc.in:
+	Better describe things when a command is run in a pty.
+	[0f34fc342ab5]
+
+2017-11-29  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* src/exec_monitor.c, src/signal.c:
+	Sprinkle some extra debugging printfs
+	[bf33574bc603]
+
+	* src/exec_pty.c:
+	Handle receipt of SIGTTIN/SIGTTOU when reading/writing from/to the
+	tty. We can't use a signal event for these since that would restart
+	the system call after the signal was handled and the callback would
+	not get a chance to run. Fixes running a command in the background
+	that write to the tty when the TOSTOP terminal flag is set.
+	[5ac68f05249a]
+
+	* src/exec_pty.c:
+	We don't need to be the foreground process to be able to write to
+	the terminal in most cases. If the background process tries to
+	modify the terminal flags it will receive SIGTTOU which is relayed
+	to the sudo front-end. This currently mishandles terminals with the
+	TOSTOP local flag set.
+	[3fc25570d482]
+
+2017-11-28  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/sssd.c:
+	Avoid a double free when ipa_hostname is set in sssd.conf and it is
+	an unqualified host name. From Daniel Kopecek.
+
+	Also move the "unable to allocate memory" warning into
+	get_ipa_hostname() itself to make it easier to see where the
+	allocation failed in the debug log.
+	[14dacdea3319]
+
+	* plugins/sudoers/ldap.c, plugins/sudoers/policy.c,
+	plugins/sudoers/pwutil.c, plugins/sudoers/pwutil.h,
+	plugins/sudoers/pwutil_impl.c, plugins/sudoers/set_perms.c,
+	plugins/sudoers/sudoers.c, plugins/sudoers/sudoers.h:
+	When running a command as the invoking user we cannot use the gid
+	list from the front-end since it may not correspond to the user's
+	aux group vector as defined by the group database.
+	[b456101fe509]
+
+	* lib/util/regress/fnmatch/fnm_test.c,
+	lib/util/regress/glob/globtest.c,
+	plugins/sudoers/regress/env_match/check_env_pattern.c,
+	plugins/sudoers/regress/parser/check_base64.c,
+	plugins/sudoers/regress/parser/check_digest.c,
+	plugins/sudoers/regress/parser/check_gentime.c,
+	plugins/sudoers/regress/parser/check_hexchar.c:
+	Add missing initprogname() calls.
+	[ad4f8d236d89]
+
+2017-11-16  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/ldap.c:
+	Plug some memory leaks on error, some found by the clang static
+	analyzer.
+	[62844cc145b6]
+
+2017-11-15  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/parse.c:
+	Avoid calling cmnd_matches() in list/verify mode if we already have
+	a match.
+	[5bddfc911065]
+
+	* plugins/sudoers/ldap.c, plugins/sudoers/parse.c,
+	plugins/sudoers/sssd.c:
+	In list (-l) or verify (-v) mode, if we have a match but
+	authentication is required, clear FLAG_NOPASSWD so that when
+	listpw/verifypw is set to "all" and there are multiple sudoers
+	sources a password will be required unless none of the entries in
+	all sources require authentication. From Radovan Sroka of RedHat
+	[edac7222600a]
+
+	* plugins/sudoers/ldap.c, plugins/sudoers/sssd.c:
+	When checking the results for "sudo -l" and "sudo -v", keep checking
+	even after we get a match since the value of doauth may depend on
+	evaluating all the results. From Radovan Sroka of RedHat.
+	[ae0704445bd4]
+
+2017-11-14  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/sudoers.c:
+	If passwd_tries is less than 1, check_user() will always return
+	false (since the user didn't authenticate). The normal reason for
+	this is an authentication error but in this case no authentication
+	was tries so no warning message has been displayed to the user. If
+	the user wasn't given a chance to authenticate, set inform_user to
+	true when calling log_denial() from sudoers_policy_main().
+
+	An alternate approach would be for check_user() to return true in
+	this case but seems more confusing.
+	[c8be95b46e9d]
+
+2017-10-22  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* doc/TROUBLESHOOTING:
+	Document bash shell alias issue with "sudo -i".
+	[8affa5376277]
+
+2017-10-20  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/policy.c:
+	Return an error if the sudo front end doesn't set the user name,
+	user ID, group ID or host name. Bug #807
+	[03e281d93fff]
+
+	* lib/util/gethostname.c:
+	Treat an empty hostname as a failure and return NULL.
+	[fafb3a3083cb]
+
+2017-10-17  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/sudoers2ldif:
+	Add support for #include and #includedir from Natale Vinto.
+	[926deea0d506]
+
+2017-10-14  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* doc/CONTRIBUTORS:
+	Minor corrections from Tae Wong
+	[dbc5ee98ffa6]
+
+2017-10-12  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* doc/sudo.cat, doc/sudo.man.in, doc/sudo.mdoc.in:
+	Add a warning that for "sudo -i command" and "sudo -s command" the
+	shell is not run in interactive mode which may change its behavior.
+	[76c19db05a1e]
+
+2017-09-26  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* include/sudo_compat.h, src/exec_pty.c:
+	Fix stair-stepped output when the output of a sudo command is piped
+	to another command and use_pty is set.
+	[e91e3f12d2d4]
+
+	* doc/sudoers.cat, doc/sudoers.man.in, doc/sudoers.mdoc.in:
+	env_keep and env_check are also taken into account with "sudo -i".
+	Bug #806
+	[5f5568c6fdd9]
+
+2017-09-18  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* INSTALL, config.h.in, configure, configure.ac,
+	plugins/sudoers/ins_classic.h:
+	Make PC insults the default and add new configure option, enable-
+	offensive-insults, to enable the offensive insults.
+	[eb264d342601]
+
+2017-09-14  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* doc/CONTRIBUTORS:
+	Add missing translators from recent updates and one name change.
+	[20828c25ad92]
+
+2017-09-07  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* MANIFEST, plugins/sudoers/po/fur.po, plugins/sudoers/po/hr.mo,
+	plugins/sudoers/po/hr.po, plugins/sudoers/po/sv.mo,
+	plugins/sudoers/po/sv.po, po/hr.mo, po/hr.po, po/sv.mo, po/sv.po:
+	sync with translationproject.org
+	* * * sync with translationproject.org
+	[24bb066fa19f]
+
+	* doc/sudoers.cat, doc/sudoers.man.in, doc/sudoers.mdoc.in:
+	More accurately describe the use_pty option now that its behavior
+	has changed with respect to interposition with a pipe. Also describe
+	some caveats with log_input.
+	[a87056499931]
+
+	* doc/UPGRADE:
+	Document changes in use_pty behavior when no terminal is present.
+	[a4b978693178]
+
+	* src/exec_pty.c:
+	Set ec->cmnd_pid to the correct value when receiving the command's
+	process ID from the monitor.
+	[a624309ba848]
+
+	* src/exec.c, src/exec_nopty.c, src/exec_pty.c, src/sudo_exec.h:
+	If /dev/tty is not available and no I/O logging plugins are
+	configured, fall back on exec_nopty() even if the policy plugin
+	requested a pty. We never allocate a pty when sudo is not run from a
+	terminal anyway.
+	[c9b9c6c4e0ad]
+
+	* src/exec_pty.c:
+	Do not set utmp_user if we did not actually allocate a pty.
+	[aa8e0fdea32b]
+
 2017-09-06  Todd C. Miller  <Todd.Miller@courtesan.com>
 
 	* NEWS, configure, configure.ac:
