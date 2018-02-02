@@ -6,7 +6,7 @@
 #
 Name     : sudo
 Version  : 1.8.22
-Release  : 52
+Release  : 53
 URL      : https://www.sudo.ws/dist/sudo-1.8.22.tar.gz
 Source0  : https://www.sudo.ws/dist/sudo-1.8.22.tar.gz
 Source99 : https://www.sudo.ws/dist/sudo-1.8.22.tar.gz.sig
