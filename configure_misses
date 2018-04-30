@@ -24,10 +24,10 @@ Configure miss: rsize_t
 Configure miss: errno_t
 Configure miss: struct utmpx.ut_exit.__e_termination
 Configure miss: devname
-Configure miss: struct kinfo_proc.ki_tdev
-Configure miss: struct kinfo_proc2.p_tdev
-Configure miss: struct kinfo_proc.p_tdev
-Configure miss: struct kinfo_proc.kp_eproc.e_tdev
+Configure miss: struct kinfo_proc.ki_structsize
+Configure miss: struct kinfo_proc2.p_paddr
+Configure miss: struct kinfo_proc.p_paddr
+Configure miss: struct kinfo_proc.kp_proc
 Configure miss: openpty
 Configure miss: whether unsetenv returns void
 Configure miss: whether putenv takes a const argument
@@ -41,6 +41,8 @@ Configure miss: struct stat.st_mtim.st__tim
 Configure miss: sha2.h usability
 Configure miss: sha2.h presence
 Configure miss: sha2.h
+Configure miss: setpassent
+Configure miss: setgroupent
 Configure miss: exect
 Configure miss: execvP
 Configure miss: struct dirent.d_namlen

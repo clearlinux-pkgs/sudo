@@ -1,3 +1,1392 @@
+2018-04-29  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* configure, configure.ac:
+	fix version
+	[bfed601130b5]
+
+	* NEWS:
+	sync
+	[1c382f2aff27]
+
+	* configure, configure.ac, plugins/sudoers/po/zh_CN.mo,
+	plugins/sudoers/po/zh_CN.po, po/zh_CN.mo, po/zh_CN.po:
+	sync with translationproject.org
+	[ec28ff5acbd6]
+
+2018-04-25  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/match.c:
+	O_EXEC for fexecve() not O_SEARCH.
+	[a156d8b38f31]
+
+	* doc/TROUBLESHOOTING:
+	Document how to suppress the last login message on Solaris.
+	[2926b670aca4]
+
+2018-04-24  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/cvtsudoers_json.c:
+	Fix compilation error with older Sun Studio compilers.
+	[0f735611642d]
+
+	* NEWS:
+	Update Bug #831 decription.
+	[d5e6a2a807b8]
+
+	* MANIFEST, doc/CONTRIBUTORS, po/zh_TW.mo, po/zh_TW.po:
+	Add Chinese(Taiwan) translation for sudo.
+	[5a4ba6769cca]
+
+	* plugins/sudoers/match.c:
+	Move the check for /dev/fd/N until *after* the digest has been
+	checked. We still need to be able to check the digest even if there
+	is no /dev/fd/N or fexecve().
+	[e0e086b4e764]
+
+2018-04-23  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/match.c:
+	Rewind the fd after calling sudo_filedigest(). Otherwise, when
+	running a script via fexecve(), the interpreter may get EOF when
+	reading /dev/fd/N. This only appears to affect BSD systems with
+	fdescfs. Bug #831.
+	[d79f5125cc73]
+
+	* plugins/sudoers/match.c:
+	In open_cmnd(), return true, not false, if we the /dev/fd/N pathname
+	is not present. We don't want to fail a match because of this.
+	[72c4b499c019]
+
+	* NEWS:
+	Bug #831.
+	[700646725f45]
+
+	* plugins/sudoers/match.c:
+	We can only use fexecve() on a script if /dev/fd/N exists. Some
+	systems, such as FreeBSD, don't have /dev/fd mounted by default. Bug
+	#831
+	[30f7c5d64104]
+
+2018-04-22  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/po/ca.mo, plugins/sudoers/po/ca.po,
+	plugins/sudoers/po/da.mo, plugins/sudoers/po/da.po,
+	plugins/sudoers/po/el.mo, plugins/sudoers/po/el.po,
+	plugins/sudoers/po/eo.mo, plugins/sudoers/po/eo.po,
+	plugins/sudoers/po/eu.mo, plugins/sudoers/po/eu.po,
+	plugins/sudoers/po/fi.mo, plugins/sudoers/po/fi.po,
+	plugins/sudoers/po/fr.mo, plugins/sudoers/po/fr.po,
+	plugins/sudoers/po/fur.mo, plugins/sudoers/po/fur.po,
+	plugins/sudoers/po/hu.mo, plugins/sudoers/po/hu.po,
+	plugins/sudoers/po/ko.mo, plugins/sudoers/po/ko.po,
+	plugins/sudoers/po/lt.mo, plugins/sudoers/po/lt.po,
+	plugins/sudoers/po/nl.mo, plugins/sudoers/po/nl.po,
+	plugins/sudoers/po/ru.mo, plugins/sudoers/po/ru.po,
+	plugins/sudoers/po/sk.mo, plugins/sudoers/po/sk.po,
+	plugins/sudoers/po/sl.mo, plugins/sudoers/po/sl.po,
+	plugins/sudoers/po/sr.mo, plugins/sudoers/po/sr.po,
+	plugins/sudoers/po/tr.mo, plugins/sudoers/po/tr.po,
+	plugins/sudoers/po/zh_CN.mo, plugins/sudoers/po/zh_CN.po, po/ca.mo,
+	po/ca.po, po/da.mo, po/da.po, po/de.mo, po/de.po, po/eo.mo,
+	po/eo.po, po/es.mo, po/es.po, po/eu.mo, po/eu.po, po/fi.mo,
+	po/fi.po, po/fur.mo, po/fur.po, po/gl.mo, po/gl.po, po/hu.mo,
+	po/hu.po, po/ko.mo, po/ko.po, po/nl.mo, po/nl.po, po/nn.mo,
+	po/nn.po, po/ru.mo, po/ru.po, po/sk.mo, po/sk.po, po/sl.mo,
+	po/sl.po, po/sr.mo, po/sr.po, po/vi.mo, po/vi.po, po/zh_CN.mo,
+	po/zh_CN.po:
+	sync with translationproject.org
+	[a786a841f30a]
+
+2018-04-21  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/po/ca.mo, plugins/sudoers/po/ca.po,
+	plugins/sudoers/po/da.mo, plugins/sudoers/po/da.po,
+	plugins/sudoers/po/el.mo, plugins/sudoers/po/el.po,
+	plugins/sudoers/po/eo.mo, plugins/sudoers/po/eo.po,
+	plugins/sudoers/po/eu.mo, plugins/sudoers/po/eu.po,
+	plugins/sudoers/po/fi.mo, plugins/sudoers/po/fi.po,
+	plugins/sudoers/po/fr.mo, plugins/sudoers/po/fr.po,
+	plugins/sudoers/po/fur.mo, plugins/sudoers/po/fur.po,
+	plugins/sudoers/po/hu.mo, plugins/sudoers/po/hu.po,
+	plugins/sudoers/po/ko.mo, plugins/sudoers/po/ko.po,
+	plugins/sudoers/po/lt.mo, plugins/sudoers/po/lt.po,
+	plugins/sudoers/po/nl.mo, plugins/sudoers/po/nl.po,
+	plugins/sudoers/po/ru.mo, plugins/sudoers/po/ru.po,
+	plugins/sudoers/po/sk.mo, plugins/sudoers/po/sk.po,
+	plugins/sudoers/po/sl.mo, plugins/sudoers/po/sl.po,
+	plugins/sudoers/po/sr.mo, plugins/sudoers/po/sr.po,
+	plugins/sudoers/po/tr.mo, plugins/sudoers/po/tr.po,
+	plugins/sudoers/po/zh_CN.mo, plugins/sudoers/po/zh_CN.po, po/ca.mo,
+	po/ca.po, po/da.mo, po/da.po, po/de.mo, po/de.po, po/eo.mo,
+	po/eo.po, po/es.mo, po/es.po, po/eu.mo, po/eu.po, po/fi.mo,
+	po/fi.po, po/fur.mo, po/fur.po, po/gl.mo, po/gl.po, po/hu.mo,
+	po/hu.po, po/ko.mo, po/ko.po, po/nl.mo, po/nl.po, po/nn.mo,
+	po/nn.po, po/ru.mo, po/ru.po, po/sk.mo, po/sk.po, po/sl.mo,
+	po/sl.po, po/sr.mo, po/sr.po, po/vi.mo, po/vi.po, po/zh_CN.mo,
+	po/zh_CN.po:
+	sync with translationproject.org
+	[268a65ce44cb]
+
+	* MANIFEST, plugins/sudoers/regress/cvtsudoers/test23.out.ok,
+	plugins/sudoers/regress/cvtsudoers/test23.sh,
+	plugins/sudoers/regress/cvtsudoers/test24.out.ok,
+	plugins/sudoers/regress/cvtsudoers/test24.sh:
+	Add tests for round-tripping cvtsudoers, sudoers -> LDIF -> sudoers
+	and LDIF -> sudoers -> LDIF.
+	[370d4ba4dbb8]
+
+2018-04-19  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* MANIFEST, plugins/sudoers/regress/cvtsudoers/test22.out.ok,
+	plugins/sudoers/regress/cvtsudoers/test22.sh:
+	Test the -b option when converting from LDIF.
+	[4d65c7c2ed01]
+
+	* plugins/sudoers/cvtsudoers_ldif.c:
+	Fix the -b option when converting from LDIF.
+	[f3c1e4dbd61e]
+
+2018-04-18  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/po/it.mo, plugins/sudoers/po/it.po, po/it.mo,
+	po/it.po:
+	sync with translationproject.org
+	[1953956c60fe]
+
+	* doc/cvtsudoers.cat, doc/cvtsudoers.man.in, doc/cvtsudoers.mdoc.in,
+	doc/sudo.conf.cat, doc/sudo.conf.man.in, doc/sudo.conf.mdoc.in,
+	doc/sudo_plugin.cat, doc/sudo_plugin.man.in,
+	doc/sudo_plugin.mdoc.in, doc/sudoers.ldap.cat,
+	doc/sudoers.ldap.man.in, doc/sudoers.ldap.mdoc.in,
+	doc/sudoreplay.cat, doc/sudoreplay.man.in, doc/sudoreplay.mdoc.in:
+	Fix some more typos.
+	[87fde92a1fa4]
+
+	* doc/Makefile.in:
+	mandoc now preserves the copyright notice, no need to do it
+	ourselves
+	[2c3f6841941a]
+
+	* doc/sudoers.cat, doc/sudoers.man.in, doc/sudoers.mdoc.in:
+	Describe the special handling of LOGNAME, USER and USERNAME. Fix
+	typos reported by aspell.
+	[e89bd28f4530]
+
+	* src/load_plugins.c:
+	Fix a memory leak on the error path.
+	[db5a4678e0e4]
+
+	* doc/sudoers.cat, doc/sudoers.man.in, doc/sudoers.mdoc.in:
+	Document that the editor setting is also used by sudoedit.
+	[2ae14439efd7]
+
+2018-04-17  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* src/load_plugins.c, src/sudo.c, src/sudo_plugin_int.h:
+	Plug memory leak when an I/O plugin is specified in sudo.conf but
+	the I/O plugin is not configured.
+	[5b5086d7152a]
+
+	* INSTALL, MANIFEST, NEWS, config.h.in, configure, configure.ac,
+	plugins/sudoers/Makefile.in, plugins/sudoers/ins_python.h,
+	plugins/sudoers/insults.h:
+	Monty Python insults from Philip Hudson
+	[8330cfc5ea19]
+
+2018-04-15  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* doc/cvtsudoers.cat, doc/cvtsudoers.man.in, doc/cvtsudoers.mdoc.in:
+	add examples
+	[830ff26a0dbc]
+
+	* doc/sudo.conf.man.in, doc/sudo.man.in, doc/sudo.mdoc.in,
+	doc/sudo_plugin.man.in, doc/sudo_plugin.mdoc.in,
+	doc/sudoers.ldap.man.in, doc/sudoers.man.in,
+	doc/sudoers_timestamp.man.in, doc/sudoreplay.man.in,
+	doc/visudo.man.in:
+	Update copyright year and regen man pages.
+	[6385891ebaa3]
+
+	* plugins/sudoers/po/cs.mo, plugins/sudoers/po/cs.po,
+	plugins/sudoers/po/de.mo, plugins/sudoers/po/de.po,
+	plugins/sudoers/po/hr.mo, plugins/sudoers/po/hr.po,
+	plugins/sudoers/po/ja.mo, plugins/sudoers/po/ja.po,
+	plugins/sudoers/po/nb.mo, plugins/sudoers/po/nb.po,
+	plugins/sudoers/po/pl.mo, plugins/sudoers/po/pl.po,
+	plugins/sudoers/po/pt_BR.mo, plugins/sudoers/po/pt_BR.po,
+	plugins/sudoers/po/sv.mo, plugins/sudoers/po/sv.po,
+	plugins/sudoers/po/uk.mo, plugins/sudoers/po/uk.po,
+	plugins/sudoers/po/vi.mo, plugins/sudoers/po/vi.po, po/cs.mo,
+	po/cs.po, po/fr.mo, po/fr.po, po/hr.mo, po/hr.po, po/ja.mo,
+	po/ja.po, po/nb.mo, po/nb.po, po/pl.mo, po/pl.po, po/pt_BR.mo,
+	po/pt_BR.po, po/sv.mo, po/sv.po, po/tr.mo, po/tr.po, po/uk.mo,
+	po/uk.po:
+	sync with translationproject.org
+	[3495b17becb0]
+
+	* MANIFEST, examples/sudoers, plugins/sudoers/Makefile.in,
+	plugins/sudoers/regress/cvtsudoers/sudoers,
+	plugins/sudoers/regress/cvtsudoers/sudoers.defs,
+	plugins/sudoers/regress/cvtsudoers/test1.out.ok,
+	plugins/sudoers/regress/cvtsudoers/test1.sh,
+	plugins/sudoers/regress/cvtsudoers/test10.out.ok,
+	plugins/sudoers/regress/cvtsudoers/test10.sh,
+	plugins/sudoers/regress/cvtsudoers/test11.out.ok,
+	plugins/sudoers/regress/cvtsudoers/test11.sh,
+	plugins/sudoers/regress/cvtsudoers/test12.out.ok,
+	plugins/sudoers/regress/cvtsudoers/test12.sh,
+	plugins/sudoers/regress/cvtsudoers/test13.out.ok,
+	plugins/sudoers/regress/cvtsudoers/test13.sh,
+	plugins/sudoers/regress/cvtsudoers/test14.out.ok,
+	plugins/sudoers/regress/cvtsudoers/test14.sh,
+	plugins/sudoers/regress/cvtsudoers/test15.out.ok,
+	plugins/sudoers/regress/cvtsudoers/test15.sh,
+	plugins/sudoers/regress/cvtsudoers/test16.out.ok,
+	plugins/sudoers/regress/cvtsudoers/test16.sh,
+	plugins/sudoers/regress/cvtsudoers/test17.out.ok,
+	plugins/sudoers/regress/cvtsudoers/test17.sh,
+	plugins/sudoers/regress/cvtsudoers/test18.out.ok,
+	plugins/sudoers/regress/cvtsudoers/test18.sh,
+	plugins/sudoers/regress/cvtsudoers/test19.out.ok,
+	plugins/sudoers/regress/cvtsudoers/test19.sh,
+	plugins/sudoers/regress/cvtsudoers/test2.out.ok,
+	plugins/sudoers/regress/cvtsudoers/test2.sh,
+	plugins/sudoers/regress/cvtsudoers/test20.conf,
+	plugins/sudoers/regress/cvtsudoers/test20.out.ok,
+	plugins/sudoers/regress/cvtsudoers/test20.sh,
+	plugins/sudoers/regress/cvtsudoers/test21.conf,
+	plugins/sudoers/regress/cvtsudoers/test21.out.ok,
+	plugins/sudoers/regress/cvtsudoers/test21.sh,
+	plugins/sudoers/regress/cvtsudoers/test3.out.ok,
+	plugins/sudoers/regress/cvtsudoers/test3.sh,
+	plugins/sudoers/regress/cvtsudoers/test4.out.ok,
+	plugins/sudoers/regress/cvtsudoers/test4.sh,
+	plugins/sudoers/regress/cvtsudoers/test5.out.ok,
+	plugins/sudoers/regress/cvtsudoers/test5.sh,
+	plugins/sudoers/regress/cvtsudoers/test6.out.ok,
+	plugins/sudoers/regress/cvtsudoers/test6.sh,
+	plugins/sudoers/regress/cvtsudoers/test7.out.ok,
+	plugins/sudoers/regress/cvtsudoers/test7.sh,
+	plugins/sudoers/regress/cvtsudoers/test8.out.ok,
+	plugins/sudoers/regress/cvtsudoers/test8.sh,
+	plugins/sudoers/regress/cvtsudoers/test9.out.ok,
+	plugins/sudoers/regress/cvtsudoers/test9.sh:
+	cvtsudoers regress tests
+	[72fd218b5036]
+
+	* plugins/sudoers/cvtsudoers.c, plugins/sudoers/match.c:
+	Prune alias contents when pruning and expanding aliases. This abuses
+	the userlist_matches_filter() and hostlist_matches_filter()
+	functions. A better approach would be to call the correct function
+	from user_matches() and host_matches().
+	[0ae5f351b09f]
+
+2018-04-14  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* doc/cvtsudoers.cat, doc/cvtsudoers.man.in, doc/cvtsudoers.mdoc.in:
+	Fix typo
+	[e572c36919b7]
+
+	* plugins/sudoers/cvtsudoers.c:
+	Fix cut & pasto that prevented "-d command" from working.
+	[6e4ff7f23d0a]
+
+2018-04-13  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/cvtsudoers.c, plugins/sudoers/gram.c,
+	plugins/sudoers/gram.y:
+	Fix a user after free crash as well as a memory leak when filtering
+	Defaults.
+	[9bdd404ae6a4]
+
+2018-04-12  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* doc/cvtsudoers.cat, doc/cvtsudoers.man.in, doc/cvtsudoers.mdoc.in:
+	Document that a User_Alias or Host_Alias may be used in the match
+	filter.
+	[49b9306a6a6d]
+
+	* plugins/sudoers/fmtsudoers.c:
+	Don't always expand aliases when formatting a host-based Defaults
+	line. This was missed when expand_aliases support was added.
+	[ef12a033306c]
+
+	* plugins/sudoers/cvtsudoers.c:
+	Allow host and user aliases to be specified in match filters.
+	[6bc8c0da4578]
+
+	* plugins/sudoers/po/sudoers.pot, po/sudo.pot:
+	Update copyright year.
+	[e9c2eb23def1]
+
+2018-04-10  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/po/cs.mo, plugins/sudoers/po/cs.po,
+	plugins/sudoers/po/de.mo, plugins/sudoers/po/de.po,
+	plugins/sudoers/po/hr.mo, plugins/sudoers/po/hr.po,
+	plugins/sudoers/po/hu.mo, plugins/sudoers/po/hu.po,
+	plugins/sudoers/po/it.mo, plugins/sudoers/po/it.po,
+	plugins/sudoers/po/ja.mo, plugins/sudoers/po/ja.po,
+	plugins/sudoers/po/pl.mo, plugins/sudoers/po/pl.po,
+	plugins/sudoers/po/pt_BR.mo, plugins/sudoers/po/pt_BR.po,
+	plugins/sudoers/po/sv.mo, plugins/sudoers/po/sv.po,
+	plugins/sudoers/po/uk.mo, plugins/sudoers/po/uk.po,
+	plugins/sudoers/po/vi.mo, plugins/sudoers/po/vi.po, po/da.mo,
+	po/da.po, po/hr.mo, po/hr.po, po/hu.mo, po/hu.po, po/pt_BR.mo,
+	po/pt_BR.po, po/tr.mo, po/tr.po:
+	sync with translationproject.org
+	[4a0811073374]
+
+2018-04-09  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/alias.c, plugins/sudoers/cvtsudoers.c,
+	plugins/sudoers/parse.h:
+	When the -d option is used, remove aliases used by the non-converted
+	Defaults settings if the aliases are not also referenced by
+	userspecs.
+	[d07c4254b3dd]
+
+2018-04-05  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/po/sudoers.pot, po/sudo.pot:
+	regen
+	[9a4d88b2a965]
+
+	* NEWS:
+	update
+	[6ef9dde8fc9a]
+
+	* doc/cvtsudoers.cat, doc/cvtsudoers.man.in, doc/cvtsudoers.mdoc.in:
+	Mention -p and -M options in the description of -m.
+	[b20abfd14164]
+
+2018-04-04  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* src/sudo_edit.c:
+	Check sudoedit temporary directory for writability before using it.
+	[1e29ade3f4b2]
+
+	* plugins/sudoers/regress/starttime/check_starttime.c:
+	Use btime in /proc/stat to determine system start time instead of
+	/proc/uptime. Fixes the process start time test when run from a
+	container where /proc/uptime is the uptime of the container but the
+	process start time is relative to the host system boot time. Bug
+	#829
+	[65ba61e55011]
+
+	* doc/cvtsudoers.cat, doc/cvtsudoers.man.in, doc/cvtsudoers.mdoc.in,
+	plugins/sudoers/cvtsudoers.c, plugins/sudoers/cvtsudoers.h,
+	plugins/sudoers/match.c, plugins/sudoers/parse.h:
+	Add option to prune non-matching entries from cvtsudoers output with
+	-m option is used.
+	[9a69ba35389d]
+
+2018-04-02  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* doc/cvtsudoers.cat, doc/cvtsudoers.man.in, doc/cvtsudoers.mdoc.in,
+	plugins/sudoers/cvtsudoers.c, plugins/sudoers/cvtsudoers.h:
+	Allow defaults types and suppression list to be specified in the
+	config file.
+	[62dd7a96ac9b]
+
+	* plugins/sudoers/alias.c, plugins/sudoers/cvtsudoers.c,
+	plugins/sudoers/parse.h, plugins/sudoers/visudo.c:
+	Refactor common alias code out of cvtsudoers and visudo and into
+	alias.c.
+	[b3ba3e6f24d2]
+
+2018-03-29  Todd C. Miller  <Todd.Miller@courtesan.com>
+
+	* plugins/sudoers/cvtsudoers.c:
+	Avoid NULL deref in an error path. CID 183467
+	[38ea56670f18]
+
+	* plugins/sudoers/cvtsudoers.c:
+	No need to initialize the last pointer passed to strtok_r(). This
+	was originally added to appease newer gcc but no longer seems to be
+	required. CID 183466, CID 183468, CID 183469
+	[b0a9b90603e1]
+
+	* plugins/sudoers/cvtsudoers_json.c:
+	Avoid false positive NULL dereference by uses value.u.string instead
+	of name as the former is guaranteed not to be NULL. Fixes CID
+	183465.
+	[c896d10f5626]
+
+2018-03-29  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/po/sudoers.pot:
+	regen
+	[8a88e162fd0b]
+
+	* doc/sudoers.ldap.cat, doc/sudoers.ldap.man.in,
+	doc/sudoers.ldap.mdoc.in:
+	Add a section on convertion from file-based sudoers.
+	[033c797b229d]
+
+2018-03-28  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* doc/cvtsudoers.cat, doc/cvtsudoers.man.in, doc/cvtsudoers.mdoc.in,
+	plugins/sudoers/cvtsudoers.c:
+	Add support for "cvtsudoers -d all"
+	[62e748b70105]
+
+	* doc/cvtsudoers.cat, doc/cvtsudoers.man.in, doc/cvtsudoers.mdoc.in,
+	plugins/sudoers/cvtsudoers.c, plugins/sudoers/cvtsudoers.h:
+	Add -d option to control what type of Defaults entries are
+	converted.
+	[b723f0dae5c7]
+
+2018-03-27  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* src/exec_pty.c:
+	In pty_close() we still need to check whether the pty master and
+	slave fds are open before closing them. When no tty is present but
+	we are I/O logging pty_close() will be called when there is no
+	actual pty in use.
+	[59201fb78427]
+
+	* doc/cvtsudoers.cat, doc/cvtsudoers.man.in, doc/sudo.conf.cat,
+	doc/sudoers_timestamp.cat, doc/visudo.cat:
+	regen
+	[186f3b58daf5]
+
+2018-03-26  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* .hgignore:
+	ignore *.ldif2sudo regress output
+	[8d57e8a0013f]
+
+	* src/exec_pty.c:
+	In pty_close() there is no need to remove events associated with the
+	pty slave as there are none. We also don't need to check for the pty
+	fds being -1 since they are not closed elsewhere and pty_close() is
+	only called if pty_setup() succeeds.
+	[585a47fb5a8b]
+
+2018-03-25  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* doc/Makefile.in, doc/cvtsudoers.mdoc.in:
+	Move cvtsudoers to section 1.
+	[69adcb2d24ff]
+
+	* src/exec_pty.c:
+	In pty_close() close the slave and remove any events associated with
+	it. Fixes a potential hang when performing the final flush on non-
+	BSD systems.
+	[40159d852c2d]
+
+2018-03-23  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/ldap_util.c:
+	Fix typo in strcmp(), we are comparing var not val.
+	[07ccd7bae4f6]
+
+	* MANIFEST:
+	sync
+	[7960511e39dd]
+
+	* NEWS:
+	sync
+	[c655e7111ce9]
+
+2018-03-22  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/po/sudoers.pot:
+	regen
+	[ff7b545844fb]
+
+	* doc/cvtsudoers.cat, doc/cvtsudoers.man.in, doc/cvtsudoers.mdoc.in,
+	plugins/sudoers/cvtsudoers.c, plugins/sudoers/cvtsudoers.h,
+	plugins/sudoers/cvtsudoers_pwutil.c, plugins/sudoers/pwutil.c,
+	plugins/sudoers/sudoers.h:
+	Add -M option to cvtsudoers to force the use of the local passwd and
+	group databases when matching.
+	[ea58e2765a40]
+
+	* doc/cvtsudoers.cat, doc/cvtsudoers.man.in, doc/cvtsudoers.mdoc.in,
+	plugins/sudoers/cvtsudoers.c, plugins/sudoers/cvtsudoers.h,
+	plugins/sudoers/cvtsudoers_json.c,
+	plugins/sudoers/cvtsudoers_ldif.c:
+	Add cvtsudoers command line option to suppress certain parts of the
+	security policy. Can be used to suppress displaying of Defaults
+	entries, aliases or privileges.
+	[b243efa695e6]
+
+2018-03-21  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/regress/parser/check_gentime.c:
+	Silence a false positive from the clang static analyzer.
+	[bfde0594783e]
+
+	* plugins/sudoers/cvtsudoers.c, plugins/sudoers/gram.c,
+	plugins/sudoers/gram.y, plugins/sudoers/parse.h:
+	Silence a false positive from the clang static analyzer.
+	[5257e321158d]
+
+	* plugins/sudoers/cvtsudoers.c:
+	Fix memory leak on error path.
+	[1a13732abfd5]
+
+	* plugins/sudoers/po/sudoers.pot:
+	regen
+	[c139b8bed3c1]
+
+	* plugins/sudoers/cvtsudoers.c, plugins/sudoers/cvtsudoers.h,
+	plugins/sudoers/cvtsudoers_ldif.c:
+	Move cvtsudoers string functions into cvtsudoers.c
+	[4b5b799e7abc]
+
+	* plugins/sudoers/Makefile.in:
+	regen
+	[6ecb37e35c9f]
+
+	* doc/cvtsudoers.cat, doc/cvtsudoers.man.in, doc/cvtsudoers.mdoc.in,
+	plugins/sudoers/Makefile.in, plugins/sudoers/alias.c,
+	plugins/sudoers/cvtsudoers.c, plugins/sudoers/cvtsudoers.h,
+	plugins/sudoers/cvtsudoers_ldif.c,
+	plugins/sudoers/cvtsudoers_pwutil.c, plugins/sudoers/parse.h:
+	Initial support filtering by user, group and host in cvtsudoers.
+	Currently forces alias expansion when a filter is applied and the
+	entire matching user or host list is printed, even the non-matching
+	entries. This effectively allows you to grep sudoers by user, group
+	and host.
+	[0adbf8d38eb4]
+
+	* plugins/sudoers/defaults.c, plugins/sudoers/gram.c,
+	plugins/sudoers/gram.y, plugins/sudoers/parse.h:
+	Add free_default() to free a struct defaults pointer so we have a
+	single place where we free the defaults. A pointer to the previous
+	Default's binding may be passed in to avoid freeing an already free
+	binding.
+	[9d9ef007ee88]
+
+	* doc/sudo.cat, doc/sudo.man.in, doc/sudo.mdoc.in,
+	doc/sudo_plugin.cat, doc/sudo_plugin.man.in,
+	doc/sudo_plugin.mdoc.in, doc/sudoers.cat, doc/sudoers.ldap.cat,
+	doc/sudoers.ldap.man.in, doc/sudoers.ldap.mdoc.in,
+	doc/sudoers.man.in, doc/sudoers.mdoc.in:
+	Decrease bullet width to 1n.
+	[e6f3776fd72e]
+
+2018-03-17  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* src/sudo.c:
+	Add aix_setauthdb() before the initial getpwuid() call.
+	[b8a011be9af7]
+
+2018-03-10  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/cvtsudoers_ldif.c, plugins/sudoers/fmtsudoers.c,
+	plugins/sudoers/gram.c, plugins/sudoers/gram.y,
+	plugins/sudoers/parse.h:
+	fix compilation on Solaris
+	[e31019b5f545]
+
+2018-03-08  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* doc/sudoreplay.cat, doc/sudoreplay.man.in, doc/sudoreplay.mdoc.in,
+	plugins/sudoers/sudoreplay.c:
+	Make "sudoreplay -m 0" skip the pauses entirely.
+	[d9a7fc9f5720]
+
+	* doc/sudoreplay.cat, doc/sudoreplay.man.in, doc/sudoreplay.mdoc.in:
+	Document that a negative value for -m will elmininate the pauses.
+	[a025e96abb47]
+
+2018-03-06  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/testsudoers.c:
+	Update copyright date, remove unneeded include and add a few
+	comments.
+	[ac1bccd631e5]
+
+	* plugins/sudoers/Makefile.in,
+	plugins/sudoers/regress/sudoers/test1.out.ok,
+	plugins/sudoers/regress/sudoers/test10.out.ok,
+	plugins/sudoers/regress/sudoers/test11.out.ok,
+	plugins/sudoers/regress/sudoers/test12.out.ok,
+	plugins/sudoers/regress/sudoers/test13.out.ok,
+	plugins/sudoers/regress/sudoers/test14.out.ok,
+	plugins/sudoers/regress/sudoers/test15.out.ok,
+	plugins/sudoers/regress/sudoers/test16.out.ok,
+	plugins/sudoers/regress/sudoers/test17.out.ok,
+	plugins/sudoers/regress/sudoers/test18.out.ok,
+	plugins/sudoers/regress/sudoers/test19.out.ok,
+	plugins/sudoers/regress/sudoers/test2.out.ok,
+	plugins/sudoers/regress/sudoers/test20.out.ok,
+	plugins/sudoers/regress/sudoers/test21.out.ok,
+	plugins/sudoers/regress/sudoers/test22.out.ok,
+	plugins/sudoers/regress/sudoers/test3.out.ok,
+	plugins/sudoers/regress/sudoers/test4.out.ok,
+	plugins/sudoers/regress/sudoers/test5.out.ok,
+	plugins/sudoers/regress/sudoers/test6.out.ok,
+	plugins/sudoers/regress/sudoers/test7.out.ok,
+	plugins/sudoers/regress/sudoers/test8.out.ok,
+	plugins/sudoers/regress/sudoers/test9.out.ok,
+	plugins/sudoers/testsudoers.c:
+	Use fmtsudoers functions in testsudoers.
+	[be27df4a5291]
+
+	* MANIFEST, plugins/sudoers/regress/sudoers/test22.in,
+	plugins/sudoers/regress/sudoers/test22.json.ok,
+	plugins/sudoers/regress/sudoers/test22.ldif.ok,
+	plugins/sudoers/regress/sudoers/test22.ldif2sudo.ok,
+	plugins/sudoers/regress/sudoers/test22.out.ok,
+	plugins/sudoers/regress/sudoers/test22.sudo.ok,
+	plugins/sudoers/regress/sudoers/test22.toke.ok:
+	Add test for empty runas user list.
+	[5598cf4c3329]
+
+	* plugins/sudoers/testsudoers.c:
+	Don't print an empty user list as ALL.
+	[806ee09f854d]
+
+	* plugins/sudoers/fmtsudoers.c, plugins/sudoers/parse.h:
+	In sudoers_format_userspecs make the separator optional and silence
+	a printf format warning.
+	[62c576cbec4b]
+
+	* plugins/sudoers/starttime.c:
+	Use correct defines when checking for sysctl kinfo_proc support.
+	[6017e45d14b9]
+
+	* plugins/sudoers/cvtsudoers_json.c:
+	Fix crash when converting sudoers entry with a runas list that is
+	present but empty.
+	[ff6b9ef53c6b]
+
+2018-03-05  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* config.h.in, configure, configure.ac, plugins/sudoers/starttime.c,
+	plugins/sudoers/sudoers.c, src/regress/ttyname/check_ttyname.c,
+	src/tgetpass.c, src/ttyname.c:
+	Less confusing sysctl checks for kinfo_proc.
+	[553f6b3f9c3b]
+
+	* doc/sudoers.cat, doc/sudoers.man.in, doc/sudoers.mdoc.in,
+	plugins/sudoers/def_data.c, plugins/sudoers/def_data.h,
+	plugins/sudoers/def_data.in, plugins/sudoers/defaults.c,
+	plugins/sudoers/ldap.c, plugins/sudoers/match.c,
+	plugins/sudoers/pwutil.c, plugins/sudoers/sssd.c:
+	Add case_insensitive_group and case_insensitive_user sudoers
+	options, which are enabled by default.
+	[bd74d8b7fe83]
+
+2018-03-04  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/fmtsudoers.c:
+	Kill dead store found by clang-analyzer.
+	[af2021d3d396]
+
+2018-03-02  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* MANIFEST, plugins/sudoers/Makefile.in,
+	plugins/sudoers/regress/sudoers/test1.ldif2sudo.ok,
+	plugins/sudoers/regress/sudoers/test14.ldif2sudo.ok,
+	plugins/sudoers/regress/sudoers/test15.ldif2sudo.ok,
+	plugins/sudoers/regress/sudoers/test16.ldif2sudo.ok,
+	plugins/sudoers/regress/sudoers/test17.ldif2sudo.ok,
+	plugins/sudoers/regress/sudoers/test19.ldif2sudo.ok,
+	plugins/sudoers/regress/sudoers/test2.ldif2sudo.ok,
+	plugins/sudoers/regress/sudoers/test20.ldif2sudo.ok,
+	plugins/sudoers/regress/sudoers/test21.ldif2sudo.ok,
+	plugins/sudoers/regress/sudoers/test3.ldif2sudo.ok,
+	plugins/sudoers/regress/sudoers/test6.ldif2sudo.ok:
+	Add tests for round-tripping sudoers -> ldif -> sudoers
+	[72e3e73fb612]
+
+2018-03-04  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/Makefile.in, plugins/sudoers/cvtsudoers.c,
+	plugins/sudoers/cvtsudoers_ldif.c, plugins/sudoers/fmtsudoers.c,
+	plugins/sudoers/gram.c, plugins/sudoers/gram.y,
+	plugins/sudoers/ldap.c, plugins/sudoers/ldap_util.c,
+	plugins/sudoers/parse.h,
+	plugins/sudoers/regress/sudoers/test2.ldif.ok,
+	plugins/sudoers/regress/sudoers/test3.ldif.ok,
+	plugins/sudoers/regress/sudoers/test6.ldif.ok,
+	plugins/sudoers/sssd.c:
+	Initial support for adding comments that will be emitted when
+	sudoers is formatted. Currently adds a comment for the source
+	sudoRole when converting from ldif -> sudoers.
+	[bf2e7f48f452]
+
+	* lib/util/lbuf.c, plugins/sudoers/cvtsudoers.c,
+	plugins/sudoers/fmtsudoers.c, plugins/sudoers/parse.h:
+	Special case comment lines in lbufs.
+	[10d6d229ffae]
+
+2018-03-03  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/cvtsudoers.c, plugins/sudoers/fmtsudoers.c,
+	plugins/sudoers/parse.h:
+	When formatting as sudoers, flush the lbuf after each userspec.
+	[060266dd440c]
+
+2018-03-04  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/cvtsudoers_ldif.c:
+	Handle escaped commas when skipping over the cn.
+	[61aed7ff5e1c]
+
+2018-03-02  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/cvtsudoers_ldif.c:
+	Add missing sudoOrder support to parse_ldif().
+	[8c5e9f22f0da]
+
+	* plugins/sudoers/ldap_util.c:
+	Add missing support for converting LOG_INPUT/LOG_OUTPUT tags and
+	expand support for NOMAIL tags.
+	[2820c8333381]
+
+	* plugins/sudoers/cvtsudoers_ldif.c,
+	plugins/sudoers/regress/sudoers/test2.ldif.ok,
+	plugins/sudoers/regress/sudoers/test3.ldif.ok,
+	plugins/sudoers/regress/sudoers/test6.ldif.ok:
+	Don't emit an empty sudoRole for global defaults if there are none.
+	[2a69dccb7071]
+
+	* plugins/sudoers/ldap_util.c:
+	Avoid changing the order of non-negated hosts and commands. We still
+	put negated hosts/commands at the end of the list.
+	[e1aea92dd6dc]
+
+	* plugins/sudoers/cvtsudoers_ldif.c:
+	Handle parsing boolean options that have no explicit value.
+	[b5d597faa23d]
+
+	* plugins/sudoers/cvtsudoers_ldif.c:
+	Refactor the code that actually converts the role to sudoers format
+	into role_to_sudoers() now that it is more involved than just
+	calling sudo_ldap_role_to_priv().
+	[b876171ff96e]
+
+	* plugins/sudoers/cvtsudoers_ldif.c:
+	When merging two privileges, use the runas lists of the previous
+	privilege when possible. Otherwise, the generated sudoers line will
+	include a runas list for commands that is not necessary.
+	[337b49451947]
+
+2018-03-01  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/match.c:
+	Use a case-insensitive comparison when matching user and group names
+	in sudoers with the passwd or group database. This can be necessary
+	when users and groups are stored in AD or LDAP.
+	[bfccb8acc3e9]
+
+	* plugins/sudoers/Makefile.in:
+	Fix clean target for *.sudo regress files
+	[6f52a4aef93a]
+
+	* .hgignore:
+	ignore more binaries
+	[9adf244d0e9e]
+
+	* plugins/sudoers/cvtsudoers.c:
+	Fix use of uninitialized variable (conf) if sudoers_debug_register()
+	happens to fail.
+	[0ef1765f14f4]
+
+2018-02-28  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/cvtsudoers_ldif.c:
+	Split conversion code out of parse_ldif() and into
+	ldif_to_sudoers().
+	[27c8b7001735]
+
+	* plugins/sudoers/cvtsudoers_ldif.c:
+	Quiet a clang analyzer warning.
+	[21102c27dcce]
+
+	* MANIFEST, configure, configure.ac, mkdep.pl,
+	plugins/sudoers/Makefile.in, plugins/sudoers/ldap_common.c,
+	plugins/sudoers/ldap_util.c:
+	rename ldap_common.c -> ldap_util.c
+	[3093bdbb8a9b]
+
+	* plugins/sudoers/cvtsudoers_ldif.c:
+	When converting from ldif to sudoers, sudoRole objects with the same
+	user if possible. If both user and host are the same, merge into a
+	single privilege. This makes it possible to convert a sudoers entry
+	like:
+
+	 aaron shanty = NOEXEC: /usr/bin/vi, /usr/bin/more, EXEC: /bin/sh
+
+	to ldif and then back to sudoers as a single line. Currently, the
+	ldif entries to be merged must have the same or adjacent sudoOrder
+	attributes.
+	[74e5cef2e849]
+
+	* plugins/sudoers/cvtsudoers_ldif.c:
+	plug memory leaks
+	[a5268668c397]
+
+	* src/parse_args.c:
+	Restore line to set MODE_PRESERVE_ENV in flags when the -E command
+	line option is used. The caller doesn't check MODE_PRESERVE_ENV
+	these days but parse_args uses it to detect usage errors when -E is
+	used along with a mutually excusive option. Problem found by Yuriy
+	Vostrikov.
+	[b511e35d9be4]
+
+2018-02-26  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* doc/sudoers.cat, doc/sudoers.man.in, doc/sudoers.mdoc.in:
+	Add missing close parenthesis in "Including other files from within
+	sudoers" section. Bug #824
+	[3335cb2ce29f]
+
+2018-02-25  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/ldap_common.c:
+	When converting from LDAP to sudoers, put negated hosts and commands
+	at the end of the list. Since LDAP doesn't guarantee attribute order
+	we need to make sure negated entries always override non- negated
+	ones.
+	[0ebff259c521]
+
+2018-02-24  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/cvtsudoers.c:
+	We may need the hostname to resolve %h escapes in include files.
+	[3e57710762d3]
+
+	* doc/cvtsudoers.cat, doc/cvtsudoers.man.in, doc/cvtsudoers.mdoc.in,
+	plugins/sudoers/cvtsudoers.c, plugins/sudoers/cvtsudoers_ldif.c:
+	Setting a sudoOrder start point of 0 will disable creation of
+	sudoOrder attributes in the resulting LDIF output.
+	[4107f61b431b]
+
+	* plugins/sudoers/cvtsudoers.c:
+	Don't need to fill in struct sudo_user since we don't do matching.
+	[cdc876d298b5]
+
+	* MANIFEST, doc/cvtsudoers.cat, doc/cvtsudoers.man.in,
+	doc/cvtsudoers.mdoc.in, pathnames.h.in, plugins/sudoers/Makefile.in,
+	plugins/sudoers/cvtsudoers.c, plugins/sudoers/cvtsudoers.h,
+	plugins/sudoers/cvtsudoers_json.c,
+	plugins/sudoers/cvtsudoers_ldif.c:
+	Add support for setting default options in a config file. In
+	addition to expand_aliases, input_format and output_format, both the
+	initial sudoOrder and the increment when updating sudoOrder for
+	subsequent sudoRole objects can be specified. Command line options
+	have also been added for the start order and increment.
+	[d3121c039ddf]
+
+2018-02-22  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* NEWS:
+	cvtsudoers can now read LDIF
+	[99b7ed30c754]
+
+	* doc/UPGRADE:
+	Fix a typo.
+	[87f635970a5d]
+
+	* plugins/sudoers/fmtsudoers.c:
+	Deal with user_name not being set in cvtsudoers.
+	[421bb1dbff57]
+
+	* doc/cvtsudoers.cat, doc/cvtsudoers.man.in, doc/cvtsudoers.mdoc.in,
+	plugins/sudoers/Makefile.in, plugins/sudoers/cvtsudoers.c,
+	plugins/sudoers/cvtsudoers_json.c,
+	plugins/sudoers/cvtsudoers_ldif.c, plugins/sudoers/ldap.c,
+	plugins/sudoers/ldap_common.c, plugins/sudoers/sssd.c,
+	plugins/sudoers/sudo_ldap.h:
+	Initial support for parsing sudoers LDIF files in cvtsudoers. This
+	makes it possible to convert from LDAP sudoers to a traditional
+	sudoers file. Semantic differences between file sudoers and LDAP
+	sudoers mean that LDIF -> sudoers is not completely equivalent.
+	[ddf513e2778f]
+
+2018-02-21  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/cvtsudoers_ldif.c,
+	plugins/sudoers/regress/sudoers/test14.ldif.ok:
+	Fix LDIF conversion of commands with an associated digest.
+	[590ab0cb58e4]
+
+	* plugins/sudoers/ldap_common.c:
+	In array_to_member_list() use the correct type for netgroups and
+	user groups.
+	[359947d19131]
+
+	* plugins/sudoers/fmtsudoers.c:
+	Prepend digest to command if present. Fix printing of group IDs and
+	non-unix groups.
+	[5f9834b4bcbc]
+
+	* plugins/sudoers/cvtsudoers_json.c:
+	Fix gcc false positive for uninitialized variable
+	[d250b862c1ed]
+
+2018-02-20  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* pp:
+	Update Polypkg to the latest version from git.
+	[204ebffb502f]
+
+	* config.h.in, configure, configure.ac, src/sudo.c:
+	Use setpassent() and setgroupent() on systems that support it to
+	keep the passwd and group database open. Sudo does a lot of passwd
+	and group lookups so it can be beneficial to just leave the file
+	open.
+	[3d2d5bca9670]
+
+2018-02-19  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* doc/cvtsudoers.cat, doc/cvtsudoers.man.in, doc/cvtsudoers.mdoc.in,
+	plugins/sudoers/cvtsudoers.c, plugins/sudoers/cvtsudoers_json.c,
+	plugins/sudoers/cvtsudoers_ldif.c, plugins/sudoers/fmtsudoers.c:
+	Add option to cvtsudoers to expand aliases in the output.
+	[1af56459fd7d]
+
+	* plugins/sudoers/cvtsudoers_json.c,
+	plugins/sudoers/regress/sudoers/test1.json.ok,
+	plugins/sudoers/regress/sudoers/test14.json.ok,
+	plugins/sudoers/regress/sudoers/test15.json.ok,
+	plugins/sudoers/regress/sudoers/test16.json.ok,
+	plugins/sudoers/regress/sudoers/test17.json.ok,
+	plugins/sudoers/regress/sudoers/test19.json.ok,
+	plugins/sudoers/regress/sudoers/test2.json.ok,
+	plugins/sudoers/regress/sudoers/test6.json.ok:
+	Fix conversion of "ALL" in the JSON output format, which was being
+	printed as an alias.
+	[3f7869688820]
+
+	* INSTALL, configure, configure.ac:
+	Clarify that --with-rundir and --with-vardir take sudo-specific
+	directory, e.g. /var/run/sudo and not just /var/run. Bug #823
+	[e1913085e544]
+
+	* src/exec_pty.c:
+	In pty_cleanup() we need to call sudo_term_restore() even if no I/O
+	plugins are present as long as /dev/tty exists. Fixes the use_pty
+	case with no I/O plugins.
+	[82fecef72998]
+
+	* include/sudo_event.h, lib/util/event.c, lib/util/util.exp.in,
+	plugins/sudoers/sudoreplay.c, src/exec_monitor.c, src/exec_nopty.c,
+	src/exec_pty.c:
+	Add sudo_ev_dispatch(), a wrapper for ev_loop() with no flags.
+	Similar the dispatch function in libevent.
+	[61e588fd50d0]
+
+	* INSTALL, configure, configure.ac, doc/sudoers.cat,
+	doc/sudoers.man.in, doc/sudoers.mdoc.in, m4/sudo.m4:
+	Use /run in preference to /var/run if it exists. Bug #822
+	[ec2febe6f8a3]
+
+2018-02-14  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* NEWS:
+	mention common sudoers formatting changes
+	[b32825ca3e2f]
+
+2018-02-11  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* MANIFEST, configure, configure.ac, mkdep.pl,
+	plugins/sudoers/Makefile.in, plugins/sudoers/ldap.c,
+	plugins/sudoers/ldap_conf.c, plugins/sudoers/sudo_ldap.h,
+	plugins/sudoers/sudo_ldap_conf.h:
+	Move LDAP configuration bits into ldap_conf.c
+	[1673e3c7855a]
+
+2018-02-10  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/ldap.c, plugins/sudoers/ldap_common.c:
+	No longer need to include stddef.h
+	[a10a13dc73c7]
+
+	* plugins/sudoers/iolog.c:
+	Remove dead store, found by cppcheck.
+	[744e99ffc82e]
+
+	* plugins/sudoers/ldap.c, plugins/sudoers/ldap_common.c,
+	plugins/sudoers/sssd.c, plugins/sudoers/sudo_ldap.h:
+	simplify iterator
+	[944fd546ec98]
+
+	* plugins/sudoers/mkdir_parents.c:
+	Silence a false positive from cppcheck.
+	[f94421968d8e]
+
+	* plugins/sudoers/tsdump.c:
+	Cast version to int when printing. Avoids a cppcheck warning.
+	[3312bec4f1e3]
+
+2018-02-09  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/ldap.c, plugins/sudoers/ldap_common.c,
+	plugins/sudoers/sssd.c, plugins/sudoers/sudo_ldap.h:
+	Use an iterator instead of fragile pointer arithmetic to iterate
+	over value arrays in sudo_ldap_role_to_priv().
+	[61752c5f3427]
+
+	* MANIFEST, plugins/sudoers/Makefile.in, plugins/sudoers/cvtsudoers.c,
+	plugins/sudoers/fmtsudoers.c, plugins/sudoers/ldap.c,
+	plugins/sudoers/parse.c, plugins/sudoers/parse.h,
+	plugins/sudoers/sssd.c:
+	Move sudoers formatting code into fmtsudoers.
+	[ff25291c99f4]
+
+	* plugins/sudoers/cvtsudoers.c, plugins/sudoers/parse.c:
+	Clean up some XXX in parse.c
+	[19854e7d8ac7]
+
+	* plugins/sudoers/ldap.c, plugins/sudoers/parse.c,
+	plugins/sudoers/parse.h, plugins/sudoers/sssd.c:
+	Rename sudo_file_append_default() -> sudo_lbuf_append_default() and
+	use it for ldap and sssd too.
+	[dae22810f2dd]
+
+	* MANIFEST, configure, configure.ac, mkdep.pl,
+	plugins/sudoers/Makefile.in, plugins/sudoers/gram.c,
+	plugins/sudoers/gram.y, plugins/sudoers/ldap.c,
+	plugins/sudoers/ldap_common.c, plugins/sudoers/parse.h,
+	plugins/sudoers/sssd.c, plugins/sudoers/sudo_ldap.h:
+	Move common bits of ldap to sudoers conversion into ldap_common.c
+	and use it in sssd.c.
+	[5cca03f64b77]
+
+	* plugins/sudoers/gram.c, plugins/sudoers/gram.y,
+	plugins/sudoers/ldap.c, plugins/sudoers/parse.c,
+	plugins/sudoers/parse.h:
+	Convert ldap results into a sudoers userspec so we can use the "sudo
+	-l" output functions in parse.c.
+	[1422e10dc274]
+
+2018-02-08  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* sudo.pp:
+	Don't mark sudoers.dist volatile, it only gets used on systems that
+	don't have the concept of volatile files.
+	[c47fd17e62e3]
+
+2018-02-05  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/gram.c, plugins/sudoers/gram.y,
+	plugins/sudoers/parse.h:
+	Refactor member freeing code into free_member(). Refactor userspec
+	freeing code into free_userspec().
+	[ccc95e8b9f69]
+
+	* plugins/sudoers/cvtsudoers.c:
+	Fix compilation with glibc where stdout is not constant.
+	[97a0302c29c8]
+
+2018-02-04  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/ldap.c:
+	For "sudo -l", if a word includes spaces, print it in double quotes.
+	Also escape spaces in the command path. This matches the sudoers
+	quoting rules.
+	[04ace6decf3a]
+
+2018-02-03  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/ldap.c:
+	Display sudoNotBefore and sudoNotAfter in "sudo -l"
+	[ef7de4c8aa9e]
+
+	* plugins/sudoers/parse.c:
+	For "sudo -l", if a word includes spaces, print it in double quotes.
+	Also escape spaces in the command path. This matches the sudoers
+	quoting rules.
+	[fa12a254657c]
+
+	* plugins/sudoers/cvtsudoers.c:
+	Add back printing of negation operator ('!') when printing a word
+	with spaces in it.
+	[c69706a91817]
+
+	* plugins/sudoers/Makefile.in:
+	Use visudo to validate "cvtsudoers -f sudoers" output.
+	[06bae7204926]
+
+	* plugins/sudoers/regress/sudoers/test21.in,
+	plugins/sudoers/regress/sudoers/test21.json.ok,
+	plugins/sudoers/regress/sudoers/test21.ldif.ok,
+	plugins/sudoers/regress/sudoers/test21.out.ok,
+	plugins/sudoers/regress/sudoers/test21.toke.ok:
+	Remove syslog_goodpri and syslog_badpri without a value that causes
+	visudo to report an error.
+	[c1f696e49f49]
+
+	* plugins/sudoers/cvtsudoers.c:
+	When outputting sudoers, if a word includes spaces, print it in
+	double quotes. Also escape spaces in the command path.
+	[d040c1a21277]
+
+2018-02-02  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* doc/cvtsudoers.cat, doc/cvtsudoers.man.in, doc/cvtsudoers.mdoc.in,
+	plugins/sudoers/alias.c, plugins/sudoers/cvtsudoers.c,
+	plugins/sudoers/parse.h, plugins/sudoers/visudo.c:
+	Add sudoers output format to cvtsudoers. In the future this may be
+	used with filters to emit a partial sudoers file instead of a full
+	one.
+	[533d2c389213]
+
+	* plugins/sudoers/parse.c:
+	When printing a member name, quote sudoers special characters unless
+	it is a UID/GID, in which case we print the '#' unquoted.
+	[e4e8154c4fe9]
+
+	* plugins/sudoers/parse.c, plugins/sudoers/parse.h:
+	Move SUDOERS_QUOTED define to parse.h
+	[a813ec4acb5f]
+
+2018-01-30  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/timestamp.c:
+	Remove extraneous break statement and fix some whitespace.
+	[39df566c33e3]
+
+	* doc/sudoers.cat, doc/sudoers.man.in, doc/sudoers.mdoc.in:
+	The max timeout for kernel time stamps is 60 minutes, not 3600
+	minutes.
+	[95be88c4f106]
+
+2018-01-29  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/testsudoers.c:
+	Check the return value of sudoers_debug_register(). Coverity CID
+	182574
+	[fb5449acdafd]
+
+	* plugins/sudoers/cvtsudoers_ldif.c:
+	Fix memory leak, su->count is now 0 when it is unused, not 1.
+	Covertity CID 182573
+	[77019ded8f84]
+
+	* plugins/sudoers/cvtsudoers_ldif.c:
+	Quiet a clang analyzer false positive.
+	[ef04f7069df4]
+
+	* plugins/sudoers/cvtsudoers_ldif.c,
+	plugins/sudoers/regress/sudoers/test2.ldif.ok,
+	plugins/sudoers/regress/sudoers/test6.ldif.ok:
+	Quote special characters when creating the cn as per RFC2253
+	[e49ff28c1fd7]
+
+	* NEWS, configure, configure.ac, doc/UPGRADE:
+	Sudo 1.8.23
+	[e364ed057d1d]
+
+	* doc/LICENSE:
+	Remove the C-style comment charactes from the getopt_long.c and
+	inet_pton.c license text as it was inconsistent with the rest of the
+	file and messed up the html formatting.
+	[a26679d2d0a7]
+
+	* MANIFEST, plugins/sudoers/Makefile.in, plugins/sudoers/sudoers2ldif,
+	sudo.pp:
+	Remove sudoers2ldif, it has been replaced by cvtsudoers.
+	[7563cc3768c2]
+
+2018-01-28  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* doc/cvtsudoers.cat, doc/cvtsudoers.man.in, doc/cvtsudoers.mdoc.in,
+	plugins/sudoers/cvtsudoers.c, plugins/sudoers/cvtsudoers_ldif.c:
+	Add -b option to specify the base dn.
+	[7cd4c46c33bf]
+
+	* doc/cvtsudoers.cat, doc/cvtsudoers.man.in, doc/cvtsudoers.mdoc.in:
+	Document limitations of LDIF conversion.
+	[e8c84362f084]
+
+	* doc/cvtsudoers.cat, doc/cvtsudoers.man.in, doc/cvtsudoers.mdoc.in,
+	plugins/sudoers/cvtsudoers.c:
+	Switch the default output format to LDIF
+	[a677c7b72a90]
+
+	* plugins/sudoers/visudo.c:
+	Execute cvtsudoers if the user runs "visudo -x" but also emit a
+	warning.
+	[53ec45a847d2]
+
+	* doc/cvtsudoers.cat, doc/cvtsudoers.man.in, doc/cvtsudoers.mdoc.in,
+	plugins/sudoers/cvtsudoers.c, plugins/sudoers/stubs.c,
+	plugins/sudoers/visudo.c:
+	Revert 04ec05108b2b, change the default input source back to stdin.
+	[df8d94f1bab4]
+
+	* MANIFEST, plugins/sudoers/Makefile.in,
+	plugins/sudoers/regress/sudoers/test1.ldif.ok,
+	plugins/sudoers/regress/sudoers/test10.ldif.ok,
+	plugins/sudoers/regress/sudoers/test11.ldif.ok,
+	plugins/sudoers/regress/sudoers/test12.ldif.ok,
+	plugins/sudoers/regress/sudoers/test13.ldif.ok,
+	plugins/sudoers/regress/sudoers/test14.ldif.ok,
+	plugins/sudoers/regress/sudoers/test15.ldif.ok,
+	plugins/sudoers/regress/sudoers/test16.ldif.ok,
+	plugins/sudoers/regress/sudoers/test17.ldif.ok,
+	plugins/sudoers/regress/sudoers/test18.ldif.ok,
+	plugins/sudoers/regress/sudoers/test19.ldif.ok,
+	plugins/sudoers/regress/sudoers/test2.ldif.ok,
+	plugins/sudoers/regress/sudoers/test20.ldif.ok,
+	plugins/sudoers/regress/sudoers/test21.ldif.ok,
+	plugins/sudoers/regress/sudoers/test3.ldif.ok,
+	plugins/sudoers/regress/sudoers/test4.ldif.ok,
+	plugins/sudoers/regress/sudoers/test5.ldif.ok,
+	plugins/sudoers/regress/sudoers/test6.ldif.ok,
+	plugins/sudoers/regress/sudoers/test7.ldif.ok,
+	plugins/sudoers/regress/sudoers/test8.ldif.ok,
+	plugins/sudoers/regress/sudoers/test9.ldif.ok:
+	Add LDIF conversion to sudoers tests
+	[997b79da8874]
+
+	* plugins/sudoers/cvtsudoers_json.c,
+	plugins/sudoers/cvtsudoers_ldif.c,
+	plugins/sudoers/regress/sudoers/test19.json.ok:
+	Add notbefore and notafter support to the backends.
+	[be50db300eda]
+
+2018-01-27  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* README.LDAP:
+	cvtsudoers instead of sudoers2ldif
+	[3909ea2c29c1]
+
+	* MANIFEST, doc/cvtsudoers.cat, doc/cvtsudoers.man.in,
+	doc/cvtsudoers.mdoc.in, plugins/sudoers/Makefile.in,
+	plugins/sudoers/cvtsudoers.c, plugins/sudoers/cvtsudoers_ldif.c:
+	Add ldif backend to cvtsudoers, to replace sudoers2ldif
+	[f0e039c63488]
+
+	* plugins/sudoers/Makefile.in:
+	fix make check
+	[2cbedce72e3a]
+
+2018-01-26  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/cvtsudoers.c, plugins/sudoers/cvtsudoers_json.c:
+	Parse sudoers in the front end, not the back end.
+	[30d4e40ed69a]
+
+	* doc/Makefile.in:
+	install the cvtsudoers manual
+	[243d319fed1c]
+
+	* doc/cvtsudoers.cat, doc/cvtsudoers.man.in, doc/cvtsudoers.mdoc.in,
+	plugins/sudoers/cvtsudoers.c, plugins/sudoers/stubs.c,
+	plugins/sudoers/visudo.c:
+	Use the built-in sudoers file location as the default sudoers file
+	for cvtsudoers and move parse_sudoers_options() to stubs.c since it
+	is shared between visudo.c and cvtsudoers.c.
+	[04ec05108b2b]
+
+	* MANIFEST, plugins/sudoers/Makefile.in, plugins/sudoers/cvtsudoers.c,
+	plugins/sudoers/stubs.c, plugins/sudoers/visudo.c:
+	Move common stub functions required by the parser out of visudo.c
+	and cvtsudoers.c and into stubs.c.
+	[a324cbde55a3]
+
+	* plugins/sudoers/cvtsudoers.c, plugins/sudoers/cvtsudoers_json.c:
+	Rename export_sudoers() to convert_sudoers_json() and move the check
+	for the same input and output file to the front-end.
+	[7c83c21ea479]
+
+	* sudo.pp:
+	add cvtsudoers
+	[e8ba851cafb4]
+
+	* MANIFEST, doc/Makefile.in, doc/cvtsudoers.cat,
+	doc/cvtsudoers.man.in, doc/cvtsudoers.mdoc.in, doc/visudo.cat,
+	doc/visudo.man.in, doc/visudo.mdoc.in, plugins/sudoers/Makefile.in,
+	plugins/sudoers/cvtsudoers.c, plugins/sudoers/cvtsudoers_json.c,
+	plugins/sudoers/visudo.c, plugins/sudoers/visudo_json.c:
+	Move sudoers JSON conversion to cvtsudoers which will eventually
+	output to other formats too.
+	[e64a50657a88]
+
+	* plugins/sudoers/defaults.c:
+	Convert from time in minutes to timespec directly instead of
+	converting to double via strtod(). This makes it easier to catch
+	overflow.
+	[0d6ab7c21a15]
+
+2018-01-24  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* doc/sudoers.cat, doc/sudoers.man.in, doc/sudoers.mdoc.in:
+	document that kernel tty timestamps don't support negative timeouts
+	[4ff726cf2010]
+
+2018-01-23  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* doc/sudoers.cat, doc/sudoers.man.in, doc/sudoers.mdoc.in,
+	plugins/sudoers/timestamp.c:
+	Fall back to ppid time stamps if timestamp_type == kernel and no tty
+	is present. This is consistent with timestamp_type == tty.
+	[26c527166a0c]
+
+	* plugins/sudoers/timestamp.c:
+	Do not call the TIOCSETVERAUTH ioctl with a negative number of
+	seconds. Also cap the max number of seconds at 3600 to avoid getting
+	EINVAL from TIOCSETVERAUTH.
+	[371744874743]
+
+2018-01-22  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/defaults.c:
+	Better conversion from double to nanoseconds.
+	[2f54790801c8]
+
+	* plugins/sudoers/auth/aix_auth.c, plugins/sudoers/auth/bsdauth.c,
+	plugins/sudoers/auth/fwtk.c, plugins/sudoers/auth/pam.c,
+	plugins/sudoers/auth/securid5.c, plugins/sudoers/auth/sia.c,
+	plugins/sudoers/auth/sudo_auth.c, plugins/sudoers/auth/sudo_auth.h,
+	plugins/sudoers/def_data.c, plugins/sudoers/def_data.h,
+	plugins/sudoers/def_data.in, plugins/sudoers/defaults.c,
+	plugins/sudoers/defaults.h, plugins/sudoers/mkdefaults,
+	plugins/sudoers/timestamp.c:
+	Store passwd_timeout and timestamp_timeout as a struct timespec
+	instead of as a float. Remove timeout argument to auth_getpass() as
+	it was never used.
+	[c4a3c60d0284]
+
+2018-01-21  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/mkdefaults:
+	Don't rely on perl being installed in /usr/local/bin
+	[e3274f56df43]
+
+2018-01-17  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* config.h.in, configure, configure.ac, lib/util/gettime.c,
+	lib/util/mktemp.c, lib/util/nanosleep.c, lib/util/utimens.c,
+	plugins/sudoers/boottime.c, plugins/sudoers/check.c,
+	plugins/sudoers/getdate.c, plugins/sudoers/getdate.y,
+	plugins/sudoers/group_plugin.c, plugins/sudoers/iolog.c,
+	plugins/sudoers/ldap.c, plugins/sudoers/sssd.c,
+	plugins/sudoers/sudoreplay.c, plugins/sudoers/timestamp.c,
+	plugins/sudoers/visudo.c, src/net_ifs.c, src/sesh.c, src/sudo.c,
+	src/sudo_edit.c, src/utmp.c:
+	Remove use of AC_HEADER_TIME, only obsolete platforms actually need
+	this. Also stop removing sys/time.h unless the source file uses
+	struct timeval.
+	[a744b8a07685]
+
+	* plugins/sudoers/gram.c, plugins/sudoers/gram.y:
+	Remove duplicate options %type
+	[3ea3c3d477bf]
+
+2018-01-16  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/auth/API, plugins/sudoers/auth/bsdauth.c,
+	plugins/sudoers/auth/pam.c, plugins/sudoers/auth/sudo_auth.c,
+	plugins/sudoers/auth/sudo_auth.h, plugins/sudoers/check.c,
+	plugins/sudoers/sudoers.h:
+	Add an approval function to the sudo auth API which is run after the
+	user's password has been verified. The approval function is run even
+	if no password is required. This is currently only used for PAM (use
+	pam_acct_mgmt) and BSD auth (auth_approval).
+	[cab448ac8633]
+
 2018-01-15  Todd C. Miller  <Todd.Miller@sudo.ws>
 
 	* plugins/sudoers/tsdump.c:
