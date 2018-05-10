@@ -6,7 +6,7 @@
 #
 Name     : sudo
 Version  : 1.8.23
-Release  : 54
+Release  : 55
 URL      : https://www.sudo.ws/dist/sudo-1.8.23.tar.gz
 Source0  : https://www.sudo.ws/dist/sudo-1.8.23.tar.gz
 Source99 : https://www.sudo.ws/dist/sudo-1.8.23.tar.gz.sig
