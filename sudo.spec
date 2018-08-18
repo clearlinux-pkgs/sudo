@@ -5,19 +5,20 @@
 # Source0 file verified with key 0xA9F4C021CEA470FB (Todd.Miller@sudo.ws)
 #
 Name     : sudo
-Version  : 1.8.23
-Release  : 55
-URL      : https://www.sudo.ws/dist/sudo-1.8.23.tar.gz
-Source0  : https://www.sudo.ws/dist/sudo-1.8.23.tar.gz
-Source99 : https://www.sudo.ws/dist/sudo-1.8.23.tar.gz.sig
+Version  : 1.8.24
+Release  : 56
+URL      : https://www.sudo.ws/dist/sudo-1.8.24.tar.gz
+Source0  : https://www.sudo.ws/dist/sudo-1.8.24.tar.gz
+Source99 : https://www.sudo.ws/dist/sudo-1.8.24.tar.gz.sig
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : ISC
 Requires: sudo-bin
 Requires: sudo-setuid
 Requires: sudo-data
-Requires: sudo-doc
+Requires: sudo-license
 Requires: sudo-locales
+Requires: sudo-man
 BuildRequires : Linux-PAM-dev
 BuildRequires : bison
 BuildRequires : groff
@@ -39,6 +40,8 @@ Summary: bin components for the sudo package.
 Group: Binaries
 Requires: sudo-data
 Requires: sudo-setuid
+Requires: sudo-license
+Requires: sudo-man
 
 %description bin
 bin components for the sudo package.
@@ -66,9 +69,18 @@ dev components for the sudo package.
 %package doc
 Summary: doc components for the sudo package.
 Group: Documentation
+Requires: sudo-man
 
 %description doc
 doc components for the sudo package.
+
+
+%package license
+Summary: license components for the sudo package.
+Group: Default
+
+%description license
+license components for the sudo package.
 
 
 %package locales
@@ -77,6 +89,14 @@ Group: Default
 
 %description locales
 locales components for the sudo package.
+
+
+%package man
+Summary: man components for the sudo package.
+Group: Default
+
+%description man
+man components for the sudo package.
 
 
 %package setuid
@@ -88,7 +108,7 @@ setuid components for the sudo package.
 
 
 %prep
-%setup -q -n sudo-1.8.23
+%setup -q -n sudo-1.8.24
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -99,7 +119,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1525107350
+export SOURCE_DATE_EPOCH=1534609639
 %configure --disable-static --with-pam \
 --with-env-editor \
 --with-ignore-dot \
@@ -114,7 +134,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make check || :
 
 %install
-export SOURCE_DATE_EPOCH=1525107350
+export SOURCE_DATE_EPOCH=1534609639
 rm -rf %{buildroot}
 %make_install INSTALL_OWNER=""
 %find_lang sudo
@@ -148,11 +168,24 @@ rm -rf %{buildroot}
 /usr/include/*.h
 
 %files doc
-%defattr(-,root,root,-)
+%defattr(0644,root,root,0755)
 %doc /usr/share/doc/sudo/*
-%doc /usr/share/man/man1/*
-%doc /usr/share/man/man5/*
-%doc /usr/share/man/man8/*
+
+%files license
+%defattr(-,root,root,-)
+/usr/share/doc/sudo/LICENSE
+
+%files man
+%defattr(-,root,root,-)
+/usr/share/man/man1/cvtsudoers.1
+/usr/share/man/man5/sudo.conf.5
+/usr/share/man/man5/sudoers.5
+/usr/share/man/man5/sudoers_timestamp.5
+/usr/share/man/man8/sudo.8
+/usr/share/man/man8/sudo_plugin.8
+/usr/share/man/man8/sudoedit.8
+/usr/share/man/man8/sudoreplay.8
+/usr/share/man/man8/visudo.8
 
 %files setuid
 %defattr(-,root,root,-)

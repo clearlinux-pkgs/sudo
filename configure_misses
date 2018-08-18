@@ -23,6 +23,8 @@ Configure miss: struct psinfo.pr_ttydev
 Configure miss: rsize_t
 Configure miss: errno_t
 Configure miss: struct utmpx.ut_exit.__e_termination
+Configure miss: arc4random_uniform
+Configure miss: arc4random
 Configure miss: devname
 Configure miss: struct kinfo_proc.ki_structsize
 Configure miss: struct kinfo_proc2.p_paddr
