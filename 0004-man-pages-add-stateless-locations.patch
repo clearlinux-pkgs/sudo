@@ -1,7 +1,7 @@
 From a324aa1962b19514599d76e594eb9822d39a9641 Mon Sep 17 00:00:00 2001
 From: Auke Kok <auke-jan.h.kok@intel.com>
 Date: Wed, 19 Apr 2017 12:29:49 -0700
-Subject: [PATCH 4/4] man pages add stateless locations
+Subject: [PATCH 4/5] man pages add stateless locations
 
 ---
  doc/sudoers.man.in | 30 +++++++++++++++---------------

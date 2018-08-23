@@ -1,7 +1,7 @@
 From fe5b6849fc16c11432435d2d5142b06f68e4da58 Mon Sep 17 00:00:00 2001
 From: Ikey Doherty <michael.i.doherty@intel.com>
 Date: Mon, 18 May 2015 16:52:05 +0100
-Subject: [PATCH 3/4] visudo: Use sane default file
+Subject: [PATCH 3/5] visudo: Use sane default file
 
 ---
  plugins/sudoers/visudo.c | 8 ++++++++

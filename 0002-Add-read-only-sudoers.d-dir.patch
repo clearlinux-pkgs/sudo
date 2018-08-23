@@ -1,7 +1,7 @@
 From 6b1017e75c5f2eec545434c1560ffc3ace98b80d Mon Sep 17 00:00:00 2001
 From: "Simental Magana, Marcos" <marcos.simental.magana@intel.com>
 Date: Tue, 5 May 2015 13:08:47 -0500
-Subject: [PATCH 2/4] Add read only sudoers.d dir
+Subject: [PATCH 2/5] Add read only sudoers.d dir
 
 ---
  plugins/sudoers/sudoers.in | 3 ++-

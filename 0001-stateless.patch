@@ -1,7 +1,7 @@
 From 3f08a7671dd9b3a2c2b27d17790fd1da24995a7b Mon Sep 17 00:00:00 2001
 From: Dimitri John Ledkov <dimitri.j.ledkov@intel.com>
 Date: Fri, 27 Feb 2015 21:36:30 +0000
-Subject: [PATCH 1/4] stateless
+Subject: [PATCH 1/5] stateless
 
 Convert sudo to stateless.
 ---
