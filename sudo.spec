@@ -6,13 +6,13 @@
 #
 Name     : sudo
 Version  : 1.8.24
-Release  : 56
+Release  : 57
 URL      : https://www.sudo.ws/dist/sudo-1.8.24.tar.gz
 Source0  : https://www.sudo.ws/dist/sudo-1.8.24.tar.gz
 Source99 : https://www.sudo.ws/dist/sudo-1.8.24.tar.gz.sig
 Summary  : No detailed summary available
 Group    : Development/Tools
-License  : ISC
+License  : ISC MIT-Opengroup
 Requires: sudo-bin
 Requires: sudo-setuid
 Requires: sudo-data
@@ -27,6 +27,7 @@ Patch1: 0001-stateless.patch
 Patch2: 0002-Add-read-only-sudoers.d-dir.patch
 Patch3: 0003-visudo-Use-sane-default-file.patch
 Patch4: 0004-man-pages-add-stateless-locations.patch
+Patch5: 0005-keep-proxy-settings-environment-variables.patch
 
 %description
 The sudo philosophy
@@ -113,13 +114,14 @@ setuid components for the sudo package.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1534609639
+export SOURCE_DATE_EPOCH=1535051958
 %configure --disable-static --with-pam \
 --with-env-editor \
 --with-ignore-dot \
@@ -134,8 +136,10 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make check || :
 
 %install
-export SOURCE_DATE_EPOCH=1534609639
+export SOURCE_DATE_EPOCH=1535051958
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/doc/sudo
+cp doc/LICENSE %{buildroot}/usr/share/doc/sudo/doc_LICENSE
 %make_install INSTALL_OWNER=""
 %find_lang sudo
 %find_lang sudoers
@@ -161,7 +165,6 @@ rm -rf %{buildroot}
 %files data
 %defattr(-,root,root,-)
 /usr/share/defaults/sudo/sudoers
-/usr/share/defaults/sudo/sudoers.dist
 
 %files dev
 %defattr(-,root,root,-)
@@ -174,6 +177,7 @@ rm -rf %{buildroot}
 %files license
 %defattr(-,root,root,-)
 /usr/share/doc/sudo/LICENSE
+/usr/share/doc/sudo/doc_LICENSE
 
 %files man
 %defattr(-,root,root,-)
