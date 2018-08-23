@@ -1,26 +1,25 @@
-From 31faf3aa87521709e9dba5911ca476c8e4743aa0 Mon Sep 17 00:00:00 2001
+From fe5b6849fc16c11432435d2d5142b06f68e4da58 Mon Sep 17 00:00:00 2001
 From: Ikey Doherty <michael.i.doherty@intel.com>
 Date: Mon, 18 May 2015 16:52:05 +0100
-Subject: [PATCH] visudo: Use sane default file
+Subject: [PATCH 3/4] visudo: Use sane default file
 
-Signed-off-by: Ikey Doherty <michael.i.doherty@intel.com>
 ---
  plugins/sudoers/visudo.c | 8 ++++++++
  1 file changed, 8 insertions(+)
 
 diff --git a/plugins/sudoers/visudo.c b/plugins/sudoers/visudo.c
-index 2502bfe..412a358 100644
+index 533c952..eb9ae7f 100644
 --- a/plugins/sudoers/visudo.c
 +++ b/plugins/sudoers/visudo.c
-@@ -154,6 +154,7 @@ main(int argc, char *argv[])
+@@ -132,6 +132,7 @@ main(int argc, char *argv[])
+     int ch, oldlocale, editor_argc, exitcode = 0;
      bool quiet, strict, oldperms;
-     const char *export_path;
      debug_decl(main, SUDOERS_DEBUG_MAIN)
 +    __attribute__ ((unused)) struct stat st = {0};
  
  #if defined(SUDO_DEVEL) && defined(__OpenBSD__)
      {
-@@ -170,6 +171,10 @@ main(int argc, char *argv[])
+@@ -150,6 +151,10 @@ main(int argc, char *argv[])
      if (argc < 1)
  	usage(1);
  
@@ -31,7 +30,7 @@ index 2502bfe..412a358 100644
      /* Register fatal/fatalx callback. */
      sudo_fatal_callback_register(visudo_cleanup);
  
-@@ -182,6 +187,9 @@ main(int argc, char *argv[])
+@@ -167,6 +172,9 @@ main(int argc, char *argv[])
      /* Parse sudoers plugin options, if any. */
      parse_sudoers_options();
  
@@ -42,5 +41,5 @@ index 2502bfe..412a358 100644
       * Arg handling.
       */
 -- 
-1.9.1
+2.18.0
 
