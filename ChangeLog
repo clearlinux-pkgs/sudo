@@ -1,4 +1,350 @@
+2018-09-02  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/po/sudoers.pot:
+	regen
+	[04afa00445ef]
+
+2018-08-31  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/regress/iolog_plugin/check_iolog_plugin.c:
+	Allow for some clock drift due to ntpd, etc.
+	[2d72989fe7b1]
+
+	* plugins/sudoers/visudo.c:
+	If sudo_lock_file() fails for a reason other than the file already
+	being locked, give the user a chance to edit anyway.
+	[e5a963ecc083]
+
+2018-08-30  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/regress/cvtsudoers/test28.sh:
+	Quick sort is not a stable sort; use distinct sudoOrder values so
+	the output is predictable.
+	[46ebc1169c0c]
+
+	* lib/util/regress/atofoo/atofoo_test.c,
+	lib/util/regress/parse_gids/parse_gids_test.c,
+	plugins/sudoers/ldap.c,
+	plugins/sudoers/regress/parser/check_base64.c:
+	Fix warnings on OpenIndiana (Illumos)
+	[1b45d303b338]
+
+	* plugins/sudoers/ldap.c:
+	Correct ldap_to_sudoers() return value.
+	[16b0d144b196]
+
+	* NEWS:
+	Bug #849
+	[3e05bad00a44]
+
+	* plugins/sudoers/sssd.c:
+	The sssd backend used to take the first match, assuming that entries
+	were sorted in descending order by sudoOrder. That allowed it to
+	avoid iterating over the entire list of rules. Now that we convert
+	to a sudoers parse tree, we need to convert rules in ascending
+	order, not descending. The simplest way to accomplish this is to
+	simply iterate over the rules from last to first, reversing the sort
+	order. Bug #849
+	[63627909bb10]
+
+	* MANIFEST, plugins/sudoers/regress/cvtsudoers/test28.out.ok,
+	plugins/sudoers/regress/cvtsudoers/test28.sh,
+	plugins/sudoers/regress/cvtsudoers/test29.out.ok,
+	plugins/sudoers/regress/cvtsudoers/test29.sh:
+	Add some more ldif -> sudoers tests to verify sudoOrder.
+	[f41358fbd066]
+
+	* plugins/sudoers/ldap.c:
+	For conversion to a sudoers parse tree, ldap_entry_compare() now
+	needs to sort in ascending order, not descending. Bug #849
+	[9f23126cded8]
+
+2018-08-29  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/cvtsudoers.c:
+	No need to set input_file for stdin in parse_ldif(); noted by clang
+	analyzer.
+	[c852e1c92dd2]
+
+	* plugins/sudoers/iolog_util.c:
+	Use TIME_T_MAX when parsing the I/O log file timestamp and disallow
+	negative times.
+	[bfb17118e584]
+
+	* MANIFEST, plugins/sudoers/Makefile.in, plugins/sudoers/iolog_util.c,
+	plugins/sudoers/iolog_util.h,
+	plugins/sudoers/regress/iolog_plugin/check_iolog_plugin.c,
+	plugins/sudoers/regress/iolog_util/check_iolog_util.c,
+	plugins/sudoers/sudoreplay.c:
+	When parsing an I/O log timing line, store the result in a timespec,
+	not a double. The speed factor (for scaling the delay) in sudoreplay
+	is still a double but we only need to adjust the delay if the factor
+	is something other than 1.0.
+	[39077129d1f9]
+
+	* plugins/sudoers/regress/iolog_plugin/check_iolog_plugin.c:
+	Fix memory leak in test.
+	[94fb9f39dfee]
+
+	* doc/cvtsudoers.cat, doc/sudo.cat, doc/sudo.conf.cat,
+	doc/sudo_plugin.cat, doc/sudoers.cat, doc/sudoers.ldap.cat,
+	doc/sudoers_timestamp.cat, doc/sudoreplay.cat, doc/visudo.cat:
+	regen
+	[f2850c2f733a]
+
+2018-08-28  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/env.c:
+	Update conversion of DID_* to KEPT_* to match the new values of
+	DID_* and KEPT_*.
+	[6ce1bc30a4d1]
+
+	* NEWS, plugins/sudoers/env.c:
+	Set the LOGIN environment variable on AIX like we do LOGNAME.
+	[e6afb82d918c]
+
+2018-08-27  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* config.h.in, configure, configure.ac, m4/sudo.m4,
+	plugins/sudoers/bsm_audit.c:
+	Add a test for the 4-argument au_close() function found in Solaris
+	11 instead of assuming it is present if __sun is defined. Fixes a
+	compilation error on OpenIndiana and older Solaris versions.
+	[4a4f91e28bbc]
+
+	* doc/CONTRIBUTORS:
+	Add Miguel Sanders and Scott Cheloha
+	[14aca7309a0a]
+
+	* NEWS:
+	testsudoers changes
+	[f008d473c933]
+
+	* plugins/sudoers/Makefile.in, plugins/sudoers/testsudoers.c:
+	Add ldif support to testsudoers
+	[321f11b7badd]
+
+2018-08-26  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* MANIFEST, plugins/sudoers/Makefile.in, plugins/sudoers/cvtsudoers.c,
+	plugins/sudoers/cvtsudoers.h, plugins/sudoers/cvtsudoers_ldif.c,
+	plugins/sudoers/parse.h, plugins/sudoers/parse_ldif.c:
+	Move ldif -> sudoers conversion code into parse_ldif.c
+	[497d55799d5b]
+
+	* MANIFEST, plugins/sudoers/Makefile.in, plugins/sudoers/cvtsudoers.c,
+	plugins/sudoers/cvtsudoers.h, plugins/sudoers/cvtsudoers_ldif.c,
+	plugins/sudoers/cvtsudoers_pwutil.c, plugins/sudoers/strlist.c,
+	plugins/sudoers/strlist.h:
+	Move string list functions to their own file.
+	[a15902cde4eb]
+
+	* lib/util/Makefile.in:
+	sync
+	[9b1f98d4335f]
+
+2018-08-25  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* include/sudo_event.h, lib/util/event.c, lib/util/util.exp.in:
+	Backward ABI compatibility for even functions that use a timeval.
+	[01d9e617a923]
+
+	* lib/util/event.c, lib/util/event_poll.c, lib/util/event_select.c:
+	Use a monotonic timer for the event subsystem.
+	[acf30905a275]
+
+	* config.h.in, configure, configure.ac, include/sudo_event.h,
+	lib/util/event.c, lib/util/event_poll.c, lib/util/event_select.c,
+	plugins/sudoers/iolog_util.h, plugins/sudoers/sudoers.h,
+	plugins/sudoers/sudoreplay.c:
+	Use struct timespec, not struct timeval in the event subsystem. Use
+	ppoll() or pselect() if avaialble which use timespec.
+	[b1bfccec8b13]
+
+2018-08-24  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* .hgignore:
+	sync
+	[193fd33e9864]
+
+	* plugins/sudoers/cvtsudoers.c, plugins/sudoers/cvtsudoers.h,
+	plugins/sudoers/cvtsudoers_json.c,
+	plugins/sudoers/cvtsudoers_ldif.c:
+	Eliminate most use of parsed_sudoers in cvtsudoers
+	[0d0504f61e3e]
+
+	* plugins/sudoers/alias.c, plugins/sudoers/cvtsudoers.c,
+	plugins/sudoers/cvtsudoers_json.c, plugins/sudoers/parse.h,
+	plugins/sudoers/testsudoers.c, plugins/sudoers/visudo.c:
+	Make alias_apply() take 3 arguments, the first being a pointer to
+	the struct sudoers_parse_tree.
+	[7802295c07fa]
+
+2018-08-23  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/regress/iolog_plugin/check_iolog_plugin.c:
+	Handle systems where root's gid is not 0.
+	[1fc92bad715a]
+
+	* plugins/sudoers/iolog_util.c, plugins/sudoers/iolog_util.h:
+	Add missing files from last commit.
+	[a155e07bb191]
+
+	* .hgignore, MANIFEST, plugins/sudoers/Makefile.in,
+	plugins/sudoers/po/sudoers.pot,
+	plugins/sudoers/regress/iolog_plugin/check_iolog_plugin.c,
+	plugins/sudoers/sudoreplay.c:
+	Add regress test for I/O log plugin endpoints
+	[bf9fbe5ff2a6]
+
+	* plugins/sudoers/iolog.c:
+	We cannot reuse last_time for the I/O log info file now that it is a
+	monotonic timer. Just call time(3) in write_info_log() directly.
+	[f2e1de732a91]
+
+	* src/exec_pty.c:
+	Move the loop to free the monitor_messages list into
+	free_exec_closure_pty()
+	[d6edc1a94e7e]
+
+	* po/sudo.pot:
+	regen
+	[6467f05a2fd0]
+
+2018-08-22  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* lib/util/getentropy.c:
+	Fix typo in last commit.
+	[38f3450b57fb]
+
+	* config.h.in, configure, configure.ac, lib/util/getentropy.c:
+	Do not assume all Linux has linux/random.h. Add missing
+	sys/syscall.h include
+	[8460f258e1af]
+
+	* plugins/sudoers/policy.c, plugins/sudoers/timestamp.c,
+	plugins/sudoers/visudo.c, src/sudo_edit.c:
+	Cast uid/gid to unsigned int before printing.
+	[37fcab8b4f97]
+
+	* include/sudo_compat.h:
+	Only include stdarg.h if we need it.
+	[c266d34454ba]
+
+	* plugins/sudoers/cvtsudoers_pwutil.c, plugins/sudoers/ldap.c,
+	plugins/sudoers/pwutil.c, plugins/sudoers/pwutil_impl.c,
+	plugins/sudoers/rcstr.c, plugins/sudoers/timestamp.c,
+	src/sudo_noexec.c:
+	Include stddef.h for offsetof() definition.
+	[15d13ae1ba46]
+
+	* plugins/sudoers/bsm_audit.c, plugins/sudoers/timestamp.c:
+	fix compiler warnings on Solaris 11
+	[6c92c438a38e]
+
+	* lib/util/getentropy.c:
+	Fix setting of errno when gotdata() fails.
+	[4fab71fa575f]
+
+	* NEWS:
+	Bugs 846 and 847
+	[a0ba7ad24812]
+
+	* include/sudo_compat.h:
+	We still need to include string.h for AIX (and possibly others) when
+	we are not using the system memset_r() function and rsize_t is
+	defined by the system headers.
+	[e1f8f7537209]
+
+	* configure, configure.ac, include/sudo_compat.h, mkpkg:
+	Add --enable-package-build to give configure a hint that we are
+	building a package. This can be used to avoid relying on libc
+	functions that may not be present in all libc versions for a
+	particular system. For instance, AIX 7.1 may or may not have
+	memset_s() and getline() present.
+	[7e843bed8435]
+
+	* include/sudo_compat.h:
+	AIX defines rsize_t in string.h, not stddef.h for use by the
+	memset_s() prototype. We use our own memset_s() on AIX since it is
+	not available on all BOS levels which makes package building
+	problematic.
+	[3724b47eadd8]
+
+2018-08-21  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/defaults.c:
+	Fix printing of T_TIMESPEC values.
+	[8775c17229a4]
+
+	* plugins/sudoers/iolog.c:
+	Remove unused struct script_buf
+	[fd27f67123b3]
+
+2018-08-20  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* NEWS:
+	Document when the I/O log timing file entry bug was introduced.
+	[09a75d80487e]
+
+	* NEWS:
+	sync
+	[95fd54c61719]
+
+	* config.h.in, configure, configure.ac, lib/util/gettime.c:
+	HP-UX doesn't suport CLOCK_MONOTONIC but we can use gethrtime()
+	instead.
+	[3ec7d99444c0]
+
+	* src/exec_monitor.c, src/exec_pty.c:
+	Close the pty slave in the parent so that when the command and
+	monitor exit, the pty gets recycled without our having to close it
+	directly.
+	[fec53753cf52]
+
+	* lib/util/term.c, src/exec_monitor.c, src/exec_pty.c, src/sudo.h:
+	Move updating of the window size to the monitor process. This will
+	allow us to close the slave in the main sudo process in the future
+	so only the command and monitor have it open.
+	[07108a1c2edc]
+
+	* configure, configure.ac:
+	sudo 1.8.25
+	[4938ba570787]
+
+	* plugins/sudoers/regress/sudoers/test19.ldif2sudo.ok:
+	Fix test output for bug #845
+	[ee6f2d615bd8]
+
+	* plugins/sudoers/ldap_util.c:
+	Fix pasto when converting sudoNotAfter; from Miguel Sanders Bug #845
+	[69638cd6da60]
+
+2018-08-19  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/iolog.c:
+	Use a monotonic timer that only runs while not suspended for the
+	iolog timing values and write nsec-precision entries.
+	[7f37f0b24ce7]
+
+	* aclocal.m4, config.h.in, configure, configure.ac,
+	include/sudo_util.h, lib/util/gettime.c, lib/util/util.exp.in:
+	Add sudo_gettime_uptime() to measure time while not sleeping.
+	[a128e7d51740]
+
 2018-08-18  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* mkpkg:
+	Detect number of CPUs on AIX.
+	[2b7c62b42da2]
+
+	* plugins/sudoers/iolog.c:
+	Fix I/O log timing file on systems without a C99-compatible
+	snprintf(). On those systems we use our own snprintf() that doesn't
+	support floating point. We don't actually need floating point in
+	this case since the we can print seconds and microseconds without
+	using it.
+	[4ea419ac5bee]
 
 	* NEWS:
 	Fix for Bug #844
