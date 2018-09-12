@@ -1,3 +1,19 @@
+2018-09-12  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* doc/CONTRIBUTORS:
+	Add Kan Sasaki
+	[ff277fb5b0c9]
+
+	* NEWS, configure, configure.ac:
+	sudo 1.8.25p1
+	[c4f0a69e6356]
+
+	* lib/util/event_poll.c:
+	Fix a crash in the event system's poll() backend introduced with
+	support for nanosecond timers. Only affects systems without ppoll().
+	Bug #851
+	[54e561b11a0f]
+
 2018-09-02  Todd C. Miller  <Todd.Miller@sudo.ws>
 
 	* plugins/sudoers/po/sudoers.pot:
