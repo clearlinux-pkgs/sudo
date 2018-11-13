@@ -5,20 +5,21 @@
 # Source0 file verified with key 0xA9F4C021CEA470FB (Todd.Miller@sudo.ws)
 #
 Name     : sudo
-Version  : 1.8.25p1
-Release  : 59
-URL      : https://www.sudo.ws/dist/sudo-1.8.25p1.tar.gz
-Source0  : https://www.sudo.ws/dist/sudo-1.8.25p1.tar.gz
-Source99 : https://www.sudo.ws/dist/sudo-1.8.25p1.tar.gz.sig
+Version  : 1.8.26
+Release  : 60
+URL      : https://www.sudo.ws/dist/sudo-1.8.26.tar.gz
+Source0  : https://www.sudo.ws/dist/sudo-1.8.26.tar.gz
+Source99 : https://www.sudo.ws/dist/sudo-1.8.26.tar.gz.sig
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : ISC MIT-Opengroup
-Requires: sudo-bin
-Requires: sudo-setuid
-Requires: sudo-data
-Requires: sudo-license
-Requires: sudo-locales
-Requires: sudo-man
+Requires: sudo-bin = %{version}-%{release}
+Requires: sudo-data = %{version}-%{release}
+Requires: sudo-libexec = %{version}-%{release}
+Requires: sudo-license = %{version}-%{release}
+Requires: sudo-locales = %{version}-%{release}
+Requires: sudo-man = %{version}-%{release}
+Requires: sudo-setuid = %{version}-%{release}
 BuildRequires : Linux-PAM-dev
 BuildRequires : bison
 BuildRequires : groff
@@ -39,10 +40,11 @@ privileges as possible but still allow people to get their work done.
 %package bin
 Summary: bin components for the sudo package.
 Group: Binaries
-Requires: sudo-data
-Requires: sudo-setuid
-Requires: sudo-license
-Requires: sudo-man
+Requires: sudo-data = %{version}-%{release}
+Requires: sudo-libexec = %{version}-%{release}
+Requires: sudo-setuid = %{version}-%{release}
+Requires: sudo-license = %{version}-%{release}
+Requires: sudo-man = %{version}-%{release}
 
 %description bin
 bin components for the sudo package.
@@ -59,9 +61,9 @@ data components for the sudo package.
 %package dev
 Summary: dev components for the sudo package.
 Group: Development
-Requires: sudo-bin
-Requires: sudo-data
-Provides: sudo-devel
+Requires: sudo-bin = %{version}-%{release}
+Requires: sudo-data = %{version}-%{release}
+Provides: sudo-devel = %{version}-%{release}
 
 %description dev
 dev components for the sudo package.
@@ -70,10 +72,19 @@ dev components for the sudo package.
 %package doc
 Summary: doc components for the sudo package.
 Group: Documentation
-Requires: sudo-man
+Requires: sudo-man = %{version}-%{release}
 
 %description doc
 doc components for the sudo package.
+
+
+%package libexec
+Summary: libexec components for the sudo package.
+Group: Default
+Requires: sudo-license = %{version}-%{release}
+
+%description libexec
+libexec components for the sudo package.
 
 
 %package license
@@ -109,7 +120,7 @@ setuid components for the sudo package.
 
 
 %prep
-%setup -q -n sudo-1.8.25p1
+%setup -q -n sudo-1.8.26
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -121,7 +132,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1536794345
+export SOURCE_DATE_EPOCH=1542142661
 %configure --disable-static --with-pam \
 --with-env-editor \
 --with-ignore-dot \
@@ -136,10 +147,10 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make check || :
 
 %install
-export SOURCE_DATE_EPOCH=1536794345
+export SOURCE_DATE_EPOCH=1542142661
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/sudo
-cp doc/LICENSE %{buildroot}/usr/share/doc/sudo/doc_LICENSE
+mkdir -p %{buildroot}/usr/share/package-licenses/sudo
+cp doc/LICENSE %{buildroot}/usr/share/package-licenses/sudo/doc_LICENSE
 %make_install INSTALL_OWNER=""
 %find_lang sudo
 %find_lang sudoers
@@ -154,13 +165,6 @@ cp doc/LICENSE %{buildroot}/usr/share/doc/sudo/doc_LICENSE
 /usr/bin/sudoedit
 /usr/bin/sudoreplay
 /usr/bin/visudo
-/usr/libexec/sudo/group_file.so
-/usr/libexec/sudo/libsudo_util.so
-/usr/libexec/sudo/libsudo_util.so.0
-/usr/libexec/sudo/libsudo_util.so.0.0.0
-/usr/libexec/sudo/sudo_noexec.so
-/usr/libexec/sudo/sudoers.so
-/usr/libexec/sudo/system_group.so
 
 %files data
 %defattr(-,root,root,-)
@@ -174,13 +178,22 @@ cp doc/LICENSE %{buildroot}/usr/share/doc/sudo/doc_LICENSE
 %defattr(0644,root,root,0755)
 %doc /usr/share/doc/sudo/*
 
-%files license
+%files libexec
 %defattr(-,root,root,-)
-/usr/share/doc/sudo/LICENSE
-/usr/share/doc/sudo/doc_LICENSE
+/usr/libexec/sudo/group_file.so
+/usr/libexec/sudo/libsudo_util.so
+/usr/libexec/sudo/libsudo_util.so.0
+/usr/libexec/sudo/libsudo_util.so.0.0.0
+/usr/libexec/sudo/sudo_noexec.so
+/usr/libexec/sudo/sudoers.so
+/usr/libexec/sudo/system_group.so
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/sudo/doc_LICENSE
 
 %files man
-%defattr(-,root,root,-)
+%defattr(0644,root,root,0755)
 /usr/share/man/man1/cvtsudoers.1
 /usr/share/man/man5/sudo.conf.5
 /usr/share/man/man5/sudoers.5
