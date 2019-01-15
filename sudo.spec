@@ -5,18 +5,17 @@
 # Source0 file verified with key 0xA9F4C021CEA470FB (Todd.Miller@sudo.ws)
 #
 Name     : sudo
-Version  : 1.8.26
-Release  : 60
-URL      : https://www.sudo.ws/dist/sudo-1.8.26.tar.gz
-Source0  : https://www.sudo.ws/dist/sudo-1.8.26.tar.gz
-Source99 : https://www.sudo.ws/dist/sudo-1.8.26.tar.gz.sig
+Version  : 1.8.27
+Release  : 61
+URL      : https://www.sudo.ws/dist/sudo-1.8.27.tar.gz
+Source0  : https://www.sudo.ws/dist/sudo-1.8.27.tar.gz
+Source99 : https://www.sudo.ws/dist/sudo-1.8.27.tar.gz.sig
 Summary  : No detailed summary available
 Group    : Development/Tools
-License  : ISC MIT-Opengroup
+License  : ISC
 Requires: sudo-bin = %{version}-%{release}
 Requires: sudo-data = %{version}-%{release}
 Requires: sudo-libexec = %{version}-%{release}
-Requires: sudo-license = %{version}-%{release}
 Requires: sudo-locales = %{version}-%{release}
 Requires: sudo-man = %{version}-%{release}
 Requires: sudo-setuid = %{version}-%{release}
@@ -43,7 +42,6 @@ Group: Binaries
 Requires: sudo-data = %{version}-%{release}
 Requires: sudo-libexec = %{version}-%{release}
 Requires: sudo-setuid = %{version}-%{release}
-Requires: sudo-license = %{version}-%{release}
 Requires: sudo-man = %{version}-%{release}
 
 %description bin
@@ -81,18 +79,9 @@ doc components for the sudo package.
 %package libexec
 Summary: libexec components for the sudo package.
 Group: Default
-Requires: sudo-license = %{version}-%{release}
 
 %description libexec
 libexec components for the sudo package.
-
-
-%package license
-Summary: license components for the sudo package.
-Group: Default
-
-%description license
-license components for the sudo package.
 
 
 %package locales
@@ -120,7 +109,7 @@ setuid components for the sudo package.
 
 
 %prep
-%setup -q -n sudo-1.8.26
+%setup -q -n sudo-1.8.27
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -132,7 +121,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1542142661
+export SOURCE_DATE_EPOCH=1547534260
 %configure --disable-static --with-pam \
 --with-env-editor \
 --with-ignore-dot \
@@ -147,10 +136,8 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make check || :
 
 %install
-export SOURCE_DATE_EPOCH=1542142661
+export SOURCE_DATE_EPOCH=1547534260
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/package-licenses/sudo
-cp doc/LICENSE %{buildroot}/usr/share/package-licenses/sudo/doc_LICENSE
 %make_install INSTALL_OWNER=""
 %find_lang sudo
 %find_lang sudoers
@@ -187,10 +174,6 @@ cp doc/LICENSE %{buildroot}/usr/share/package-licenses/sudo/doc_LICENSE
 /usr/libexec/sudo/sudo_noexec.so
 /usr/libexec/sudo/sudoers.so
 /usr/libexec/sudo/system_group.so
-
-%files license
-%defattr(0644,root,root,0755)
-/usr/share/package-licenses/sudo/doc_LICENSE
 
 %files man
 %defattr(0644,root,root,0755)

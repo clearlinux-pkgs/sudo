@@ -16,6 +16,9 @@ Configure miss: sendmail
 Configure miss: vi
 Configure miss: netgroup.h
 Configure miss: sys/bsdtypes.h
+Configure miss: utmps.h usability
+Configure miss: utmps.h presence
+Configure miss: utmps.h
 Configure miss: procfs.h usability
 Configure miss: procfs.h presence
 Configure miss: procfs.h
@@ -25,6 +28,7 @@ Configure miss: errno_t
 Configure miss: struct utmpx.ut_exit.__e_termination
 Configure miss: arc4random_uniform
 Configure miss: arc4random
+Configure miss: getutsid
 Configure miss: devname
 Configure miss: struct kinfo_proc.ki_structsize
 Configure miss: struct kinfo_proc2.p_paddr

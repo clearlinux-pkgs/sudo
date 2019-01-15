@@ -1,3 +1,216 @@
+2019-01-07  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* NEWS:
+	The AIX nofiles hard limit fix and bug #867 will make 1.8.27.
+	[a8b4710ff907]
+
+	* plugins/sudoers/auth/pam.c:
+	Use PAM_SILENT to prevent pam_lastlog from printing last login
+	information on RedHat except when explicitly running a shell.
+	Adapted from a patch from Nir Soffer. Bug #867
+	[b8b5d3445a3c]
+
+	* lib/util/aix.c:
+	Fix the default nofiles and stack hard limits. The table of default
+	hard limits in /etc/security/limits was out of date with respect to
+	the current documentation. The default hard limit for nofiles should
+	be unlimited, not 8196. The default hard limit for stack should be
+	4194304 blocks (which fits in an unsigned long on 32-bit platforms).
+	[68c8c05a0b9b]
+
+2019-01-03  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/po/sudoers.pot:
+	regen
+	[3000c62ed0ba]
+
+	* NEWS:
+	Final updates for sudo 1.8.27.
+	[40d6ecb1f739]
+
+	* src/exec_pty.c:
+	Update copyright year
+	[adc9f4046585]
+
+	* doc/LICENSE:
+	Update for 2019
+	[ccbbad25d7c7]
+
+2019-01-02  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* src/exec_pty.c:
+	Fix setting of utmp entry when running command in a pty. Regression
+	introduced in sudo 1.8.22.
+	[cf81f3fa1f3a]
+
+2018-12-24  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/sudoers.c:
+	Use debug_return_int not debug_return_bool in resolve_host
+	[490241e14e68]
+
+	* NEWS, configure, configure.ac:
+	sudo 1.8.27
+	[f59a4a391a44]
+
+	* doc/visudo.cat, doc/visudo.man.in, doc/visudo.mdoc.in,
+	plugins/sudoers/visudo.c:
+	Allow the sudoers file to be specified without the -f option. Bug
+	#864
+	[eb3d4c4461ba]
+
+2018-12-20  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* doc/sudoers.cat, doc/sudoers.man.in, doc/sudoers.mdoc.in:
+	The iolog_dir section is below the maxseq section, not above.
+	[35534e4f23d9]
+
+2018-12-12  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/po/ja.mo, plugins/sudoers/po/ja.po, po/ja.mo,
+	po/ja.po:
+	Updated translations from translationproject.org
+	[270660da2de4]
+
+2018-12-11  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/sudoreplay.c:
+	Add -n and -R options to help; reported by Radovan Sroka
+	[683df32eb950]
+
+	* doc/cvtsudoers.cat, doc/cvtsudoers.man.in, doc/cvtsudoers.mdoc.in:
+	Add missing description of padding option and missing argument to
+	-c.
+	[c762020f1694]
+
+	* plugins/sudoers/cvtsudoers.c:
+	The -c option was missing from the help info; from Radovan Sroka
+	[aa36d5c05b0b]
+
+	* doc/cvtsudoers.cat, doc/cvtsudoers.man.in, doc/cvtsudoers.mdoc.in:
+	Fix some typos; reported by Radovan Sroka
+	[d6137224dd47]
+
+2018-12-08  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/auth/pam.c:
+	In sudo_pam_approval(), for the exempt case, only overwrite pam
+	status when the passwd is expired or needs to be updated.
+	[2c2d1ed1bb7e]
+
+2018-12-07  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/auth/pam.c:
+	The fix for bug #843 was incomplete and caused pam_end() to be
+	called early. sudo_pam_approval() must not set the global pam status
+	to an error value if it returns AUTH_SUCCESS. Otherwise,
+	sudo_pam_cleanup() will call pam_end() before
+	sudo_pam_begin_session(). This resulted in a NULL PAM handle being
+	used in sudo_pam_begin_session().
+	[656aa910fbaf]
+
+2018-12-05  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* src/exec.c:
+	Don't run the command in a pty if no I/O plugins are logging
+	anything. That way an I/O plugin that doesn't actually log anything
+	won't cause the command to be run in a pty.
+	[ef83f35c9cb0]
+
+2018-11-29  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* .hgignore:
+	Update ignore patterns to match doc changes.
+	[7438cdacc0e1]
+
+	* doc/fixmdoc.sed:
+	fix mode fixmdoc.sed
+	[d74c0b7c5932]
+
+2018-11-27  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* doc/Makefile.in, doc/sudo.conf.man.in, doc/sudo.man.in,
+	doc/sudoers.ldap.man.in, doc/sudoers.man.in,
+	doc/sudoers_timestamp.man.in, doc/sudoreplay.man.in,
+	doc/visudo.man.in:
+	Fix section in the .TH line of *.man.in file. The substitution for
+	@mansectsu@ and @mansectform@ was broken. No longer need to strip
+	out OpenBSD from the header line.
+	[cb02c8496b21]
+
+	* doc/sudoers.man.in.sed:
+	Add sudoers.man.in.sed, missed from previous commit.
+	[a2113a52e6a7]
+
+	* doc/CONTRIBUTORS:
+	Add Guillem Jover
+	[db7a39f9726a]
+
+	* NEWS:
+	recent changes
+	[0c07a0cdf2ff]
+
+	* MANIFEST, doc/Makefile.in, doc/fixman.sh, doc/fixmdoc.sed,
+	doc/fixmdoc.sh, doc/sudo.cat, doc/sudo.man.in, doc/sudo.man.in.sed,
+	doc/sudo.mdoc.in, doc/sudoers.cat, doc/sudoers.man.in,
+	doc/sudoers.mdoc.in:
+	Use roff conditionals in the manuals instead of post-processing. We
+	still need to process the resulting .man.in files to add back the
+	conditionals but this should be easier to debug as the changes are
+	visible in the .in file. Some minor postprocessing is still used to
+	make the manuals HP-UX friendly and to change "0 seconds" ->
+	unlimited after substitution.
+	[44316d271ab8]
+
+2018-11-24  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* doc/sudo_plugin.cat, doc/sudo_plugin.man.in,
+	doc/sudo_plugin.mdoc.in:
+	Sudo plugin manual updates and clarification from Guillem Jover:
+	- Add missing return information for show_version().
+	- Fix prototypes for several function pointers.
+	- Update SUDO_API_VERSION_MINOR.
+	- Add missing references to log_suspend() and change_winsize().
+	- Add missing "array.".
+	- Clarify that argc can be zero on sudo -V.
+	- Clarify size requirements for conversation array arguments.
+	- Clarify timeout zero value for struct sudo_conv_message.
+	- Clarify initial and final state of reply in struct sudo_conv_reply.
+	[1241cff4dd51]
+
+	* doc/fixmdoc.sh, doc/sudo.man.in, doc/sudo.mdoc.in,
+	doc/sudoers.man.in, doc/sudoers.mdoc.in:
+	Revert changes to give arguments to the .Bx macro. This is intended
+	for things like .Bx 4.3 to generate "4.3BSD" so the argument ends up
+	before the BSD, not after. Just go back to using "BSD
+	authentication" and "BSD login classes" so fixmdoc.sh can operate
+	correctly. Bug #861
+	[c58965343318]
+
+2018-11-23  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* doc/fixmdoc.sh, doc/sudo.mdoc.in, doc/sudoers.mdoc.in:
+	Update fixmdoc.sh to match the BSD -> .Bx changes in the manuals.
+	Bug #861
+	[7ddfb74781a1]
+
+2018-11-18  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* config.h.in, configure, configure.ac, m4/sudo.m4, src/utmp.c:
+	Add support for utmps as found in HP-UX.
+	[f55312948139]
+
+2018-11-14  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* config.h.in, configure, configure.ac, include/sudo_util.h,
+	lib/util/utimens.c:
+	Support st_nmtime in struct stat as found in HP-UX.
+	[0854b34cd2ea]
+
+	* lib/util/closefrom.c:
+	If fcntl fails, fall back to the /proc implementation.
+	[59a03e0d3148]
+
 2018-11-12  Todd C. Miller  <Todd.Miller@sudo.ws>
 
 	* NEWS:
