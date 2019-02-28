@@ -8,18 +8,18 @@ Subject: [PATCH 3/5] visudo: Use sane default file
  1 file changed, 8 insertions(+)
 
 diff --git a/plugins/sudoers/visudo.c b/plugins/sudoers/visudo.c
-index 50dda59..f8803b0 100644
+index 533c952..eb9ae7f 100644
 --- a/plugins/sudoers/visudo.c
 +++ b/plugins/sudoers/visudo.c
-@@ -137,6 +137,7 @@ main(int argc, char *argv[])
+@@ -132,6 +132,7 @@ main(int argc, char *argv[])
      int ch, oldlocale, editor_argc, exitcode = 0;
-     bool quiet, strict, fflag;
+     bool quiet, strict, oldperms;
      debug_decl(main, SUDOERS_DEBUG_MAIN)
 +    __attribute__ ((unused)) struct stat st = {0};
  
  #if defined(SUDO_DEVEL) && defined(__OpenBSD__)
      {
-@@ -155,6 +156,10 @@ main(int argc, char *argv[])
+@@ -150,6 +151,10 @@ main(int argc, char *argv[])
      if (argc < 1)
  	usage(1);
  
@@ -30,7 +30,7 @@ index 50dda59..f8803b0 100644
      /* Register fatal/fatalx callback. */
      sudo_fatal_callback_register(visudo_cleanup);
  
-@@ -172,6 +177,9 @@ main(int argc, char *argv[])
+@@ -167,6 +172,9 @@ main(int argc, char *argv[])
      /* Parse sudoers plugin options, if any. */
      parse_sudoers_options();
  
@@ -40,3 +40,6 @@ index 50dda59..f8803b0 100644
      /*
       * Arg handling.
       */
+-- 
+2.18.0
+
