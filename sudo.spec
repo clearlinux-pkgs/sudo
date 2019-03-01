@@ -6,7 +6,7 @@
 #
 Name     : sudo
 Version  : 1.8.27
-Release  : 62
+Release  : 63
 URL      : https://www.sudo.ws/dist/sudo-1.8.27.tar.gz
 Source0  : https://www.sudo.ws/dist/sudo-1.8.27.tar.gz
 Source99 : https://www.sudo.ws/dist/sudo-1.8.27.tar.gz.sig
@@ -133,11 +133,12 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1551395002
+export SOURCE_DATE_EPOCH=1551405833
 %configure --disable-static --with-pam \
 --with-env-editor \
 --with-ignore-dot \
---with-tty-tickets
+--with-tty-tickets \
+--with-editor=/usr/bin/vim:/usr/bin/vi:/usr/bin/nano
 make  %{?_smp_mflags}
 
 %check
@@ -148,7 +149,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make check || :
 
 %install
-export SOURCE_DATE_EPOCH=1551395002
+export SOURCE_DATE_EPOCH=1551405833
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/sudo
 cp doc/LICENSE %{buildroot}/usr/share/package-licenses/sudo/doc_LICENSE
