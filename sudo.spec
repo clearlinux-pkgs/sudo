@@ -6,7 +6,7 @@
 #
 Name     : sudo
 Version  : 1.8.28
-Release  : 64
+Release  : 65
 URL      : https://www.sudo.ws/dist/sudo-1.8.28.tar.gz
 Source0  : https://www.sudo.ws/dist/sudo-1.8.28.tar.gz
 Source1 : https://www.sudo.ws/dist/sudo-1.8.28.tar.gz.sig
@@ -63,6 +63,7 @@ Group: Development
 Requires: sudo-bin = %{version}-%{release}
 Requires: sudo-data = %{version}-%{release}
 Provides: sudo-devel = %{version}-%{release}
+Requires: sudo = %{version}-%{release}
 Requires: sudo = %{version}-%{release}
 
 %description dev
@@ -132,12 +133,16 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1571068622
+export SOURCE_DATE_EPOCH=1571091654
+# -Werror is for werrorists
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -fno-lto "
-export FCFLAGS="$CFLAGS -fno-lto "
-export FFLAGS="$CFLAGS -fno-lto "
-export CXXFLAGS="$CXXFLAGS -fno-lto "
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 %configure --disable-static --with-pam \
 --with-env-editor \
 --with-ignore-dot \
@@ -153,10 +158,10 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make check || :
 
 %install
-export SOURCE_DATE_EPOCH=1571068622
+export SOURCE_DATE_EPOCH=1571091654
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/sudo
-cp doc/LICENSE %{buildroot}/usr/share/package-licenses/sudo/doc_LICENSE
+cp %{_builddir}/sudo-1.8.28/doc/LICENSE %{buildroot}/usr/share/package-licenses/sudo/5b128b0d96217393bc7d8a089f623a26657d380c
 %make_install INSTALL_OWNER=""
 %find_lang sudo
 %find_lang sudoers
@@ -195,7 +200,7 @@ cp doc/LICENSE %{buildroot}/usr/share/package-licenses/sudo/doc_LICENSE
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/sudo/doc_LICENSE
+/usr/share/package-licenses/sudo/5b128b0d96217393bc7d8a089f623a26657d380c
 
 %files man
 %defattr(0644,root,root,0755)
