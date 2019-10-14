@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xA9F4C021CEA470FB (Todd.Miller@sudo.ws)
 #
 Name     : sudo
-Version  : 1.8.27
-Release  : 63
-URL      : https://www.sudo.ws/dist/sudo-1.8.27.tar.gz
-Source0  : https://www.sudo.ws/dist/sudo-1.8.27.tar.gz
-Source99 : https://www.sudo.ws/dist/sudo-1.8.27.tar.gz.sig
+Version  : 1.8.28
+Release  : 64
+URL      : https://www.sudo.ws/dist/sudo-1.8.28.tar.gz
+Source0  : https://www.sudo.ws/dist/sudo-1.8.28.tar.gz
+Source1 : https://www.sudo.ws/dist/sudo-1.8.28.tar.gz.sig
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : BSD-3-Clause ISC
@@ -62,7 +62,6 @@ Summary: dev components for the sudo package.
 Group: Development
 Requires: sudo-bin = %{version}-%{release}
 Requires: sudo-data = %{version}-%{release}
-Requires: sudo-man = %{version}-%{release}
 Provides: sudo-devel = %{version}-%{release}
 Requires: sudo = %{version}-%{release}
 
@@ -121,7 +120,7 @@ setuid components for the sudo package.
 
 
 %prep
-%setup -q -n sudo-1.8.27
+%setup -q -n sudo-1.8.28
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -132,8 +131,13 @@ setuid components for the sudo package.
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1551405833
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1571068622
+export GCC_IGNORE_WERROR=1
+export CFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$CFLAGS -fno-lto "
+export FFLAGS="$CFLAGS -fno-lto "
+export CXXFLAGS="$CXXFLAGS -fno-lto "
 %configure --disable-static --with-pam \
 --with-env-editor \
 --with-ignore-dot \
@@ -142,14 +146,14 @@ export SOURCE_DATE_EPOCH=1551405833
 make  %{?_smp_mflags}
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 make check || :
 
 %install
-export SOURCE_DATE_EPOCH=1551405833
+export SOURCE_DATE_EPOCH=1571068622
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/sudo
 cp doc/LICENSE %{buildroot}/usr/share/package-licenses/sudo/doc_LICENSE
@@ -162,7 +166,6 @@ cp doc/LICENSE %{buildroot}/usr/share/package-licenses/sudo/doc_LICENSE
 
 %files bin
 %defattr(-,root,root,-)
-%exclude /usr/bin/sudo
 /usr/bin/cvtsudoers
 /usr/bin/sudoedit
 /usr/bin/sudoreplay
@@ -174,7 +177,7 @@ cp doc/LICENSE %{buildroot}/usr/share/package-licenses/sudo/doc_LICENSE
 
 %files dev
 %defattr(-,root,root,-)
-/usr/include/*.h
+/usr/include/sudo_plugin.h
 
 %files doc
 %defattr(0644,root,root,0755)

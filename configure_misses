@@ -16,6 +16,7 @@ Configure miss: sendmail
 Configure miss: vi
 Configure miss: netgroup.h
 Configure miss: sys/bsdtypes.h
+Configure miss: sys/stropts.h
 Configure miss: utmps.h usability
 Configure miss: utmps.h presence
 Configure miss: utmps.h
@@ -53,6 +54,7 @@ Configure miss: exect
 Configure miss: execvP
 Configure miss: struct dirent.d_namlen
 Configure miss: sig2str
+Configure miss: str2sig
 Configure miss: whether sys_signame is declared
 Configure miss: whether _sys_signame is declared
 Configure miss: whether sys_sigabbrev is declared
