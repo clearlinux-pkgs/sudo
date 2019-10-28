@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xA9F4C021CEA470FB (Todd.Miller@sudo.ws)
 #
 Name     : sudo
-Version  : 1.8.28
-Release  : 65
-URL      : https://www.sudo.ws/dist/sudo-1.8.28.tar.gz
-Source0  : https://www.sudo.ws/dist/sudo-1.8.28.tar.gz
-Source1 : https://www.sudo.ws/dist/sudo-1.8.28.tar.gz.sig
+Version  : 1.8.29
+Release  : 66
+URL      : https://www.sudo.ws/dist/sudo-1.8.29.tar.gz
+Source0  : https://www.sudo.ws/dist/sudo-1.8.29.tar.gz
+Source1 : https://www.sudo.ws/dist/sudo-1.8.29.tar.gz.sig
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : BSD-3-Clause ISC
@@ -23,12 +23,12 @@ Requires: sudo-setuid = %{version}-%{release}
 BuildRequires : Linux-PAM-dev
 BuildRequires : bison
 BuildRequires : groff
+BuildRequires : util-linux
 BuildRequires : zlib-dev
 Patch1: 0001-stateless.patch
 Patch2: 0002-Add-read-only-sudoers.d-dir.patch
 Patch3: 0003-visudo-Use-sane-default-file.patch
-Patch4: 0004-man-pages-add-stateless-locations.patch
-Patch5: 0005-keep-proxy-settings-environment-variables.patch
+Patch4: 0005-keep-proxy-settings-environment-variables.patch
 
 %description
 The sudo philosophy
@@ -121,19 +121,18 @@ setuid components for the sudo package.
 
 
 %prep
-%setup -q -n sudo-1.8.28
+%setup -q -n sudo-1.8.29
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
-%patch5 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1571091654
+export SOURCE_DATE_EPOCH=1572285621
 # -Werror is for werrorists
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
@@ -158,10 +157,10 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make check || :
 
 %install
-export SOURCE_DATE_EPOCH=1571091654
+export SOURCE_DATE_EPOCH=1572285621
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/sudo
-cp %{_builddir}/sudo-1.8.28/doc/LICENSE %{buildroot}/usr/share/package-licenses/sudo/5b128b0d96217393bc7d8a089f623a26657d380c
+cp %{_builddir}/sudo-1.8.29/doc/LICENSE %{buildroot}/usr/share/package-licenses/sudo/5b128b0d96217393bc7d8a089f623a26657d380c
 %make_install INSTALL_OWNER=""
 %find_lang sudo
 %find_lang sudoers

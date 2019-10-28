@@ -42,7 +42,6 @@ Configure miss: memset_s
 Configure miss: pw_dup
 Configure miss: closefrom
 Configure miss: whether F_CLOSEM is declared
-Configure miss: strtonum
 Configure miss: struct tm.tm_gmtoff
 Configure miss: struct stat.st_mtim.st__tim
 Configure miss: sha2.h usability
