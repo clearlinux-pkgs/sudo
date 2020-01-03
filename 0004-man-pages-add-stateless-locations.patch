@@ -1,15 +1,16 @@
-From 6f348ddbf3f49c0ae5c42bf06399d004aec3cd9f Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Auke Kok <auke-jan.h.kok@intel.com>
 Date: Wed, 19 Apr 2017 12:29:49 -0700
 Subject: [PATCH] man pages add stateless locations
 
+Signed-off-by: Patrick McCarty <patrick.mccarty@intel.com>
 ---
  doc/sudoers.man.in | 30 +++++++++++++++---------------
  doc/visudo.man.in  |  2 +-
  2 files changed, 16 insertions(+), 16 deletions(-)
 
 diff --git a/doc/sudoers.man.in b/doc/sudoers.man.in
-index 82b0bcf..9c24d8d 100644
+index aaa7263..1ba12cd 100644
 --- a/doc/sudoers.man.in
 +++ b/doc/sudoers.man.in
 @@ -42,7 +42,7 @@ It is the default
@@ -21,7 +22,7 @@ index 82b0bcf..9c24d8d 100644
  file or, optionally in LDAP.
  The policy format is described in detail in the
  \fISUDOERS FILE FORMAT\fR
-@@ -2476,14 +2476,14 @@ by default.
+@@ -2488,14 +2488,14 @@ by default.
  .TP 18n
  ignore_local_sudoers
  If set via LDAP, parsing of
@@ -33,13 +34,13 @@ index 82b0bcf..9c24d8d 100644
  This thwarts the efforts of rogue operators who would attempt to add roles to
 -\fI@sysconfdir@/sudoers\fR.
 +\fI/usr/share/defaults/sudo/sudoers\fR
- When this option is present,
+ When this flag is enabled,
 -\fI@sysconfdir@/sudoers\fR
 +\fI/usr/share/defaults/sudo/sudoers\fR
  does not even need to exist.
- Since this option tells
+ Since this flag tells
  \fBsudo\fR
-@@ -4608,7 +4608,7 @@ will log a message and, in most cases, send a message to the
+@@ -4696,7 +4696,7 @@ will log a message and, in most cases, send a message to the
  administrator via email.
  Possible errors include:
  .TP 3n
@@ -48,7 +49,7 @@ index 82b0bcf..9c24d8d 100644
  \fBsudoers\fR
  encountered an error when parsing the specified file.
  In some cases, the actual error may be one line above or below the
-@@ -4630,7 +4630,7 @@ The time stamp directory owner, as specified by the
+@@ -4718,7 +4718,7 @@ The time stamp directory owner, as specified by the
  \fItimestampowner\fR
  setting, could not be found in the password database.
  .TP 3n
@@ -57,7 +58,7 @@ index 82b0bcf..9c24d8d 100644
  The
  \fIsudoers\fR
  file could not be opened for reading.
-@@ -4644,7 +4644,7 @@ tries to open the
+@@ -4732,7 +4732,7 @@ tries to open the
  \fIsudoers\fR
  file using group permissions to avoid this problem.
  Consider either changing the ownership of
@@ -66,7 +67,7 @@ index 82b0bcf..9c24d8d 100644
  or adding an argument like
  \(lqsudoers_uid=N\(rq
  (where
-@@ -4658,17 +4658,17 @@ line in the
+@@ -4746,17 +4746,17 @@ line in the
  sudo.conf(@mansectform@)
  file.
  .TP 3n
@@ -89,7 +90,7 @@ index 82b0bcf..9c24d8d 100644
  The
  \fIsudoers\fR
  file has the wrong owner.
-@@ -4687,7 +4687,7 @@ line in the
+@@ -4775,7 +4775,7 @@ line in the
  sudo.conf(@mansectform@)
  file.
  .TP 3n
@@ -98,7 +99,7 @@ index 82b0bcf..9c24d8d 100644
  The permissions on the
  \fIsudoers\fR
  file allow all users to write to it.
-@@ -4704,7 +4704,7 @@ line in the
+@@ -4792,7 +4792,7 @@ line in the
  sudo.conf(@mansectform@)
  file.
  .TP 3n
@@ -107,7 +108,7 @@ index 82b0bcf..9c24d8d 100644
  The
  \fIsudoers\fR
  file has the wrong group ownership.
-@@ -4960,7 +4960,7 @@ will truncate and re-use any existing I/O logs.
+@@ -5048,7 +5048,7 @@ will truncate and re-use any existing I/O logs.
  \fI@sysconfdir@/sudo.conf\fR
  Sudo front end configuration
  .TP 26n
@@ -117,7 +118,7 @@ index 82b0bcf..9c24d8d 100644
  .TP 26n
  \fI/etc/group\fR
 diff --git a/doc/visudo.man.in b/doc/visudo.man.in
-index f04ff36..395a3cf 100644
+index eb48f4b..1b3d859 100644
 --- a/doc/visudo.man.in
 +++ b/doc/visudo.man.in
 @@ -245,7 +245,7 @@ grammar versions and exit.
@@ -129,6 +130,3 @@ index f04ff36..395a3cf 100644
  The temporary file used is the specified
  \fIsudoers\fR
  file with
--- 
-2.23.0
-

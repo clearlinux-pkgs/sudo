@@ -1,7 +1,7 @@
-From f9c7b07ec782de0858d7969e1a92a69e785c562f Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Miguel Bernal Marin <miguel.bernal.marin@linux.intel.com>
 Date: Thu, 23 Aug 2018 14:07:25 -0500
-Subject: [PATCH 5/5] keep proxy settings environment variables
+Subject: [PATCH] keep proxy settings environment variables
 
 ---
  plugins/sudoers/sudoers.in | 3 +++
@@ -21,6 +21,3 @@ index f247257..37b0430 100644
  ## Locale settings
  # Defaults env_keep += "LANG LANGUAGE LINGUAS LC_* _XKB_CHARSET"
  ##
--- 
-2.18.0
-

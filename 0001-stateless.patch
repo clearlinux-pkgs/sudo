@@ -1,9 +1,11 @@
-From 3f08a7671dd9b3a2c2b27d17790fd1da24995a7b Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Dimitri John Ledkov <dimitri.j.ledkov@intel.com>
 Date: Fri, 27 Feb 2015 21:36:30 +0000
-Subject: [PATCH 1/5] stateless
+Subject: [PATCH] stateless
 
 Convert sudo to stateless.
+
+Signed-off-by: Patrick McCarty <patrick.mccarty@intel.com>
 ---
  pathnames.h.in              | 2 +-
  plugins/sudoers/Makefile.in | 6 ++----
@@ -11,10 +13,10 @@ Convert sudo to stateless.
  3 files changed, 5 insertions(+), 6 deletions(-)
 
 diff --git a/pathnames.h.in b/pathnames.h.in
-index 31db3a4..cb3fe47 100644
+index 7a8a9d2..49014a6 100644
 --- a/pathnames.h.in
 +++ b/pathnames.h.in
-@@ -66,7 +66,7 @@
+@@ -68,7 +68,7 @@
   * NOTE: _PATH_SUDOERS is usually overridden by the Makefile.
   */
  #ifndef _PATH_SUDOERS
@@ -24,11 +26,11 @@ index 31db3a4..cb3fe47 100644
  
  /*
 diff --git a/plugins/sudoers/Makefile.in b/plugins/sudoers/Makefile.in
-index 66823d5..9ba930b 100644
+index 8e13f8d..6019052 100644
 --- a/plugins/sudoers/Makefile.in
 +++ b/plugins/sudoers/Makefile.in
-@@ -121,7 +121,7 @@ shlib_opt = sudoers.opt
- plugindir = @PLUGINDIR@
+@@ -127,7 +127,7 @@ shlib_opt = sudoers.opt
+ plugindir = @plugindir@
  
  # Directory in which to install the sudoers file
 -sudoersdir = $(sysconfdir)
@@ -36,7 +38,7 @@ index 66823d5..9ba930b 100644
  
  # User and group ids the installed files should be "owned" by
  install_uid = 0
-@@ -369,9 +369,7 @@ install-plugin: sudoers.la install-dirs
+@@ -427,9 +427,7 @@ install-plugin: sudoers.la install-dirs
  
  install-sudoers: install-dirs
  	$(INSTALL) -d $(INSTALL_OWNER) -m 0750 $(DESTDIR)$(sudoersdir)/sudoers.d
@@ -61,6 +63,3 @@ index 6216dfd..f19d865 100644
  
  ## Same thing without a password
  # %wheel ALL=(ALL) NOPASSWD: ALL
--- 
-2.18.0
-
