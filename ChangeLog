@@ -1,8 +1,91 @@
+2020-01-30  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* .hgtags:
+	Added tag SUDO_1_8_31 for changeset d14f7d0f6174
+	[57a9df806149] [tip] <1.8>
+
+	* configure, configure.ac, doc/LICENSE:
+	Sudo 1.8.31
+	[d14f7d0f6174] [SUDO_1_8_31] <1.8>
+
+2020-01-29  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* NEWS:
+	Sudo 1.8.31 changes.
+	[56a903dbf5a0] <1.8>
+
+	* src/tgetpass.c:
+	Fix a buffer overflow when pwfeedback is enabled and input is a not
+	a tty. In getln() if the user enters ^U (erase line) and the
+	write(2) fails, the remaining buffer size is reset but the current
+	pointer is not. While here, fix an incorrect break for erase when
+	write(2) fails. Also disable pwfeedback when input is not a tty as
+	it cannot work. CVE-2019-18634 Credit: Joe Vennix from Apple
+	Information Security.
+	[84640592b0ff] <1.8>
+
+2020-01-28  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* lib/util/getentropy.c:
+	Allow getentropy.c to compile when MAP_ANON is unavailable.
+	[32676c5ab0fe] <1.8>
+
+	* MANIFEST, lib/util/Makefile.in, lib/util/arc4random.c,
+	lib/util/arc4random.h:
+	Remove multi-thread support from arc4random. Sudo is not multi-
+	threaded so we don't need the added complexity.
+	[50d219f43811] <1.8>
+
+	* lib/util/arc4random.h, lib/util/getentropy.c:
+	Backed out changeset 1371cff82ebd MAP_SGI_ANYADDR cannot be used in
+	place of MAP_ANON
+	[b71b2f99ab82] <1.8>
+
+2020-01-27  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* lib/util/arc4random.h, lib/util/getentropy.c:
+	Fix compilation on IRIX; Bug #915 IRIX lacks MAP_ANON (and
+	MAP_ANONYMOUS) but we can use the IRIX-specific flag MAP_SGI_ANYADDR
+	instead. From Kazuo Kuroi
+	[1371cff82ebd] <1.8>
+
+2020-01-24  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/check.c:
+	Fix crash in sudo 1.8.30 when suspending sudo at the password
+	prompt. The closure pointer in sudo_conv_callback was being filled
+	in with a struct getpass_closure ** instead of a struct
+	getpass_closure *. The bug was introduced in the fix for Bug #910;
+	previously the closure variable was a struct getpass_closure, not a
+	pointer. Fix from Michael Norton; Bug #914.
+	[d792c6769a98] <1.8>
+
+2020-01-16  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* src/sudo_edit.c:
+	Treat EROFS (like EACCES) as a non-fatal error in dir_is_writable().
+	Fixes sudoedit on macOS 10.15 and above where the root file system
+	is mounted read-only. See https://support.apple.com/en-us/HT210650.
+	From Dan Villiom Podlaski Christiansen. Bug #913
+	[b5ba461a0c1c] <1.8>
+
+2020-01-11  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* src/sudo_edit.c:
+	For sudoedit_checkdir consider a user-owner directory to be
+	writable. The non-faccessat() code already did this so this just
+	brings the faccessat() path into alignment. Bug #912
+	[78d401155aa6] <1.8>
+
 2019-12-31  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* .hgtags:
+	Added tag SUDO_1_8_30 for changeset 19286fe67981
+	[062dfc2927a1] <1.8>
 
 	* doc/UPGRADE:
 	fix typo in previous
-	[19286fe67981] [tip] <1.8>
+	[19286fe67981] [SUDO_1_8_30] <1.8>
 
 	* configure, configure.ac:
 	Sudo 1.8.30
