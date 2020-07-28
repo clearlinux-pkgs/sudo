@@ -13,7 +13,7 @@ Signed-off-by: Patrick McCarty <patrick.mccarty@intel.com>
  3 files changed, 5 insertions(+), 6 deletions(-)
 
 diff --git a/pathnames.h.in b/pathnames.h.in
-index 7a8a9d2..49014a6 100644
+index a39f919..e1873d7 100644
 --- a/pathnames.h.in
 +++ b/pathnames.h.in
 @@ -68,7 +68,7 @@
@@ -26,10 +26,10 @@ index 7a8a9d2..49014a6 100644
  
  /*
 diff --git a/plugins/sudoers/Makefile.in b/plugins/sudoers/Makefile.in
-index 8e13f8d..6019052 100644
+index 4f59118..b96f8a8 100644
 --- a/plugins/sudoers/Makefile.in
 +++ b/plugins/sudoers/Makefile.in
-@@ -127,7 +127,7 @@ shlib_opt = sudoers.opt
+@@ -133,7 +133,7 @@ shlib_opt = sudoers.opt
  plugindir = @plugindir@
  
  # Directory in which to install the sudoers file
@@ -38,7 +38,7 @@ index 8e13f8d..6019052 100644
  
  # User and group ids the installed files should be "owned" by
  install_uid = 0
-@@ -427,9 +427,7 @@ install-plugin: sudoers.la install-dirs
+@@ -421,9 +421,7 @@ install-plugin: sudoers.la install-dirs
  
  install-sudoers: install-dirs
  	$(INSTALL) -d $(INSTALL_OWNER) -m 0750 $(DESTDIR)$(sudoersdir)/sudoers.d
@@ -50,7 +50,7 @@ index 8e13f8d..6019052 100644
  uninstall:
  	-$(LIBTOOL) $(LTFLAGS) --mode=uninstall rm -f $(DESTDIR)$(plugindir)/sudoers.la
 diff --git a/plugins/sudoers/sudoers.in b/plugins/sudoers/sudoers.in
-index 6216dfd..f19d865 100644
+index c3ccd4f..554d2e7 100644
 --- a/plugins/sudoers/sudoers.in
 +++ b/plugins/sudoers/sudoers.in
 @@ -79,7 +79,8 @@

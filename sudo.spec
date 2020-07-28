@@ -5,18 +5,17 @@
 # Source0 file verified with key 0xA9F4C021CEA470FB (Todd.Miller@sudo.ws)
 #
 Name     : sudo
-Version  : 1.8.31
-Release  : 68
-URL      : https://www.sudo.ws/dist/sudo-1.8.31.tar.gz
-Source0  : https://www.sudo.ws/dist/sudo-1.8.31.tar.gz
-Source1  : https://www.sudo.ws/dist/sudo-1.8.31.tar.gz.sig
+Version  : 1.9.2
+Release  : 69
+URL      : https://www.sudo.ws/dist/sudo-1.9.2.tar.gz
+Source0  : https://www.sudo.ws/dist/sudo-1.9.2.tar.gz
+Source1  : https://www.sudo.ws/dist/sudo-1.9.2.tar.gz.sig
 Summary  : No detailed summary available
 Group    : Development/Tools
-License  : BSD-3-Clause ISC
+License  : ISC
 Requires: sudo-bin = %{version}-%{release}
 Requires: sudo-data = %{version}-%{release}
 Requires: sudo-libexec = %{version}-%{release}
-Requires: sudo-license = %{version}-%{release}
 Requires: sudo-locales = %{version}-%{release}
 Requires: sudo-man = %{version}-%{release}
 Requires: sudo-setuid = %{version}-%{release}
@@ -43,7 +42,6 @@ Group: Binaries
 Requires: sudo-data = %{version}-%{release}
 Requires: sudo-libexec = %{version}-%{release}
 Requires: sudo-setuid = %{version}-%{release}
-Requires: sudo-license = %{version}-%{release}
 
 %description bin
 bin components for the sudo package.
@@ -81,18 +79,9 @@ doc components for the sudo package.
 %package libexec
 Summary: libexec components for the sudo package.
 Group: Default
-Requires: sudo-license = %{version}-%{release}
 
 %description libexec
 libexec components for the sudo package.
-
-
-%package license
-Summary: license components for the sudo package.
-Group: Default
-
-%description license
-license components for the sudo package.
 
 
 %package locales
@@ -120,8 +109,8 @@ setuid components for the sudo package.
 
 
 %prep
-%setup -q -n sudo-1.8.31
-cd %{_builddir}/sudo-1.8.31
+%setup -q -n sudo-1.9.2
+cd %{_builddir}/sudo-1.9.2
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -133,14 +122,14 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1580410570
+export SOURCE_DATE_EPOCH=1595962913
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
 export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
 export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 %configure --disable-static --with-pam \
 --with-env-editor \
@@ -157,13 +146,14 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make check || :
 
 %install
-export SOURCE_DATE_EPOCH=1580410570
+export SOURCE_DATE_EPOCH=1595962913
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/package-licenses/sudo
-cp %{_builddir}/sudo-1.8.31/doc/LICENSE %{buildroot}/usr/share/package-licenses/sudo/006ca1313aaab5ae936fcdfbbcc3b825ee268ca8
 %make_install INSTALL_OWNER=""
 %find_lang sudo
 %find_lang sudoers
+## install_append content
+rm -rfv %{buildroot}/etc
+## install_append end
 
 %files
 %defattr(-,root,root,-)
@@ -171,6 +161,8 @@ cp %{_builddir}/sudo-1.8.31/doc/LICENSE %{buildroot}/usr/share/package-licenses/
 %files bin
 %defattr(-,root,root,-)
 /usr/bin/cvtsudoers
+/usr/bin/sudo_logsrvd
+/usr/bin/sudo_sendlog
 /usr/bin/sudoedit
 /usr/bin/sudoreplay
 /usr/bin/visudo
@@ -189,26 +181,29 @@ cp %{_builddir}/sudo-1.8.31/doc/LICENSE %{buildroot}/usr/share/package-licenses/
 
 %files libexec
 %defattr(-,root,root,-)
+/usr/libexec/sudo/audit_json.so
 /usr/libexec/sudo/group_file.so
 /usr/libexec/sudo/libsudo_util.so
 /usr/libexec/sudo/libsudo_util.so.0
 /usr/libexec/sudo/libsudo_util.so.0.0.0
+/usr/libexec/sudo/sample_approval.so
 /usr/libexec/sudo/sudo_noexec.so
 /usr/libexec/sudo/sudoers.so
 /usr/libexec/sudo/system_group.so
-
-%files license
-%defattr(0644,root,root,0755)
-/usr/share/package-licenses/sudo/006ca1313aaab5ae936fcdfbbcc3b825ee268ca8
 
 %files man
 %defattr(0644,root,root,0755)
 /usr/share/man/man1/cvtsudoers.1
 /usr/share/man/man5/sudo.conf.5
+/usr/share/man/man5/sudo_logsrv.proto.5
+/usr/share/man/man5/sudo_logsrvd.conf.5
 /usr/share/man/man5/sudoers.5
 /usr/share/man/man5/sudoers_timestamp.5
 /usr/share/man/man8/sudo.8
+/usr/share/man/man8/sudo_logsrvd.8
 /usr/share/man/man8/sudo_plugin.8
+/usr/share/man/man8/sudo_plugin_python.8
+/usr/share/man/man8/sudo_sendlog.8
 /usr/share/man/man8/sudoedit.8
 /usr/share/man/man8/sudoreplay.8
 /usr/share/man/man8/visudo.8
