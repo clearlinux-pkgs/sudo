@@ -24,8 +24,6 @@ Configure miss: procfs.h usability
 Configure miss: procfs.h presence
 Configure miss: procfs.h
 Configure miss: struct psinfo.pr_ttydev
-Configure miss: rsize_t
-Configure miss: errno_t
 Configure miss: struct utmpx.ut_exit.__e_termination
 Configure miss: whether to compile python plugin support
 Configure miss: arc4random
@@ -38,7 +36,7 @@ Configure miss: struct kinfo_proc.kp_proc
 Configure miss: openpty
 Configure miss: whether unsetenv returns void
 Configure miss: whether putenv takes a const argument
-Configure miss: memset_s
+Configure miss: freezero
 Configure miss: pw_dup
 Configure miss: closefrom
 Configure miss: whether F_CLOSEM is declared
@@ -54,6 +52,7 @@ Configure miss: sha2.h presence
 Configure miss: sha2.h
 Configure miss: sig2str
 Configure miss: str2sig
+Configure miss: sigabbrev_np
 Configure miss: whether sys_signame is declared
 Configure miss: whether _sys_signame is declared
 Configure miss: whether sys_sigabbrev is declared
