@@ -9,10 +9,10 @@ Signed-off-by: Patrick McCarty <patrick.mccarty@intel.com>
  1 file changed, 8 insertions(+)
 
 diff --git a/plugins/sudoers/visudo.c b/plugins/sudoers/visudo.c
-index d319f8b..3fab09c 100644
+index e09297b..d2b8599 100644
 --- a/plugins/sudoers/visudo.c
 +++ b/plugins/sudoers/visudo.c
-@@ -133,6 +133,7 @@ main(int argc, char *argv[])
+@@ -132,6 +132,7 @@ main(int argc, char *argv[])
      int ch, oldlocale, editor_argc, exitcode = 0;
      bool quiet, strict, fflag;
      debug_decl(main, SUDOERS_DEBUG_MAIN);
@@ -20,7 +20,7 @@ index d319f8b..3fab09c 100644
  
  #if defined(SUDO_DEVEL) && defined(__OpenBSD__)
      {
-@@ -151,6 +152,10 @@ main(int argc, char *argv[])
+@@ -150,6 +151,10 @@ main(int argc, char *argv[])
      if (argc < 1)
  	usage(1);
  
@@ -31,7 +31,7 @@ index d319f8b..3fab09c 100644
      /* Register fatal/fatalx callback. */
      sudo_fatal_callback_register(visudo_cleanup);
  
-@@ -168,6 +173,9 @@ main(int argc, char *argv[])
+@@ -167,6 +172,9 @@ main(int argc, char *argv[])
      /* Parse sudoers plugin options, if any. */
      parse_sudoers_options();
  

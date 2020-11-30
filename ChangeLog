@@ -1,8 +1,868 @@
+2020-11-29  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* .hgtags:
+	Added tag SUDO_1_9_4 for changeset 74705fb3b956
+	[45a5e742496e] [tip] <1.9>
+
+	* merge sudo 1.9.4 from tip
+	[74705fb3b956] [SUDO_1_9_4] <1.9>
+
+	* plugins/sudoers/po/fr.mo, plugins/sudoers/po/fr.po,
+	plugins/sudoers/po/hr.mo, plugins/sudoers/po/hr.po,
+	plugins/sudoers/po/ja.mo, plugins/sudoers/po/ja.po,
+	plugins/sudoers/po/zh_CN.mo, plugins/sudoers/po/zh_CN.po, po/hr.mo,
+	po/hr.po:
+	Updated translations from translationproject.org
+	[96a5cfe3c66b]
+
+2020-11-24  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* NEWS:
+	sudo_logsrvd.conf pid_file change.
+	[fdc0276c7e0e]
+
+	* logsrvd/logsrvd.c:
+	Don't try to unlink a NULL pointer.
+	[95babad9636a]
+
+	* doc/sudo_logsrvd.conf.man.in, doc/sudo_logsrvd.conf.mdoc.in,
+	logsrvd/logsrvd.c, logsrvd/logsrvd_conf.c:
+	If pid_file is set to an empty value, disable the use of a pid file.
+	[d4462105ab4b]
+
+	* doc/sudo_logsrvd.conf.man.in, doc/sudo_logsrvd.conf.mdoc.in,
+	logsrvd/logsrvd.c:
+	Don't overwrite sudo_logsrvd.pid if it is a symbolic link.
+	[d79f97a0a533]
+
+	* INSTALL, configure, configure.ac, etc/codespell.exclude,
+	plugins/sudoers/env.c:
+	Fix typo detected by codespell 2.0.0 Also avoid some new false
+	positives
+	[d973f44e2396]
+
+2020-11-23  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* etc/uncrustify-small.cfg, etc/uncrustify.cfg,
+	plugins/python/regress/testhelpers.h, plugins/sudoers/env.c,
+	plugins/sudoers/sudo_ldap_conf.h:
+	Set pp_ignore_define_body=false in uncrustify config. Need to work
+	around a bug that produces closed brace errors, see
+	https://github.com/uncrustify/uncrustify/issues/2569
+	[5e4692fca707]
+
+	* plugins/sudoers/po/cs.mo, plugins/sudoers/po/cs.po,
+	plugins/sudoers/po/de.mo, plugins/sudoers/po/de.po,
+	plugins/sudoers/po/eo.mo, plugins/sudoers/po/eo.po,
+	plugins/sudoers/po/hr.mo, plugins/sudoers/po/hr.po,
+	plugins/sudoers/po/it.mo, plugins/sudoers/po/it.po,
+	plugins/sudoers/po/pl.mo, plugins/sudoers/po/pl.po,
+	plugins/sudoers/po/pt.mo, plugins/sudoers/po/pt.po,
+	plugins/sudoers/po/pt_BR.mo, plugins/sudoers/po/pt_BR.po,
+	plugins/sudoers/po/uk.mo, plugins/sudoers/po/uk.po,
+	plugins/sudoers/po/zh_TW.mo, plugins/sudoers/po/zh_TW.po, po/hr.mo,
+	po/hr.po, po/it.mo, po/it.po:
+	Updated translations from translationproject.org
+	[156162e6e07e]
+
+2020-11-18  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* lib/util/sudo_conf.c:
+	Fix calling sudo_conf_read() multiple times with different
+	conf_types. The change to reinitialize the configuration data when
+	sudo_conf_read() is called again didn't take into account that sudo
+	calls sudo_conf_read() twice--once for the debug info and once for
+	everything else.
+	[b6869b7da3c2]
+
+2020-11-17  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/policy.c, plugins/sudoers/sudoers.c:
+	Don't free the private copy of the environment until the close
+	function. We may need to use it when logging from the audit reject
+	function.
+	[5118eb5797fb]
+
+	* plugins/sudoers/log_client.c:
+	It is possible for evlog->argv or evlog->envp to be NULL.
+	[798ff96301bf]
+
+	* src/exec_pty.c, src/sudo.c, src/sudo.h:
+	Pass command_info[] to audit plugin on I/O log plugin reject or
+	error. The audit plugin should cope with a NULL command_info but
+	there's no reason not to pass the info when we have it.
+	[e361897d0192]
+
+	* doc/sudo_plugin.man.in, doc/sudo_plugin.mdoc.in,
+	plugins/sudoers/audit.c:
+	For the audit plugin, command_info may be NULL. Fixes a NULL
+	dereference in sudoers_audit when an I/O logging plugin rejects
+	input/output or returns an error.
+	[9abee774e7e1]
+
+	* plugins/sudoers/defaults.c:
+	Add missing initialization of def_log_format to sudo.
+	[8c824f6dcfdd]
+
+2020-11-16  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* config.h.in, configure, configure.ac:
+	Newer LibreSSL has SSL_CTX_set_ciphersuites but it is not enabled.
+	Add a check for the function declaration in openssl/ssl.h.
+	[d6d0665572ec]
+
+	* doc/sudoers.man.in, doc/sudoers.mdoc.in:
+	Event log data is sent to sudo_logsrvd even when not I/O logging.
+	[d720f4ad3d40]
+
+2020-11-14  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/po/sudoers.pot:
+	Regenerate sudoers.pot for 1.9.4
+	[127283726e97]
+
+	* NEWS, configure, configure.ac:
+	Update for sudo 1.9.4.
+	[2cb747911aef]
+
+	* plugins/sudoers/audit.c:
+	Update struct eventlog based on command_info[] from front-end. The
+	I/O log path is not known until the I/O log plugins have run and
+	other plugins may alter the execution environment.
+	[3ad14a88052e]
+
+	* plugins/sudoers/alias.c, plugins/sudoers/gram.c,
+	plugins/sudoers/gram.y, plugins/sudoers/logging.h,
+	plugins/sudoers/regress/testsudoers/test13.out.ok,
+	plugins/sudoers/toke.h:
+	Add sudoerserrorf(), a printf-style yyerror() function. Use this to
+	display a better error message when using a reserved work in an
+	alias definition.
+	[1bb3915f61b6]
+
+2020-11-13  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* scripts/mkpkg:
+	Build universal binaries on macOS 11.0 and higher. The resulting
+	package should work on Macs based on Apple Silicon.
+	[91cdeda79e66]
+
+2020-11-12  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/editor.c:
+	Support EDITOR environment variable that includes quotes. Quote
+	support is limited to the beginning of a word. Also handles
+	characters escaped with a backslash.
+	[ebb7f3c6240c]
+
+2020-11-11  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/python/Makefile.in, plugins/python/pyhelpers.c,
+	plugins/python/python_plugin_common.c,
+	plugins/python/regress/iohelpers.h, plugins/python/regress/testdata/
+	check_example_debugging_c_calls@diag.log, plugins/python/regress/tes
+	tdata/check_example_debugging_c_calls@info.log, plugins/python/regre
+	ss/testdata/check_example_debugging_plugin@info.log, plugins/python/
+	regress/testdata/check_example_debugging_py_calls@diag.log, plugins/
+	python/regress/testdata/check_example_debugging_py_calls@info.log, p
+	lugins/python/regress/testdata/check_example_group_plugin_is_able_to
+	_debug.log, plugins/python/regress/testdata/check_example_io_plugin_
+	command_log.stored, plugins/python/regress/testdata/check_example_io
+	_plugin_command_log_multiple1.stored, plugins/python/regress/testdat
+	a/check_example_io_plugin_command_log_multiple2.stored, plugins/pyth
+	on/regress/testdata/check_example_io_plugin_failed_to_start_command.
+	stored, plugins/python/regress/testdata/check_example_io_plugin_fail
+	s_with_python_backtrace.stderr, plugins/python/regress/testdata/chec
+	k_example_policy_plugin_validate_invalidate.log, plugins/python/regr
+	ess/testdata/check_loading_fails_not_owned_by_root.stderr, plugins/p
+	ython/regress/testdata/check_loading_fails_wrong_classname.stderr, p
+	lugins/python/regress/testdata/check_loading_fails_wrong_path.stderr
+	, plugins/python/regress/testdata/check_multiple_approval_plugin_and
+	_arguments.stdout, plugins/python/regress/testdata/check_python_plug
+	ins_do_not_affect_each_other.stdout,
+	plugins/python/regress/testhelpers.c,
+	plugins/python/regress/testhelpers.h:
+	Back out regex use in python tests, filter the output instead. This
+	makes it possible to regenerate the test output again. Also adds an
+	update_test_data target to the Makefile.
+	[3837f51a8072]
+
+	* plugins/sudoers/ldap.c:
+	Ignore sudoNotBefore and sudoNotAfter unless ldap.conf contains
+	SUDOERS_TIMED This is consistent with the pre-1.8.24 behavior. Bug
+	#945
+	[d1e1bb5a6cc1]
+
+	* src/sudo.c:
+	Stay setuid until just before executing the command. Fixes a problem
+	with pam_xauth which checks effective and real uids to get the real
+	identity of the user.
+	[2c6fef0107c8]
+
+2020-11-10  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/gram.c, plugins/sudoers/gram.y,
+	plugins/sudoers/ldap.c, plugins/sudoers/ldap_util.c,
+	plugins/sudoers/parse.h, plugins/sudoers/sssd.c:
+	Introduce new_member_all() for code that doesn't include gram.h. The
+	ldap and sssd back-ends no longer require gram.h which fixes a
+	compilation issue with IBM LDAP.
+	[1729532cda27]
+
+	* lib/util/sudo_conf.c, lib/util/sudo_debug.c, logsrvd/logsrvd.c:
+	On SIGHUP, deregister the old debug instance before registering a
+	new one. Otherwise, if debugging is enabled we will get an extra log
+	instance each time sudo_logsrvd reeives SIGHUP which results in
+	duplicate lines in the debug log.
+	[538633994d8a]
+
+2020-11-09  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/log_client.c, plugins/sudoers/log_client.h:
+	Refactor code to format the client message after the hello.
+	[12d29d129166]
+
+	* doc/sudo_logsrv.proto.man.in, doc/sudo_logsrv.proto.mdoc.in,
+	include/log_server.pb-c.h, lib/eventlog/eventlog.c,
+	lib/logsrv/log_server.pb-c.c, lib/logsrv/log_server.proto,
+	logsrvd/iolog_writer.c, logsrvd/logsrvd.c,
+	plugins/sudoers/log_client.c:
+	Add info_msgs to AlertMessage and populate it. This lets us log
+	eventlog info along with the alert if it is available.
+	[493a047a4463]
+
+	* plugins/sudoers/audit.c, plugins/sudoers/logging.c,
+	plugins/sudoers/logging.h:
+	Use sudoers_to_eventlog() and init_log_details() in
+	sudoers_audit_accept(). log_deserialize_info() can be private to
+	iolog.c again.
+	[0b4e03904f3d]
+
+	* plugins/sudoers/Makefile.in, plugins/sudoers/audit.c,
+	plugins/sudoers/iolog.c, plugins/sudoers/log_client.c,
+	plugins/sudoers/log_client.h, plugins/sudoers/logging.c,
+	plugins/sudoers/logging.h:
+	Log reject and alert messages to the log server if one is defined.
+	[087cf87d10af]
+
+	* plugins/sudoers/logging.c:
+	Treat an authentication failure as a reject, not an alert. This
+	matters when logging via sudo_logsrvd. It also lets us remove a
+	special case in vlog_warning().
+	[ae489d3f20a8]
+
+	* MANIFEST, config.h.in, configure, configure.ac,
+	plugins/sudoers/Makefile.in, plugins/sudoers/audit.c,
+	plugins/sudoers/iolog.c, plugins/sudoers/iolog_client.c,
+	plugins/sudoers/iolog_plugin.h, plugins/sudoers/log_client.c,
+	plugins/sudoers/sudoers.c:
+	Rename iolog_client -> log_client. The logsrvd client code is now
+	used for more than just I/O logging.
+	[ea47ce43bbee]
+
+	* MANIFEST, plugins/sudoers/Makefile.in, plugins/sudoers/audit.c,
+	plugins/sudoers/iolog.c, plugins/sudoers/iolog_plugin.h,
+	plugins/sudoers/log_client.c, plugins/sudoers/log_client.h:
+	Rename iolog_plugin.h to log_client.h. It is no longer I/O log
+	specific and is used by sudoers_audit too.
+	[cde784a59490]
+
+	* configure, configure.ac:
+	Remove hack to define YYTOKENTYPE, it breaks newer bison.
+	[8b919ef33db7]
+
+	* plugins/sudoers/gram.c, plugins/sudoers/gram.h:
+	Regenerate with bison 3.7.3
+	[9fb81b933c43]
+
+	* include/sudo_eventlog.h, lib/eventlog/eventlog.c:
+	Use struct eventlog *evlog, not struct eventlog *details.
+	[a9b5f3c2902f]
+
+2020-11-06  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* lib/eventlog/eventlog.c:
+	For logsrvd AlertMessages, evlog will be NULL.
+	[d048f7b429d5]
+
+	* lib/eventlog/eventlog.c:
+	Append errstr to reason for alert and reject events if specified.
+	Previously, we logged the error string separately but this is not
+	consistent with how it is logged in other formats.
+	[68c76e530248]
+
+	* plugins/sudoers/logging.c:
+	Fix cut & pasto in debug subsystem.
+	[c39dd60b6d2d]
+
+2020-11-04  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/iolog_client.c:
+	Refactor code to format InfoMesage array into fmt_info_messages().
+	Add free_info_messages() to free the array.
+	[e6223d325c77]
+
+	* plugins/sudoers/Makefile.in, plugins/sudoers/audit.c,
+	plugins/sudoers/iolog.c, plugins/sudoers/iolog_client.c,
+	plugins/sudoers/iolog_plugin.h:
+	Log accept messages in sudoers_audit if not I/O logging.
+	[cdb5c443c97d]
+
+	* plugins/sudoers/iolog.c, plugins/sudoers/iolog_client.c,
+	plugins/sudoers/iolog_plugin.h:
+	Refactor sudoers_io_open_remote() into log_server_open(). Also
+	rename client_close() to log_server_close(). This keeps more of the
+	client code details out of iolog.c and will be used when logging
+	accept messages from the audit plugin.
+	[e3f6ba6768b8]
+
+	* plugins/sudoers/iolog.c:
+	Move argv and envp setting into iolog_deserialize_info().
+	[613b97f1d7bc]
+
+	* logsrvd/logsrvd.c:
+	Avoid early return in handle_accept() if expect_iobufs not set.
+	[918adc8234f0]
+
+2020-11-02  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* doc/sudo_plugin.man.in, doc/sudo_plugin.mdoc.in,
+	include/sudo_plugin.h, plugins/python/regress/testdata/check_multipl
+	e_approval_plugin_and_arguments.stdout, src/exec.c,
+	src/load_plugins.c:
+	Add event_alloc to the audit plugin API. The sudoers audit plugin
+	will use this to communicate with sudo_logsrvd.
+	[c2fc2911476b]
+
+	* logsrvd/sendlog.c, plugins/sudoers/iolog_client.c:
+	Set server_name before initiating TLS connection so verify function
+	works. Fixes a crash in the SSL_VERIFY_PEER callback. Also call
+	inet_ntop(3) with addr pointer, not sockaddr pointer so we get the
+	correct IP address.
+	[7a7dcebbe889]
+
+	* plugins/sudoers/alias.c, plugins/sudoers/cvtsudoers_ldif.c,
+	plugins/sudoers/defaults.c, plugins/sudoers/defaults.h,
+	plugins/sudoers/gram.c, plugins/sudoers/gram.h,
+	plugins/sudoers/gram.y, plugins/sudoers/parse.c,
+	plugins/sudoers/parse.h,
+	plugins/sudoers/regress/sudoers/test18.toke.ok,
+	plugins/sudoers/regress/sudoers/test2.ldif.ok,
+	plugins/sudoers/regress/sudoers/test3.ldif.ok,
+	plugins/sudoers/regress/sudoers/test6.ldif.ok,
+	plugins/sudoers/regress/visudo/test2.err.ok,
+	plugins/sudoers/regress/visudo/test3.err.ok,
+	plugins/sudoers/visudo.c:
+	Store column number for aliases, defaults and userspecs too. This is
+	used to provided the column number along with the line number in
+	error messages. For aliases we store the column of the alias name,
+	not the value since that is what visudo generally needs.
+	[1c9d86b88517]
+
+2020-11-01  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/gram.c, plugins/sudoers/gram.y,
+	plugins/sudoers/regress/testsudoers/test11.out.ok,
+	plugins/sudoers/regress/testsudoers/test12.out.ok,
+	plugins/sudoers/regress/testsudoers/test13.out.ok:
+	Display column number in parse error messages too. Bug #841
+	[0aea28dec8f2]
+
+	* plugins/sudoers/iolog_client.c, plugins/sudoers/iolog_plugin.h:
+	Move tls initialized flag into client_closure. We may call
+	tls_init() from multiple places in the future so a static
+	initialized flag will cause problems.
+	[00b2b02c24c5]
+
+	* plugins/sudoers/cvtsudoers_json.c:
+	Fix -Wshadow warnings caused by json enum member.
+	[ea336980bb6a]
+
+2020-10-30  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* ABOUT-NLS, INSTALL, NEWS, configure.ac, doc/UPGRADE,
+	doc/sudo.conf.man.in, doc/sudo.conf.mdoc.in, doc/sudo_plugin.man.in,
+	doc/sudo_plugin.mdoc.in, doc/sudoers.ldap.man.in,
+	doc/sudoers.ldap.mdoc.in, doc/sudoers.man.in, doc/sudoers.mdoc.in,
+	doc/sudoers_timestamp.man.in, doc/sudoers_timestamp.mdoc.in,
+	doc/visudo.man.in, doc/visudo.mdoc.in, examples/sudo.conf.in,
+	include/compat/getaddrinfo.h, install-sh, lib/util/getaddrinfo.c,
+	lib/util/getentropy.c, lib/util/regress/sudo_conf/test1.in,
+	lib/util/regress/sudo_parseln/test1.in,
+	lib/util/regress/vsyslog/vsyslog_test.c, lib/util/strtoid.c,
+	logsrvd/logsrvd.c, logsrvd/logsrvd_conf.c, logsrvd/sendlog.c,
+	m4/sudo.m4, plugins/group_file/group_file.c,
+	plugins/sudoers/auth/bsdauth.c, plugins/sudoers/auth/fwtk.c,
+	plugins/sudoers/auth/passwd.c, plugins/sudoers/cvtsudoers.c,
+	plugins/sudoers/def_data.c, plugins/sudoers/def_data.in,
+	plugins/sudoers/editor.c, plugins/sudoers/env.c,
+	plugins/sudoers/find_path.c, plugins/sudoers/gram.y,
+	plugins/sudoers/group_plugin.c, plugins/sudoers/iolog_client.c,
+	plugins/sudoers/stubs.c, plugins/sudoers/sudoers.c,
+	plugins/sudoers/sudoers.h, plugins/sudoers/timestamp.c,
+	plugins/sudoers/visudo.c, src/load_plugins.c, src/sudo.c,
+	src/sudo_noexec.c, src/tgetpass.c:
+	Apply Google inclusive language guidelines. Also replace backwards
+	with backward.
+	[678fbce6054f]
+
+2020-10-29  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* doc/sudoers.ldap.man.in, doc/sudoers.ldap.mdoc.in:
+	Refernce IBM LDAP libs, not Tivoli since that is how it is packaged.
+	We still use Tivoli when talking about the server itself but refer
+	to it as the "IBM Tivoli Directory Server".
+	[9f97a7e6b67a]
+
+	* doc/sudoers.ldap.man.in, doc/sudoers.ldap.mdoc.in:
+	Add a newline before "This option is ..."
+	[853f819f0241]
+
+	* doc/sudoers.man.in:
+	regen
+	[8b29097f2cd1]
+
+2020-10-28  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* lib/eventlog/regress/logwrap/check_wrap.c,
+	lib/eventlog/regress/logwrap/check_wrap.in,
+	lib/eventlog/regress/logwrap/check_wrap.out.ok:
+	Test eventlog_writeln() when word wrap is disabled.
+	[73acb7fbef59]
+
+	* configure, configure.ac:
+	Bison generates an extra enum containing the parser tokens. This
+	conflicts with the IBM ldap.h at least. Prevent it from being
+	exposed by defining YYTOKENTYPE.
+	[f3445ad76687]
+
+	* configure, configure.ac:
+	IBM LDAP packages use a lib64 directory for 64-bit libraries. We
+	need to add this to LDFLAGS so the linker is able to find the
+	correct libs when building 64-bit binaries.
+	[701b83f6cd13]
+
+	* config.h.in, configure, configure.ac, plugins/sudoers/ldap.c:
+	Use ssl_err2string() in message on ldap_ssl_client_init() failure.
+	Displaying SSL reason code directly is not user-friendly.
+	[aaf272403f3e]
+
+2020-10-27  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* lib/eventlog/eventlog.c:
+	For JSON logs, write the most important log elements first. This is
+	important for syslog where the record could be truncated.
+	[58fc957c41bb]
+
+	* doc/sudoers.man.in, doc/sudoers.mdoc.in, plugins/sudoers/def_data.c,
+	plugins/sudoers/def_data.h, plugins/sudoers/def_data.in,
+	plugins/sudoers/logging.c, plugins/sudoers/sudoers.c:
+	Add log_format sudoers setting to select sudo or json format logs.
+	Defaults to sudo-format logs.
+	[2936d2750af0]
+
+	* include/sudo_json.h, lib/eventlog/eventlog.c, lib/util/json.c:
+	Support "minimal" JSON which skips all non-essention whitespace.
+	This replaces the old "compact" mode which is only used for syslog.
+	[be07bca67019]
+
+	* plugins/sudoers/logging.c:
+	Don't warn about log failure more than once.
+	[b4dc59a58d1d]
+
+2020-10-26  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* lib/eventlog/eventlog.c:
+	Check for fdopen(3) failure in send_mail().
+	[e08b17bf26ce]
+
+	* MANIFEST, include/sudo_eventlog.h, lib/eventlog/Makefile.in,
+	lib/eventlog/eventlog.c, lib/eventlog/logwrap.c,
+	lib/eventlog/regress/logwrap/check_wrap.c,
+	lib/eventlog/regress/logwrap/check_wrap.in,
+	lib/eventlog/regress/logwrap/check_wrap.out.ok,
+	plugins/sudoers/Makefile.in, plugins/sudoers/logging.c,
+	plugins/sudoers/logging.h, plugins/sudoers/logwrap.c,
+	plugins/sudoers/regress/logging/check_wrap.c,
+	plugins/sudoers/regress/logging/check_wrap.in,
+	plugins/sudoers/regress/logging/check_wrap.out.ok,
+	plugins/sudoers/sudoers.c:
+	Add support for file log line wrapping in libeventlog.
+	[935c30cf7633]
+
+	* include/sudo_eventlog.h, lib/eventlog/eventlog.c,
+	logsrvd/logsrvd_conf.c, plugins/sudoers/defaults.c,
+	plugins/sudoers/logging.c, plugins/sudoers/logging.h,
+	plugins/sudoers/stubs.c, plugins/sudoers/sudoers.c,
+	plugins/sudoers/testsudoers.c:
+	Use real setters for the eventlog config. This makes it possible to
+	have a base config that the callers can modify instead of replacing
+	the config wholesale.
+	[2ca1e7d376c2]
+
+	* include/sudo_eventlog.h, lib/eventlog/eventlog.c,
+	plugins/sudoers/Makefile.in, plugins/sudoers/audit.c,
+	plugins/sudoers/defaults.c, plugins/sudoers/locale.c,
+	plugins/sudoers/logging.c, plugins/sudoers/logging.h,
+	plugins/sudoers/policy.c, plugins/sudoers/stubs.c,
+	plugins/sudoers/sudoers.h, plugins/sudoers/testsudoers.c:
+	Use libeventlog in sudoers instead of doing our own logging.
+	[d8306755201a]
+
+	* lib/eventlog/eventlog.c, plugins/sudoers/logging.c:
+	Log the short version of the tty in sudoers-format logs. This is
+	consistent with historical practice.
+	[69440e4659a8]
+
+	* lib/eventlog/eventlog.c:
+	Add default values in eventlog_setconf().
+	[582d359a8ec0]
+
+	* include/sudo_eventlog.h, lib/eventlog/Makefile.in,
+	lib/eventlog/eventlog.c, logsrvd/logsrvd.c,
+	plugins/sudoers/Makefile.in, plugins/sudoers/defaults.c,
+	plugins/sudoers/logging.h:
+	Add support for mailing eventlog entries and for logging raw
+	messages. These will be used by the sudoers plugin.
+	[acab8209ddd0]
+
+	* include/sudo_eventlog.h, lib/eventlog/eventlog.c,
+	lib/iolog/iolog_fileio.c:
+	If no JSON callback is provided, store the contents of struct
+	eventlog. This moves the JSON formatting of struct eventlog out of
+	libsudo_iolog and into libsudo_eventlog where it belongs.
+	[260a7ec65485]
+
+	* include/sudo_eventlog.h, lib/eventlog/eventlog.c, logsrvd/logsrvd.c:
+	struct eventlog contains submit_time, no need to pass it in
+	directly.
+	[a3ac404e6a59]
+
+	* include/sudo_eventlog.h, lib/eventlog/eventlog.c, logsrvd/logsrvd.c:
+	Add an errstr argument to eventlog_alert().
+	[e2afd2f1c092]
+
+	* plugins/sudoers/Makefile.in, plugins/sudoers/iolog.c,
+	plugins/sudoers/iolog_client.c, plugins/sudoers/iolog_plugin.h:
+	Make a copy of the strings stored in iolog_details and struct
+	eventlog. Previously, we just made the strings const and relied on
+	the front-end not changing them. Now the sudoers I/O log plugin
+	behavior is consistent with the policy plugin.
+	[406632298bd5]
+
+	* plugins/sudoers/Makefile.in, plugins/sudoers/iolog.c,
+	plugins/sudoers/iolog_client.c, plugins/sudoers/iolog_plugin.h:
+	Use struct eventlog in iolog_details.
+	[c22e05f420fe]
+
+	* include/sudo_eventlog.h, include/sudo_iolog.h,
+	lib/eventlog/eventlog.c, lib/iolog/Makefile.in,
+	lib/iolog/iolog_fileio.c, lib/iolog/iolog_json.c,
+	lib/iolog/iolog_util.c, logsrvd/Makefile.in, logsrvd/iolog_writer.c,
+	logsrvd/logsrvd.c, logsrvd/logsrvd.h, logsrvd/sendlog.c,
+	logsrvd/sendlog.h, plugins/sudoers/Makefile.in,
+	plugins/sudoers/iolog.c,
+	plugins/sudoers/regress/iolog_plugin/check_iolog_plugin.c,
+	plugins/sudoers/sudoreplay.c:
+	Use struct eventlog in place of struct iolog_info.
+	[9fef7a5f077b]
+
+	* logsrvd/logsrvd.h, logsrvd/logsrvd_conf.c:
+	No longer need eventlog-related getters in logsrvd.c
+	[e3ab80a9a892]
+
+	* MANIFEST, logsrvd/Makefile.in, logsrvd/eventlog.c,
+	logsrvd/iolog_writer.c, logsrvd/logsrvd.c, logsrvd/logsrvd.h,
+	logsrvd/logsrvd_conf.c:
+	Use libeventlog in sudo_logsrvd.
+	[3dd22be50c30]
+
+	* MANIFEST, Makefile.in, configure, configure.ac,
+	include/sudo_eventlog.h, lib/eventlog/Makefile.in,
+	lib/eventlog/eventlog.c, logsrvd/logsrvd.h:
+	Refactor eventlog code into a library
+	[2e02c25be009]
+
+2020-10-20  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* lib/iolog/Makefile.in, lib/logsrv/Makefile.in, lib/util/Makefile.in,
+	logsrvd/Makefile.in, plugins/python/Makefile.in,
+	plugins/sudoers/Makefile.in, src/Makefile.in:
+	regen Makefiles
+	[d9064a0c53ae]
+
+	* scripts/mkpkg:
+	Build 64-bit binaries on HP-UX ia64
+	[3f8b599e7d7f]
+
+2020-10-16  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/Makefile.in:
+	Explicitly set umask when running tests. Some tests create files
+	that must not be world-writable.
+	[9186ea1d2696]
+
+	* plugins/sudoers/policy.c, plugins/sudoers/sudoers.c,
+	plugins/sudoers/sudoers.h:
+	sudoers_policy_store() -> sudoers_policy_store_result()
+	[3dad5322916b]
+
+2020-10-14  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/policy.c, plugins/sudoers/sudoers.c,
+	plugins/sudoers/sudoers.h:
+	Rename sudoers_policy_exec_setup() -> sudoers_policy_store(). It is
+	called even when there is no command to execute. Also pass in status
+	of whether or not the command was accepted.
+	[a0ded23e81c4]
+
+2020-10-10  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/Makefile.in,
+	plugins/sudoers/regress/cvtsudoers/test1.sh,
+	plugins/sudoers/regress/cvtsudoers/test10.sh,
+	plugins/sudoers/regress/cvtsudoers/test11.sh,
+	plugins/sudoers/regress/cvtsudoers/test12.sh,
+	plugins/sudoers/regress/cvtsudoers/test13.sh,
+	plugins/sudoers/regress/cvtsudoers/test14.sh,
+	plugins/sudoers/regress/cvtsudoers/test15.sh,
+	plugins/sudoers/regress/cvtsudoers/test16.sh,
+	plugins/sudoers/regress/cvtsudoers/test17.sh,
+	plugins/sudoers/regress/cvtsudoers/test18.sh,
+	plugins/sudoers/regress/cvtsudoers/test19.sh,
+	plugins/sudoers/regress/cvtsudoers/test2.sh,
+	plugins/sudoers/regress/cvtsudoers/test20.sh,
+	plugins/sudoers/regress/cvtsudoers/test21.sh,
+	plugins/sudoers/regress/cvtsudoers/test22.sh,
+	plugins/sudoers/regress/cvtsudoers/test23.sh,
+	plugins/sudoers/regress/cvtsudoers/test24.sh,
+	plugins/sudoers/regress/cvtsudoers/test25.sh,
+	plugins/sudoers/regress/cvtsudoers/test26.sh,
+	plugins/sudoers/regress/cvtsudoers/test27.sh,
+	plugins/sudoers/regress/cvtsudoers/test28.sh,
+	plugins/sudoers/regress/cvtsudoers/test29.sh,
+	plugins/sudoers/regress/cvtsudoers/test3.sh,
+	plugins/sudoers/regress/cvtsudoers/test30.sh,
+	plugins/sudoers/regress/cvtsudoers/test31.sh,
+	plugins/sudoers/regress/cvtsudoers/test32.sh,
+	plugins/sudoers/regress/cvtsudoers/test33.sh,
+	plugins/sudoers/regress/cvtsudoers/test4.sh,
+	plugins/sudoers/regress/cvtsudoers/test5.sh,
+	plugins/sudoers/regress/cvtsudoers/test6.sh,
+	plugins/sudoers/regress/cvtsudoers/test7.sh,
+	plugins/sudoers/regress/cvtsudoers/test8.sh,
+	plugins/sudoers/regress/cvtsudoers/test9.sh,
+	plugins/sudoers/regress/testsudoers/test1.sh,
+	plugins/sudoers/regress/testsudoers/test10.sh,
+	plugins/sudoers/regress/testsudoers/test11.sh,
+	plugins/sudoers/regress/testsudoers/test12.sh,
+	plugins/sudoers/regress/testsudoers/test13.sh,
+	plugins/sudoers/regress/testsudoers/test14.sh,
+	plugins/sudoers/regress/testsudoers/test15.sh,
+	plugins/sudoers/regress/testsudoers/test2.sh,
+	plugins/sudoers/regress/testsudoers/test3.sh,
+	plugins/sudoers/regress/testsudoers/test4.sh,
+	plugins/sudoers/regress/testsudoers/test5.sh,
+	plugins/sudoers/regress/testsudoers/test6.sh,
+	plugins/sudoers/regress/testsudoers/test7.sh,
+	plugins/sudoers/regress/testsudoers/test8.sh,
+	plugins/sudoers/regress/testsudoers/test9.sh,
+	plugins/sudoers/regress/visudo/test1.sh,
+	plugins/sudoers/regress/visudo/test10.sh,
+	plugins/sudoers/regress/visudo/test2.sh,
+	plugins/sudoers/regress/visudo/test3.sh,
+	plugins/sudoers/regress/visudo/test4.sh,
+	plugins/sudoers/regress/visudo/test5.sh,
+	plugins/sudoers/regress/visudo/test6.sh,
+	plugins/sudoers/regress/visudo/test7.sh,
+	plugins/sudoers/regress/visudo/test8.sh,
+	plugins/sudoers/regress/visudo/test9.sh:
+	Pass path to testsudoers, visudo or cvtsudoers in the environment.
+	Falls back on the unqualified command if the environment variable is
+	not set.
+	[a7b8c413b66d]
+
+2020-10-09  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/sssd.c:
+	Init cmnds to NULL in rule_to_priv() so we don't free a bogus
+	pointer. In the sssd backend, the rule_to_priv() cleanup code
+	assumes cmnds can be passed to fn_free_values(), which was not the
+	case if we receive an error getting values for "sudoCommand". This
+	is a regression introduced in sudo 1.9.1. Fix from Ron Bowes. GitHub
+	issue #67.
+	[a3fe4615f039]
+
+2020-10-06  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/match_command.c, plugins/sudoers/match_digest.c,
+	plugins/sudoers/parse.h:
+	Pass runchroot to match_digest() too. We use the open fd for the
+	actual I/O but having runchroot makes it possible to report the
+	correct file name in error messages.
+	[2e1d142e2fe5]
+
+2020-10-04  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* NEWS:
+	GitHub issue #61 was fixed in sudo 1.9.3.
+	[55e54b3111f0]
+
+2020-09-29  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/def_data.h, plugins/sudoers/mkdefaults:
+	Fix indentation of enum def_tuple.
+	[237db08cc1a3]
+
+2020-09-28  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/toke.c, plugins/sudoers/toke.l:
+	Remove special case EOF handling; lines now always end in a newline.
+	Previously we needed to emulate some of the state transitions that
+	happen at end-of-line at end-of-file as well. Those are no longer
+	needed now that we are guaranteed to always have a newline at the
+	end.
+	[4c0c21b081f7]
+
+2020-09-27  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/toke.c, plugins/sudoers/toke.l:
+	Increment sudolinebuf.size after realloc().
+	[b871905c3442]
+
+	* plugins/sudoers/gram.c, plugins/sudoers/gram.h,
+	plugins/sudoers/gram.y,
+	plugins/sudoers/regress/sudoers/test13.toke.ok,
+	plugins/sudoers/toke.c, plugins/sudoers/toke.l:
+	Add a newline at end of line if one is missing. This is simpler than
+	having to support entries that end at EOF too.
+	[cb335acb1064]
+
+	* MANIFEST, plugins/sudoers/regress/testsudoers/test14.out.ok,
+	plugins/sudoers/regress/testsudoers/test14.sh,
+	plugins/sudoers/regress/testsudoers/test15.out.ok,
+	plugins/sudoers/regress/testsudoers/test15.sh:
+	Add tests for entries without a newline.
+	[98a50d8301a8]
+
+	* plugins/sudoers/toke.c, plugins/sudoers/toke.l:
+	Fix handling of a command spec without a newline at the end. For
+	include files, we may need to inject a newline token now that the
+	grammar requires lines to end with a newline or EOF. There is no END
+	(EOF) token processed after popping off an include file since
+	everything is just treated as one big file.
+	[3e6c62ea7237]
+
+	* plugins/sudoers/toke.c, plugins/sudoers/toke.l:
+	Mark sudoerserror() messages for translation.
+	[d6a173cea48b]
+
+	* plugins/sudoers/regress/sudoers/test8.toke.ok,
+	plugins/sudoers/toke.c, plugins/sudoers/toke.l:
+	Fix line number accounting when a string contains a newline. Strings
+	are not allowed to span multiple lines without a continuation
+	character. Also provide a better error message if we are in the
+	middle of a string and hit EOF.
+	[cf34b0a3beba]
+
+2020-09-26  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/gram.c, plugins/sudoers/gram.y,
+	plugins/sudoers/sudoers.h, plugins/sudoers/toke.c,
+	plugins/sudoers/toke.l:
+	Use sudoerschar (yychar) instead of last_token. The parser already
+	provides a way to examing the last token processed, we don't need to
+	add our own.
+	[ba35fe36bd56]
+
+2020-09-25  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* lib/util/closefrom.c, lib/util/getentropy.c, lib/util/pipe2.c,
+	lib/util/term.c, lib/util/ttyname_dev.c, plugins/sudoers/auth/pam.c,
+	plugins/sudoers/cvtsudoers.c, plugins/sudoers/env.c,
+	plugins/sudoers/getdate.c, plugins/sudoers/getdate.y,
+	plugins/sudoers/gmtoff.c, plugins/sudoers/locale.c,
+	plugins/sudoers/logging.h, plugins/sudoers/policy.c,
+	plugins/sudoers/starttime.c, plugins/sudoers/sudoers.c,
+	plugins/sudoers/testsudoers.c, plugins/sudoers/visudo.c,
+	plugins/system_group/system_group.c, src/load_plugins.c, src/sudo.c,
+	src/sudo_plugin_int.h, src/tgetpass.c, src/ttyname.c:
+	Fix -Wshadow warnings.
+	[5480e97a1160]
+
+	* configure, configure.ac:
+	Add -Wshadow to warning flags if the compiler supports it.
+	[6f29b5ebc2b8]
+
+	* MANIFEST, plugins/sudoers/regress/testsudoers/test13.out.ok,
+	plugins/sudoers/regress/testsudoers/test13.sh:
+	Add test for syntax error when defining an alias using a reserved
+	word.
+	[4c90b3952ed1]
+
+	* doc/sudoers.man.in, doc/sudoers.mdoc.in:
+	Fix pasto, TIMEOUT not CMND_TIMEOUT.
+	[842ad3a578f2]
+
+	* NEWS, doc/UPGRADE, doc/sudoers.man.in, doc/sudoers.man.in.sed,
+	doc/sudoers.mdoc.in:
+	Document reserved words that cannot be used as alias names. Bug #941
+	[4b37a2174cd2]
+
+	* plugins/sudoers/gram.c, plugins/sudoers/gram.y,
+	plugins/sudoers/sudoers_version.h:
+	Detect when a reserved word is used when declaring an alias. Now
+	instead of "syntax error, unexpected CHROOT, expecting ALIAS" the
+	message is "syntax error, reserved word used as an alias name" Bug
+	#941
+	[dfc55de5526c]
+
+2020-09-23  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* .hgtags:
+	Added tag SUDO_1_9_3p1 for changeset 02c47b39359e
+	[23bf4d95356d] <1.9>
+
+	* merge sudo 1.9.3p1 from tip
+	[02c47b39359e] [SUDO_1_9_3p1] <1.9>
+
+	* plugins/sudoers/sudoers.c:
+	Fix potential NULL deref in debug code.
+	[c6b8910ac7dc]
+
+	* plugins/sudoers/getspwuid.c:
+	Close the passwd db before calling getpwnam_shadow(3). Otherwise, we
+	will get the non-shadow passwd entry ("*") since we called
+	setpassent(3) earlier to keep the passwd db open.
+	[71ee5e16e4c5]
+
+	* configure, configure.ac:
+	Fix configure test for crypt(3) when it is present in libc. Fixes a
+	regression introduced in sudo 1.9.3.
+	[0d77733de667]
+
+	* plugins/sudoers/audit.c, plugins/sudoers/logging.c,
+	plugins/sudoers/logging.h, plugins/sudoers/sudoers.c:
+	Add SLOG_AUDIT flag for log_warningx() to also audit the message.
+	This lets us combine audit_failure() and log_warningx() calls with
+	the same message.
+	[23a8a5eab2ff]
+
+	* plugins/sudoers/sudoers.c:
+	Log when user-specified command line options are rejected by
+	sudoers. We already audit those but in some cases they were not
+	logged as well.
+	[30d991993763]
+
+	* NEWS, configure, configure.ac:
+	Update for sudo 1.9.3p1
+	[0cbbb7608c3f]
+
 2020-09-21  Todd C. Miller  <Todd.Miller@sudo.ws>
 
 	* .hgtags:
 	Added tag SUDO_1_9_3 for changeset bdd40c087bec
-	[eca7e986d20f] [tip] <1.9>
+	[eca7e986d20f] <1.9>
 
 	* merge sudo 1.9.3 from tip
 	[bdd40c087bec] [SUDO_1_9_3] <1.9>
