@@ -1,8 +1,419 @@
+2021-01-11  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* .hgtags:
+	Added tag SUDO_1_9_5p1 for changeset 3a873a732416
+	[e837c76279bc] [tip] <1.9>
+
+	* Merge sudo 1.9.5p1 from tip
+	[3a873a732416] [SUDO_1_9_5p1] <1.9>
+
+	* NEWS, configure, configure.ac:
+	Sudo 1.9.5p1
+	[2dbbab94d4b6]
+
+	* src/sudo_edit.c:
+	Run the editor with the user's real and effective uid and gid. Fixes
+	a bug introduced in sudo 1.9.5 where the editor was run setuid root
+	unless SELinux RBAC was in use.
+	[30fe53c07aa7]
+
+	* NEWS:
+	fix typo
+	[52e7767881ba]
+
+	* src/copy_file.c, src/edit_open.c:
+	Add casts to quiet two warnings on Solaris.
+	[f76126f6d68d]
+
+2021-01-09  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* .hgtags:
+	Added tag SUDO_1_9_5 for changeset 4059f5520d9d
+	[ee76c8a938de] <1.9>
+
+	* Merge sudo 1.9.5 from tip
+	[4059f5520d9d] [SUDO_1_9_5] <1.9>
+
+	* plugins/sudoers/po/sudoers.pot, po/sudo.pot:
+	Update .pot files for 1.9.5.
+	[49dae07bda23]
+
+2021-01-08  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* NEWS, configure, configure.ac, doc/LICENSE, etc/sudo-logsrvd.pp,
+	etc/sudo-python.pp, etc/sudo.pp:
+	Sudo 1.9.5
+	[3a0e500981a8]
+
+	* doc/sudoers.man.in, doc/sudoers.man.in.sed, doc/sudoers.mdoc.in,
+	plugins/sudoers/def_data.c, plugins/sudoers/def_data.h,
+	plugins/sudoers/def_data.in, plugins/sudoers/defaults.c,
+	plugins/sudoers/policy.c:
+	Allow SELinux support to be disabled via the sudoers file. Defaults
+	to true if sudo is built with SELinux support and SELinux is not
+	disabled on the system.
+	[c457eaae8692]
+
+2021-01-06  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/python/python_importblocker.c:
+	Add a comment to verify_import() to clarify its purpose.
+	[30ef680f4104]
+
+	* lib/eventlog/eventlog.c, lib/util/arc4random.c,
+	lib/util/sudo_debug.c, plugins/audit_json/audit_json.c,
+	plugins/python/python_convmessage.c, plugins/sudoers/auth/pam.c,
+	plugins/sudoers/getdate.c, plugins/sudoers/getdate.y,
+	plugins/sudoers/goodpath.c, plugins/sudoers/gram.c,
+	plugins/sudoers/gram.h, plugins/sudoers/gram.y,
+	plugins/sudoers/rcstr.c, plugins/sudoers/redblack.c,
+	plugins/sudoers/toke.c, plugins/sudoers/toke.l,
+	plugins/sudoers/toke_util.c, plugins/sudoers/visudo.c,
+	src/exec_common.c, src/sesh.c, src/sudo.c, src/sudo_edit.c:
+	Suppress PVS Studio false positives.
+	[077f46549351]
+
+	* plugins/sudoers/gram.c, plugins/sudoers/gram.y:
+	Plug a memory leak in sudoerserrorf().
+	[a3c14cf0283e]
+
+	* plugins/sudoers/editor.c, plugins/sudoers/fmtsudoers.c,
+	plugins/sudoers/gram.c, plugins/sudoers/gram.y,
+	plugins/sudoers/ldap_util.c, plugins/sudoers/parse.h,
+	plugins/sudoers/starttime.c, plugins/sudoers/tsgetgrpw.c,
+	src/ttyname.c:
+	Quiet a few harmless cppcheck warnings.
+	[ab123790b3fd]
+
+	* src/copy_file.c, src/sudo_edit.c:
+	In sudoedit, use sudo_check_temp_file() for non-SELinux too.
+	[b5d5bd506487]
+
+	* MANIFEST, src/Makefile.in, src/edit_open.c, src/sesh.c,
+	src/sudo_edit.c, src/sudo_edit.h, src/sudo_exec.h:
+	Move safe open code out of sudo_edit.c and into edit_open.c.
+	[108fcca05798]
+
+	* src/Makefile.in, src/edit_open.c, src/sesh.c, src/sudo_edit.c,
+	src/sudo_edit.h:
+	Add directory writability checks for SELinux RBAC sudoedit. These
+	were never added to the SELinux RBAC path.
+	[0d4f28b5a8e2]
+
+	* src/edit_open.c, src/exec.c, src/exec_pty.c, src/sesh.c, src/sudo.c,
+	src/sudo.h, src/sudo_edit.c, src/sudo_edit.h, src/tgetpass.c:
+	Add struct sudo_cred to hold the invoking or runas user credentials.
+	We can use this when we need to pass around credential info instead
+	of the user_details and command_details structs.
+	[20594f3f00c1]
+
+	* src/edit_open.c, src/sesh.c, src/sudo_edit.c, src/sudo_edit.h:
+	Rename run_cred -> cur_cred and stash existing creds in
+	set_tmpdir(). For sudo_edit_open() et al what we need is a copy of
+	the current cred to restore after dir_is_writable() changes to the
+	user cred.
+	[dcfce8a11282]
+
+	* configure, configure.ac, include/sudo_compat.h, lib/util/progname.c:
+	Add setprogname(3) for those without it.
+	[e2f1d1ecedb0]
+
+	* src/sesh.c, src/sudo_edit.c:
+	Split up sesh_sudoedit() so it is organized more like sudo_edit.c.
+	The new sesh_edit_create_tfiles() and sesh_edit_copy_tfiles()
+	functions are analogous to sudo_edit_create_tfiles() and
+	sudo_edit_copy_tfiles(). Also use "sudoedit" in the warning/error
+	messages from sesh_sudoedit(). Otherwise, the user gets a mix of
+	messages from sudoedit and sesh.
+	[5510be4b2129]
+
+	* Makefile.in, lib/eventlog/Makefile.in, lib/iolog/Makefile.in,
+	lib/logsrv/Makefile.in, lib/util/Makefile.in, logsrvd/Makefile.in,
+	plugins/audit_json/Makefile.in, plugins/group_file/Makefile.in,
+	plugins/python/Makefile.in, plugins/sample/Makefile.in,
+	plugins/sample_approval/Makefile.in, plugins/sudoers/Makefile.in,
+	plugins/system_group/Makefile.in, src/Makefile.in:
+	Remove the --force option from the cppcheck args, it causes errors.
+	[57f2ad72e874]
+
+	* include/sudo_util.h, lib/util/progname.c, lib/util/util.exp.in,
+	src/sudo.c:
+	For sudo, only allow "sudo" or "sudoedit" as the program name. The
+	program name is also used when matching Debug lines in sudo.conf. We
+	don't want the user to be able to influence sudo.conf Debug
+	matching. The string "sudoedit" is treated the same as "sudo" in
+	sudo.conf. Problem reported by Matthias Gerstner of SUSE.
+	[1d32c53859f9]
+
+	* lib/iolog/iolog_fileio.c, lib/util/sudo_debug.c,
+	plugins/group_file/getgrent.c, plugins/sudoers/linux_audit.c,
+	plugins/sudoers/tsgetgrpw.c:
+	Check the return value of fcntl() when setting FD_CLOEXEC. This
+	should never fail unless the fd is invalid. Problem reported by
+	Matthias Gerstner of SUSE.
+	[f1ca39a0d870]
+
+	* src/sudo_edit.c:
+	Fix potential directory existing info leak in sudoedit. When
+	creating a new file, sudoedit checks to make sure the parent
+	directory exists so it can provide the user with a sensible error
+	message. However, this could be used to test for the existence of
+	directories not normally accessible to the user by pointing to them
+	with a symbolic link when the parent directory is controlled by the
+	user. Problem reported by Matthias Gerstner of SUSE.
+	[ea19d0073c02]
+
+	* src/copy_file.c, src/sesh.c, src/sudo_edit.c, src/sudo_exec.h:
+	Add security checks before using temp files for SELinux RBAC
+	sudoedit. Otherwise, it may be possible for the user running
+	sudoedit to replace the newly-created temporary files with a
+	symbolic link and have sudoedit set the owner of an arbitrary file.
+	Problem reported by Matthias Gerstner of SUSE.
+	[8fcb36ef422a]
+
+	* plugins/sudoers/po/hr.mo, plugins/sudoers/po/hr.po,
+	plugins/sudoers/po/it.mo, plugins/sudoers/po/it.po,
+	plugins/sudoers/po/ko.mo, plugins/sudoers/po/ko.po,
+	plugins/sudoers/po/sr.mo, plugins/sudoers/po/sr.po,
+	plugins/sudoers/po/sv.mo, plugins/sudoers/po/sv.po, po/ko.mo,
+	po/ko.po, po/sr.mo, po/sr.po, po/sv.mo, po/sv.po:
+	Updated translations from translationproject.org
+	[e68c92c767f1]
+
+2021-01-04  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/sudoers.c:
+	Use debug_return_int() not debug_return_bool() to return -1. Found
+	by PVS Studio.
+	[f1f67ca51aeb]
+
+	* plugins/sudoers/logging.c:
+	Fix a crash introduced in 1.9.4 when running "sudo -i" as an unknown
+	user.
+	[d1a3f0f4d0f9]
+
+2021-01-03  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/check.c:
+	Make sure lecture file is a regular file before reading it.
+	[c9c68eff1e45]
+
+2021-01-02  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* Makefile.in, lib/eventlog/Makefile.in, lib/iolog/Makefile.in,
+	lib/logsrv/Makefile.in, lib/util/Makefile.in, logsrvd/Makefile.in,
+	plugins/audit_json/Makefile.in, plugins/group_file/Makefile.in,
+	plugins/group_file/plugin_test.c, plugins/python/Makefile.in,
+	plugins/sample/Makefile.in, plugins/sample_approval/Makefile.in,
+	plugins/sudoers/Makefile.in, plugins/sudoers/parse.h,
+	plugins/system_group/Makefile.in, src/Makefile.in:
+	Minor fixes pointed out by cppcheck. Also add
+	compareBoolExpressionWithInt to suppression list.
+	[52316819700e]
+
+	* logsrvd/logsrvd.c:
+	Avoid potential use after free with eventlog-only connections.
+	Coverity CID 215884.
+	[cca5cffabe42]
+
+	* src/exec.c:
+	Cannot do direct exec of a command when SELinux RBAC is enabled.
+	[2706b0fc1451]
+
+	* MANIFEST, configure, configure.ac, include/sudo_compat.h,
+	lib/util/Makefile.in, lib/util/pread.c, lib/util/pwrite.c,
+	scripts/mkdep.pl:
+	Add emulation of pread(3) and pwrite(3) for systems without them.
+	This makes it possible to remove some ugly #ifdefs and only affects
+	very old systems.
+	[1c2a31bda598]
+
+	* lib/iolog/iolog_fileio.c, plugins/sudoers/match_command.c,
+	plugins/sudoers/timestamp.c:
+	Remove #ifdefs around code using pread(3) and pwrite(3).
+	[3830fdf650df]
+
+	* plugins/sudoers/Makefile.in:
+	Regen now that ldap.c and sssd.c no longer need gram.h
+	[5cc4e107f301]
+
+2020-12-30  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* lib/util/fatal.c:
+	Fix deregistration of a callback that is not at the head of the
+	list. The SLIST_FOREACH_PREVPTR macro doesn't work the way I thought
+	it did. Just store our own prev pointer and use that instead.
+	[04c290fe1fcb]
+
+2020-12-21  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* src/net_ifs.c:
+	Fix the buffer size parameter when serializing the interface list.
+	Problem reported by Matthias Gerstner of SUSE.
+	[b0cae3ac8e46]
+
+2020-12-20  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* .hgtags:
+	Added tag SUDO_1_9_4p2 for changeset 8aed5221ede9
+	[a74faf363dbb] <1.9>
+
+	* merge sudo 1.9.4p2 from tip
+	[8aed5221ede9] [SUDO_1_9_4p2] <1.9>
+
+	* NEWS, configure, configure.ac:
+	Sudo 1.9.4p2
+	[8bb8ec358990]
+
+	* plugins/sudoers/sudoers.c:
+	The runas user must be set before applying runas-based Defaults.
+	This effectively backs out changeset f738f5ac5350, which made it
+	possible to log the command when an invalid user was specified. The
+	policy plugin API doesn't supply the command until the check
+	function, at which point we've already denied the command due to the
+	invalid user. Bug #951.
+	[8a415f555cf9]
+
+2020-12-18  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* etc/uncrustify-small.cfg, etc/uncrustify.cfg:
+	Don't enable mod_remove_empty_return We like to use an empty return
+	for stub functions.
+	[018ef129dc24]
+
+2020-12-16  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* .hgtags:
+	Added tag SUDO_1_9_4p1 for changeset 8f65fd9f0f57
+	[e27e424f9f56] <1.9>
+
+	* merge sudo 1.9.4p1 from tip
+	[8f65fd9f0f57] [SUDO_1_9_4p1] <1.9>
+
+	* plugins/sudoers/policy.c:
+	The lower bounds for the "closefrom" option is 3, not 4. This is a
+	regression introduced in sudo 1.8.9 with the strtonum() conversion.
+	Bug #950.
+	[fb06603b9a12]
+
+2020-12-15  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* NEWS, configure, configure.ac:
+	Sudo 1.9.4p1
+	[59c37ec1a128]
+
+2020-12-11  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* doc/sudoers.man.in, doc/sudoers.mdoc.in:
+	Direct execution of a command is incompatible with using a log
+	server.
+	[91afbbde217a]
+
+	* plugins/sudoers/audit.c:
+	Set sudoers_audit.close to NULL if not using a log server.
+	[231abb92a3b2]
+
+2020-12-07  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* config.h.in, configure, configure.ac, src/sudo.c:
+	Define _DARWIN_UNLIMITED_GETGROUPS on macOS to suport > 16 groups.
+	On macOS 10.6 and above, getgroups(2) can return more than
+	NGROUPS_MAX if _DARWIN_UNLIMITED_GETGROUPS or _DARWIN_C_SOURCE is
+	defined. Bug #946
+	[2e7d3c3cf18b]
+
+2020-12-05  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* doc/sudo.conf.man.in, doc/sudo.conf.mdoc.in, examples/sudo.conf.in:
+	Comment out the default plugin lines in the example sudo.conf. Fixes
+	a problem when there are multiple versions of sudo installed and not
+	all suport the audit plugin, such as on macOS. GitHub issue #75
+	[aaed5d7a3471]
+
+	* plugins/sudoers/logging.c, plugins/sudoers/policy.c,
+	plugins/sudoers/sudoers.c, plugins/sudoers/sudoers.h:
+	Store the user-provided runas user and group name in struct
+	sudo_user. This makes it available for event logging in case the
+	name doesn't resolve.
+	[98d70ba8a2a6]
+
+	* plugins/sudoers/logging.c:
+	Log submit group to event log.
+	[3e7ace99f7f8]
+
+	* plugins/sudoers/logging.c, plugins/sudoers/sudoers.c,
+	plugins/sudoers/sudoers.h:
+	Store iolog_path in struct sudo_user for use in the event log.
+	[35bc39ec8ad5]
+
+2020-12-04  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/logging.c, plugins/sudoers/sudoers.c:
+	Defer lookup of runas user until sudoers_main() for better logging.
+	The log message now includes user info and the command attempted.
+	[f738f5ac5350]
+
+	* lib/eventlog/eventlog.c:
+	Don't assume that just because command is non-NULL, argv is non-
+	NULL.
+	[4fac4ae88e4e]
+
+	* plugins/sudoers/logging.c:
+	Fix a crash introduced in 1.9.4 when running command as an unknown
+	user. Bug #948
+	[8b24c140ec7c]
+
+2020-12-03  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* logsrvd/logsrvd.c:
+	When shutting down the server, close non-I/O log connections
+	immediately. Avoids a timeout during server shutdown while the
+	server waits for active connections to close.
+	[26bfda2c8f67]
+
+	* src/sudo.c:
+	Audit errors from policy_init_session(), audit_accept(), and
+	audit_reject().
+	[638e583754ac]
+
+	* src/sudo.c:
+	Do not run the command if the audit accept function fails. Also add
+	warnings if the audit reject or error functions fail.
+	[ca94ef438961]
+
+	* plugins/sudoers/log_client.c:
+	Reduce the number of error messages when we can't connect to the
+	audit server. Add the error string to "unable to connect to log
+	server" instead of using an extra error message for the connect(2)
+	failure.
+	[25ac7ac5bfdf]
+
+	* plugins/sudoers/log_client.c:
+	Use correct error message when the TLS connection is dropped. Was:
+	"recv: Unknown error 0", now: "lost connection to log server".
+	[5c3f319b1f75]
+
+2020-12-02  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/alias.c, plugins/sudoers/gram.c,
+	plugins/sudoers/gram.h, plugins/sudoers/gram.y,
+	plugins/sudoers/parse.h:
+	Change alias_add() to return bool and set errno on failure. This
+	fixes a localization problem where the error message could have been
+	reported in the wrong locale.
+	[1859fe3da40c]
+
+2020-11-30  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* lib/eventlog/eventlog.c:
+	Fix build when configured using --without-sendmail Bug #947
+	[41db1aad85bb]
+
 2020-11-29  Todd C. Miller  <Todd.Miller@sudo.ws>
 
 	* .hgtags:
 	Added tag SUDO_1_9_4 for changeset 74705fb3b956
-	[45a5e742496e] [tip] <1.9>
+	[45a5e742496e] <1.9>
 
 	* merge sudo 1.9.4 from tip
 	[74705fb3b956] [SUDO_1_9_4] <1.9>

@@ -3,4 +3,3 @@
 0003-visudo-Use-sane-default-file.patch
 0004-man-pages-add-stateless-locations.patch
 0005-keep-proxy-settings-environment-variables.patch
-0006-Fix-build-when-configured-using-without-sendmail-Bug.patch

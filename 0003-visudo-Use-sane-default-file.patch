@@ -9,7 +9,7 @@ Signed-off-by: Patrick McCarty <patrick.mccarty@intel.com>
  1 file changed, 8 insertions(+)
 
 diff --git a/plugins/sudoers/visudo.c b/plugins/sudoers/visudo.c
-index e09297b..d2b8599 100644
+index 6fd3c83..1fee2f0 100644
 --- a/plugins/sudoers/visudo.c
 +++ b/plugins/sudoers/visudo.c
 @@ -132,6 +132,7 @@ main(int argc, char *argv[])

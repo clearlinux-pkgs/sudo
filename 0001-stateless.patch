@@ -26,7 +26,7 @@ index a39f919..e1873d7 100644
  
  /*
 diff --git a/plugins/sudoers/Makefile.in b/plugins/sudoers/Makefile.in
-index b1d4ad3..debf27a 100644
+index 5aeeae6..a292eb1 100644
 --- a/plugins/sudoers/Makefile.in
 +++ b/plugins/sudoers/Makefile.in
 @@ -133,7 +133,7 @@ shlib_opt = sudoers.opt
