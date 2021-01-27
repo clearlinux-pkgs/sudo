@@ -1,8 +1,143 @@
+2021-01-23  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* .hgtags:
+	Added tag SUDO_1_9_5p2 for changeset 83685ffbc4df
+	[74a2ddc3e4a4] [tip] <1.9>
+
+	* Merge sudo 1.9.5p2 from tip
+	[83685ffbc4df] [SUDO_1_9_5p2] <1.9>
+
+	* plugins/sudoers/timestamp.c:
+	Fix the memset offset when converting a v1 timestamp to TS_LOCKEXCL.
+	We want to zero the struct starting at flags, not type (which was
+	just set). Found by Qualys.
+	[09f98816fc89]
+
+	* src/parse_args.c:
+	Don't assume that argv is allocated as a single flat buffer. While
+	this is how the kernel behaves it is not a portable assumption. The
+	assumption may also be violated if getopt_long(3) permutes
+	arguments. Found by Qualys.
+	[c125fbe68783]
+
+	* NEWS, configure, configure.ac:
+	Sudo 1.9.5p2
+	[89a357d8da4e]
+
+	* src/parse_args.c:
+	Reset valid_flags to MODE_NONINTERACTIVE for sudoedit. This is
+	consistent with how the -e option is handled. Also reject -H and -P
+	flags for sudoedit as was done in sudo 1.7. Found by Qualys, this is
+	part of the fix for CVE-2021-3156.
+	[9b97f1787804]
+
+	* plugins/sudoers/policy.c:
+	Add sudoedit flag checks in plugin that are consistent with front-
+	end. Don't assume the sudo front-end is sending reasonable mode
+	flags. These checks need to be kept consistent between the sudo
+	front-end and the sudoers plugin.
+	[a97dc92eae6b]
+
+	* plugins/sudoers/sudoers.c:
+	Fix potential buffer overflow when unescaping backslashes in
+	user_args. Also, do not try to unescaping backslashes unless in run
+	mode *and* we are running the command via a shell. Found by Qualys,
+	this fixes CVE-2021-3156.
+	[049ad90590be]
+
+2021-01-22  Fabrice Fontaine  <fontaine.fabrice@gmail.com>
+
+	* lib/eventlog/Makefile.in:
+	lib/eventlog/Makefile.in: fix static build without closefrom
+
+	Since version 1.9.4 and https://github.com/sudo-
+	project/sudo/commit/bd1ca79cca827a92e904f022e49df121931d4ff5, when
+	closefrom is not available, libsudo_eventlog.a depends on
+	libsudo_util.a. So reflect this dependency in the libtool file to
+	avoid the following static build failure of logsrvd:
+
+	/bin/bash ../libtool --tag=disable-static --mode=link
+	/home/buildroot/autobuild/instance-1/output-1/host/bin/powerpc-
+	linux-gcc -o sudo_logsrvd logsrv_util.o iolog_writer.o logsrvd.o
+	logsrvd_conf.o -static -Wl,--enable-new-dtags -Wl,-z,relro
+	../lib/iolog/libsudo_iolog.la ../lib/eventlog/libsudo_eventlog.la
+	../lib/logsrv/liblogsrv.la /bin/bash ../libtool --tag=disable-static
+	--mode=link
+	/home/buildroot/autobuild/instance-1/output-1/host/bin/powerpc-
+	linux-gcc -o sudo_sendlog logsrv_util.o sendlog.o -static -Wl,--
+	enable-new-dtags -Wl,-z,relro ../lib/iolog/libsudo_iolog.la
+	../lib/eventlog/libsudo_eventlog.la ../lib/logsrv/liblogsrv.la
+	libtool: link:
+	/home/buildroot/autobuild/instance-1/output-1/host/bin/powerpc-
+	linux-gcc -o sudo_logsrvd logsrv_util.o iolog_writer.o logsrvd.o
+	logsrvd_conf.o -static -Wl,--enable-new-dtags -Wl,-z -Wl,relro
+	../lib/iolog/.libs/libsudo_iolog.a /home/buildroot/autobuild/instanc
+	e-1/output-1/build/sudo-1.9.5p1/lib/util/.libs/libsudo_util.a
+	-lpthread -lz ../lib/eventlog/.libs/libsudo_eventlog.a
+	../lib/logsrv/.libs/liblogsrv.a
+	/home/buildroot/autobuild/instance-1/output-1/host/opt/ext-
+	toolchain/bin/../lib/gcc/powerpc-buildroot-linux-
+	uclibc/8.3.0/../../../../powerpc-buildroot-linux-uclibc/bin/ld:
+	../lib/eventlog/.libs/libsudo_eventlog.a(eventlog.o): in function
+	`send_mail.constprop.1': eventlog.c:(.text+0x149c): undefined
+	reference to `sudo_closefrom' collect2: error: ld returned 1 exit
+	status
+
+	Fixes:
+	 - http://autobuild.buildroot.org/results/515b45f876fa9de03c9235f86017f
+	4dc10eb3b54
+
+	Signed-off-by: Fabrice Fontaine <fontaine.fabrice@gmail.com>
+	[4e42d276c336]
+
+2021-01-21  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/log_client.c:
+	Do not add an unfinished write buffer to the queue if it is already
+	present. In client_msg_cb() we only remove a buffer from the queue
+	when it is finished. Inserting the buf again can cause a cycle in
+	the queue.
+	[b398dcc0933d]
+
+2021-01-20  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/log_client.c:
+	Fix problem when SSL_read() returns SSL_ERROR_WANT_WRITE. This can
+	happen when the socket cannot be written to immediately. We need to
+	set the read_instead_of_write flag in that case, _not_
+	write_instead_of_read. Also sync comments with sendlog.c. Bug #954
+	[e4239bb932aa]
+
+2021-01-18  Pavel Březina  <pbrezina@redhat.com>
+
+	* plugins/sudoers/auth/pam.c:
+	pam: pass KRB5CCNAME to pam_authenticate environment if available
+
+	If a PAM module wants to authenticate user using GSSAPI, the
+	authentication is broken if non-default ccache name is used in
+	KRB5CCNAME environment variable.
+
+	One way to mitigate this would be to add this to env_keep, but this
+	also makes the variable available in the executed command which may
+	not be always desirable.
+
+	This patch sets KRB5CCNAME for pam_authenticate only, if it is
+	available and not yet set.
+	[90aba6ba6e03]
+
+2021-01-15  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* lib/util/progname.c:
+	Fix setprogname() emulation on systems without it. For fully-
+	qualified paths, store the string starting after the last slash, not
+	at the slash itself.
+	[111fde52d116]
+
 2021-01-11  Todd C. Miller  <Todd.Miller@sudo.ws>
 
 	* .hgtags:
 	Added tag SUDO_1_9_5p1 for changeset 3a873a732416
-	[e837c76279bc] [tip] <1.9>
+	[e837c76279bc] <1.9>
 
 	* Merge sudo 1.9.5p1 from tip
 	[3a873a732416] [SUDO_1_9_5p1] <1.9>

@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xA9F4C021CEA470FB (Todd.Miller@sudo.ws)
 #
 Name     : sudo
-Version  : 1.9.5p1
-Release  : 72
-URL      : https://www.sudo.ws/dist/sudo-1.9.5p1.tar.gz
-Source0  : https://www.sudo.ws/dist/sudo-1.9.5p1.tar.gz
-Source1  : https://www.sudo.ws/dist/sudo-1.9.5p1.tar.gz.sig
+Version  : 1.9.5p2
+Release  : 73
+URL      : https://www.sudo.ws/dist/sudo-1.9.5p2.tar.gz
+Source0  : https://www.sudo.ws/dist/sudo-1.9.5p2.tar.gz
+Source1  : https://www.sudo.ws/dist/sudo-1.9.5p2.tar.gz.sig
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : ISC
@@ -109,8 +109,8 @@ setuid components for the sudo package.
 
 
 %prep
-%setup -q -n sudo-1.9.5p1
-cd %{_builddir}/sudo-1.9.5p1
+%setup -q -n sudo-1.9.5p2
+cd %{_builddir}/sudo-1.9.5p2
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -122,7 +122,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1611076458
+export SOURCE_DATE_EPOCH=1611710620
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -146,7 +146,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make check || :
 
 %install
-export SOURCE_DATE_EPOCH=1611076458
+export SOURCE_DATE_EPOCH=1611710620
 rm -rf %{buildroot}
 %make_install INSTALL_OWNER=""
 %find_lang sudo
