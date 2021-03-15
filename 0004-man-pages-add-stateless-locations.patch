@@ -10,7 +10,7 @@ Signed-off-by: Patrick McCarty <patrick.mccarty@intel.com>
  2 files changed, 16 insertions(+), 16 deletions(-)
 
 diff --git a/doc/sudoers.man.in b/doc/sudoers.man.in
-index 6bd08d9..26ced5b 100644
+index 73d7692..993108e 100644
 --- a/doc/sudoers.man.in
 +++ b/doc/sudoers.man.in
 @@ -42,7 +42,7 @@ It is the default
@@ -22,7 +22,7 @@ index 6bd08d9..26ced5b 100644
  file or, optionally in LDAP.
  The policy format is described in detail in the
  \fISUDOERS FILE FORMAT\fR
-@@ -2654,14 +2654,14 @@ by default.
+@@ -2669,14 +2669,14 @@ by default.
  .TP 18n
  ignore_local_sudoers
  If set via LDAP, parsing of
@@ -40,7 +40,7 @@ index 6bd08d9..26ced5b 100644
  does not even need to exist.
  Since this flag tells
  \fBsudo\fR
-@@ -5108,7 +5108,7 @@ will log a message and, in most cases, send a message to the
+@@ -5141,7 +5141,7 @@ will log a message and, in most cases, send a message to the
  administrator via email.
  Possible errors include:
  .TP 3n
@@ -49,7 +49,7 @@ index 6bd08d9..26ced5b 100644
  \fBsudoers\fR
  encountered an error when parsing the specified file.
  In some cases, the actual error may be one line above or below the
-@@ -5130,7 +5130,7 @@ The time stamp directory owner, as specified by the
+@@ -5163,7 +5163,7 @@ The time stamp directory owner, as specified by the
  \fItimestampowner\fR
  setting, could not be found in the password database.
  .TP 3n
@@ -58,7 +58,7 @@ index 6bd08d9..26ced5b 100644
  The
  \fIsudoers\fR
  file could not be opened for reading.
-@@ -5144,7 +5144,7 @@ tries to open the
+@@ -5177,7 +5177,7 @@ tries to open the
  \fIsudoers\fR
  file using group permissions to avoid this problem.
  Consider either changing the ownership of
@@ -67,7 +67,7 @@ index 6bd08d9..26ced5b 100644
  or adding an argument like
  \(lqsudoers_uid=N\(rq
  (where
-@@ -5158,17 +5158,17 @@ line in the
+@@ -5191,17 +5191,17 @@ line in the
  sudo.conf(@mansectform@)
  file.
  .TP 3n
@@ -90,7 +90,7 @@ index 6bd08d9..26ced5b 100644
  The
  \fIsudoers\fR
  file has the wrong owner.
-@@ -5187,7 +5187,7 @@ line in the
+@@ -5220,7 +5220,7 @@ line in the
  sudo.conf(@mansectform@)
  file.
  .TP 3n
@@ -99,7 +99,7 @@ index 6bd08d9..26ced5b 100644
  The permissions on the
  \fIsudoers\fR
  file allow all users to write to it.
-@@ -5204,7 +5204,7 @@ line in the
+@@ -5237,7 +5237,7 @@ line in the
  sudo.conf(@mansectform@)
  file.
  .TP 3n
@@ -108,7 +108,7 @@ index 6bd08d9..26ced5b 100644
  The
  \fIsudoers\fR
  file has the wrong group ownership.
-@@ -5555,7 +5555,7 @@ will truncate and re-use any existing I/O logs.
+@@ -5588,7 +5588,7 @@ will truncate and re-use any existing I/O logs.
  \fI@sysconfdir@/sudo.conf\fR
  Sudo front end configuration
  .TP 26n

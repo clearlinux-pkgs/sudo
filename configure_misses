@@ -1,53 +1,53 @@
-Configure miss: netgroup.h
-Configure miss: sys/bsdtypes.h
-Configure miss: sys/stropts.h
-Configure miss: at which syslog priority to log commands
-Configure miss: whether to send mail when user listed but not for this host
-Configure miss: whether to send mail when a user tries a disallowed command
-Configure miss: whether to expect fully qualified hosts in sudoers
-Configure miss: whether to include insults
-Configure miss: whether to override the user's path
-Configure miss: whether to use an askpass helper
-Configure miss: whether to disable running the mailer as root
-Configure miss: whether to disable shadow password support
-Configure miss: whether to log the hostname in the log file
-Configure miss: whether to invoke a shell if sudo is given no arguments
-Configure miss: whether to set $HOME to target user in shell mode
-Configure miss: whether to disable 'command not found' messages
-Configure miss: whether to enable environment debugging
-Configure miss: sendmail
-Configure miss: vi
-Configure miss: utmps.h
-Configure miss: procfs.h
-Configure miss: struct psinfo.pr_ttydev
-Configure miss: struct utmpx.ut_exit.__e_termination
-Configure miss: whether to compile python plugin support
 Configure miss: arc4random
-Configure miss: getutsid
-Configure miss: devname
-Configure miss: struct kinfo_proc.ki_structsize
-Configure miss: struct kinfo_proc2.p_paddr
-Configure miss: struct kinfo_proc.p_paddr
-Configure miss: struct kinfo_proc.kp_proc
-Configure miss: openpty
-Configure miss: whether unsetenv returns void
-Configure miss: whether putenv takes a const argument
-Configure miss: freezero
-Configure miss: pw_dup
+Configure miss: at which syslog priority to log commands
 Configure miss: closefrom
-Configure miss: whether F_CLOSEM is declared
-Configure miss: struct tm.tm_gmtoff
-Configure miss: struct stat.st_mtim.st__tim
-Configure miss: setpassent
-Configure miss: setgroupent
+Configure miss: devname
 Configure miss: exect
 Configure miss: execvP
-Configure miss: struct dirent.d_namlen
+Configure miss: freezero
+Configure miss: getutsid
+Configure miss: netgroup.h
+Configure miss: openpty
+Configure miss: procfs.h
+Configure miss: pw_dup
+Configure miss: sendmail
+Configure miss: setgroupent
+Configure miss: setpassent
 Configure miss: sha2.h
 Configure miss: sig2str
-Configure miss: str2sig
 Configure miss: sigabbrev_np
-Configure miss: whether sys_signame is declared
-Configure miss: whether _sys_signame is declared
-Configure miss: whether sys_sigabbrev is declared
+Configure miss: str2sig
+Configure miss: struct dirent.d_namlen
+Configure miss: struct kinfo_proc.ki_structsize
+Configure miss: struct kinfo_proc.kp_proc
+Configure miss: struct kinfo_proc.p_paddr
+Configure miss: struct kinfo_proc2.p_paddr
+Configure miss: struct psinfo.pr_ttydev
+Configure miss: struct stat.st_mtim.st__tim
+Configure miss: struct tm.tm_gmtoff
+Configure miss: struct utmpx.ut_exit.__e_termination
+Configure miss: sys/bsdtypes.h
+Configure miss: sys/stropts.h
 Configure miss: time zone data directory
+Configure miss: utmps.h
+Configure miss: vi
+Configure miss: whether F_CLOSEM is declared
+Configure miss: whether _sys_signame is declared
+Configure miss: whether putenv takes a const argument
+Configure miss: whether sys_sigabbrev is declared
+Configure miss: whether sys_signame is declared
+Configure miss: whether to compile python plugin support
+Configure miss: whether to disable 'command not found' messages
+Configure miss: whether to disable running the mailer as root
+Configure miss: whether to disable shadow password support
+Configure miss: whether to enable environment debugging
+Configure miss: whether to expect fully qualified hosts in sudoers
+Configure miss: whether to include insults
+Configure miss: whether to invoke a shell if sudo is given no arguments
+Configure miss: whether to log the hostname in the log file
+Configure miss: whether to override the user's path
+Configure miss: whether to send mail when a user tries a disallowed command
+Configure miss: whether to send mail when user listed but not for this host
+Configure miss: whether to set $HOME to target user in shell mode
+Configure miss: whether to use an askpass helper
+Configure miss: whether unsetenv returns void

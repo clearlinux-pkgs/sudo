@@ -1,8 +1,32 @@
+2021-03-15  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* .hgtags:
+	Added tag SUDO_1_9_6p1 for changeset 055f2a618604
+	[5376bc9e3b85] [tip] <1.9>
+
+	* Merge sudo 1.9.6p1 from tip
+	[055f2a618604] [SUDO_1_9_6p1] <1.9>
+
+	* NEWS, configure, configure.ac:
+	Sudo 1.9.6p1
+	[93d95d3f23b1]
+
+2021-03-15  Alexandru Ardelean  <aardelean@deviqon.com>
+
+	* plugins/sudoers/policy.c:
+	plugins: sudoers: policy: add MODE_IMPLIED_SHELL to RUN_VALID_FLAGS
+
+	Since this flag isn't set, the sudo_mode variable gets invalidated
+	and running the 'sudo' command seems to error out with message
+	'sudoers_policy_check: invalid mode flags from sudo front end:
+	0x80001"'
+	[b98b418f1997]
+
 2021-03-13  Todd C. Miller  <Todd.Miller@sudo.ws>
 
 	* .hgtags:
 	Added tag SUDO_1_9_6 for changeset e3e96490e48f
-	[2e377fa2b87c] [tip] <1.9>
+	[2e377fa2b87c] <1.9>
 
 	* config.guess, config.sub:
 	Merge sudo 1.9.6 from tip
