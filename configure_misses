@@ -1,3 +1,6 @@
+Configure miss: netgroup.h
+Configure miss: sys/bsdtypes.h
+Configure miss: sys/stropts.h
 Configure miss: at which syslog priority to log commands
 Configure miss: whether to send mail when user listed but not for this host
 Configure miss: whether to send mail when a user tries a disallowed command
@@ -14,14 +17,7 @@ Configure miss: whether to disable 'command not found' messages
 Configure miss: whether to enable environment debugging
 Configure miss: sendmail
 Configure miss: vi
-Configure miss: netgroup.h
-Configure miss: sys/bsdtypes.h
-Configure miss: sys/stropts.h
-Configure miss: utmps.h usability
-Configure miss: utmps.h presence
 Configure miss: utmps.h
-Configure miss: procfs.h usability
-Configure miss: procfs.h presence
 Configure miss: procfs.h
 Configure miss: struct psinfo.pr_ttydev
 Configure miss: struct utmpx.ut_exit.__e_termination
@@ -47,8 +43,6 @@ Configure miss: setgroupent
 Configure miss: exect
 Configure miss: execvP
 Configure miss: struct dirent.d_namlen
-Configure miss: sha2.h usability
-Configure miss: sha2.h presence
 Configure miss: sha2.h
 Configure miss: sig2str
 Configure miss: str2sig

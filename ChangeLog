@@ -1,8 +1,1555 @@
+2021-03-13  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* .hgtags:
+	Added tag SUDO_1_9_6 for changeset e3e96490e48f
+	[2e377fa2b87c] [tip] <1.9>
+
+	* config.guess, config.sub:
+	Merge sudo 1.9.6 from tip
+	[e3e96490e48f] [SUDO_1_9_6] <1.9>
+
+	* NEWS:
+	fix typo
+	[c7367647bd7c]
+
+2021-03-10  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* NEWS:
+	Bug #968
+	[e08853fca88e]
+
+	* plugins/sudoers/po/ja.mo, plugins/sudoers/po/ja.po, po/tr.mo,
+	po/tr.po:
+	Updated translations from translationproject.org
+	[cbc05710d6ba]
+
+	* plugins/sudoers/Makefile.in, plugins/sudoers/gram.c:
+	Use HAVE_STDINT_H instead of trying to guess based on
+	__STDC_VERSION__. Fixes compilation with pre-C99 headers when the
+	compiler supports C99.
+	[05ebf79d02c7]
+
+	* include/sudo_compat.h, lib/util/secure_path.c:
+	Remove compatibility defines for POSIX sys/stat.h macros. Modern
+	systems have them and we no longer support pre-POSIX systems. This
+	fixes potential redefinition of the macros if sys/stat.h is included
+	after sudo_compat.h. Bug #968.
+	[d10d0b9b60e1]
+
+	* lib/eventlog/logwrap.c,
+	plugins/python/python_plugin_approval_multi.inc,
+	plugins/python/python_plugin_audit_multi.inc,
+	plugins/python/python_plugin_io_multi.inc, src/get_pty.c:
+	Quiet a few Solaris Studio compiler warnings.
+	[1d82509f2e44]
+
+	* configure, configure.ac:
+	Add -Wno-unknown-pragmas along with -Wall. We don't want warnings
+	about unknown pragmas in system headers.
+	[ac15fa0e3d95]
+
+	* scripts/pp:
+	Solaris 11.4 removed /usr/bin/optisa, use /usr/bin/isainfo instead.
+	[97d8bb91cf02]
+
+2021-03-08  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* configure, configure.ac:
+	Compare OS name against freebsd* and netbsd* not freebsd and netbsd.
+	Fixes an issue on NetBSD where host_os starts with netbsdelf.
+	[2e813d52a7d6]
+
+	* plugins/sudoers/Makefile.in:
+	Add @SUDOERS_LIBS@ to FUZZ_LIBS for -lutil on FreeBSD and NetBSD
+	[38a7b3a9eb90]
+
+	* lib/util/Makefile.in, plugins/python/Makefile.in, src/Makefile.in:
+	Set locale for all "make check" targets.
+	[1a80048486d4]
+
+2021-03-07  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* configure, configure.ac:
+	AIX 6.1 may have a broken fmemopen(). We only use it for the fuzzers
+	so ignore it for AIX < 7.1.
+	[ad909c1479ff]
+
+2021-03-06  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* scripts/pp:
+	Only put specific directories in the ROOT section of the AIX
+	package. Previously, /usr and /opt were placed in USR and everything
+	else went in ROOT. Now, only /dev, /etc, /sbin and /var go in ROOT.
+	[6f1fbe8fea31]
+
+	* plugins/sudoers/po/cs.mo, plugins/sudoers/po/cs.po,
+	plugins/sudoers/po/de.mo, plugins/sudoers/po/de.po,
+	plugins/sudoers/po/eo.mo, plugins/sudoers/po/eo.po,
+	plugins/sudoers/po/fi.mo, plugins/sudoers/po/fi.po,
+	plugins/sudoers/po/fr.mo, plugins/sudoers/po/fr.po,
+	plugins/sudoers/po/hr.mo, plugins/sudoers/po/hr.po,
+	plugins/sudoers/po/ko.mo, plugins/sudoers/po/ko.po,
+	plugins/sudoers/po/pl.mo, plugins/sudoers/po/pl.po,
+	plugins/sudoers/po/pt.mo, plugins/sudoers/po/pt.po,
+	plugins/sudoers/po/pt_BR.mo, plugins/sudoers/po/pt_BR.po,
+	plugins/sudoers/po/uk.mo, plugins/sudoers/po/uk.po,
+	plugins/sudoers/po/zh_CN.mo, plugins/sudoers/po/zh_CN.po,
+	plugins/sudoers/po/zh_TW.mo, plugins/sudoers/po/zh_TW.po, po/cs.mo,
+	po/cs.po, po/de.mo, po/de.po, po/eo.mo, po/eo.po, po/fi.mo,
+	po/fi.po, po/fr.mo, po/fr.po, po/hr.mo, po/hr.po, po/ja.mo,
+	po/ja.po, po/ko.mo, po/ko.po, po/pl.mo, po/pl.po, po/pt.mo,
+	po/pt.po, po/pt_BR.mo, po/pt_BR.po, po/uk.mo, po/uk.po, po/zh_CN.mo,
+	po/zh_CN.po, po/zh_TW.mo, po/zh_TW.po:
+	Updated translations from translationproject.org
+	[53c17c8d56e9]
+
+2021-03-05  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* logsrvd/logsrvd.c, logsrvd/logsrvd_conf.c:
+	Remove unused tls parameter, we now use a per-address tls flag.
+	[2be727a37b9c]
+
+2021-03-03  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* doc/sudoers.man.in, doc/sudoers.mdoc.in:
+	Document double escaping of backslashes. Bug #961.
+	[ae51e4899555]
+
+	* NEWS, configure, configure.ac:
+	No longer need to define _DARWIN_UNLIMITED_GETGROUPS on macOS. We
+	now define _DARWIN_C_SOURCE which accomplishes the same thing.
+	[c233df4c1ae4]
+
+	* plugins/sudoers/auth/pam.c:
+	Fix a potential use-after-free in conversation function. The prompt
+	passed in to sudo_pam_verify() will be freed later by
+	check_user_interactive() so we need to reset the stashed value. From
+	Pavel Heimlich. Bug #967.
+	[86bc6ee3c493]
+
+	* plugins/sudoers/pwutil.c:
+	No need to update cp after storing gr->gr_name, it is not used,
+	Coverity CID 219314
+	[27bace364dc9]
+
+2021-03-02  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* NEWS:
+	Mention GitHub issue #56.
+	[47b8b9fac52b]
+
+	* plugins/sudoers/po/sudoers.pot:
+	regen
+	[923899bcc63d]
+
+	* include/sudo_eventlog.h, lib/eventlog/eventlog.c,
+	logsrvd/iolog_writer.c, logsrvd/logsrvd.c, logsrvd/logsrvd.h:
+	Log peer address in sudo_logsrvd JSON-format logs. The peer that
+	connected to us might not be the same host where the log entry
+	originated.
+	[4e2488efaf97]
+
+	* NEWS, doc/sudo.conf.man.in, doc/sudo.conf.mdoc.in,
+	lib/util/sudo_conf.c:
+	Make "group_source=dynamic" the default on macOS. Recent versions of
+	macOS do not reliably return all of a user's non-local groups via
+	getgroups(2), even when _DARWIN_UNLIMITED_GETGROUPS is defined. Bug
+	#946.
+	[491720b06a68]
+
+	* lib/eventlog/Makefile.in, lib/iolog/Makefile.in,
+	lib/util/Makefile.in, logsrvd/Makefile.in,
+	plugins/sudoers/Makefile.in:
+	For regess/fuzz set LC_ALL to C.UTF-8 if possible, falling back on
+	C. Works around a crash in leak sanitizer when the locale is set to
+	C and TLS support is enabled.
+	[4345912b9bd8]
+
+2021-03-01  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/toke.c, plugins/sudoers/toke.l:
+	Initialize the lbuf used by sudoers_trace_print() in init_lexer().
+	Free the old buffer if there is one, otherwise it would never be
+	freed.
+	[1893ecc06718]
+
+	* lib/util/lbuf.c:
+	In sudo_lbuf_destroy(), reset error, len and size.
+	[7a6f980c2215]
+
+	* NEWS:
+	Mention the integer overflow check in store_timespec().
+	[f41519e1dae9]
+
+	* plugins/sudoers/regress/fuzz/fuzz_policy.c:
+	In find_path() stub only make a copy in outfile if returning FOUND.
+	Fixed a recently-introduced memory leak in the fuzzer.
+	[2045b1afc0b5]
+
+2021-02-28  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* lib/util/sudo_debug.c:
+	Disable debug code for FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION It
+	will not be used and just confuses the coverage stats.
+	[3307c855b77d]
+
+	* plugins/sudoers/regress/fuzz/fuzz_policy.c:
+	Expand stub getaddrinfo() to resolve "localhost".
+	[e1035616ad99]
+
+	* plugins/sudoers/regress/fuzz/fuzz_policy.c:
+	Improve fuzz_policy coverage and set defaults in setdefs not parse.
+	Now exercises session open/close and set additional defaults to
+	exercise more code paths.
+	[2843a0b930fd]
+
+	* plugins/sudoers/match_command.c, plugins/sudoers/match_digest.c:
+	Improve SUDOERS_NAME_MATCH support. Now supports digests and
+	performs better directory matching.
+	[2f2d63596256]
+
+	* plugins/sudoers/policy.c:
+	Add MODE_CHECK to LIST_VALID_FLAGS, fixes "sudo -l command".
+	[eff4cbe95d75]
+
+2021-02-26  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* MANIFEST, include/sudo_iolog.h, lib/iolog/Makefile.in,
+	lib/iolog/iolog_clearerr.c, lib/iolog/iolog_close.c,
+	lib/iolog/iolog_eof.c, lib/iolog/iolog_fileio.c,
+	lib/iolog/iolog_gets.c, lib/iolog/iolog_mkdirs.c,
+	lib/iolog/iolog_mkdtemp.c, lib/iolog/iolog_mkpath.c,
+	lib/iolog/iolog_nextid.c, lib/iolog/iolog_open.c,
+	lib/iolog/iolog_openat.c, lib/iolog/iolog_read.c,
+	lib/iolog/iolog_seek.c, lib/iolog/iolog_swapids.c,
+	lib/iolog/iolog_util.c, lib/iolog/iolog_write.c,
+	lib/iolog/regress/fuzz/fuzz_iolog_timing.c, logsrvd/iolog_writer.c,
+	logsrvd/regress/fuzz/fuzz_logsrvd_conf.c:
+	Split iolog_fileio.c into multiple files.
+	[9b7c4f1b781f]
+
+	* plugins/sudoers/defaults.c:
+	Correct the integer overflow check in store_timespec(). Fixes oss-
+	fuzz issue #31463
+	[3765d5c4ecd3]
+
+	* plugins/sudoers/regress/sudoers/test27.ldif2sudo.ok:
+	Update file that was missed in test27 changes.
+	[5824f54afa88]
+
+	* MANIFEST, include/sudo_iolog.h, lib/iolog/Makefile.in,
+	lib/iolog/iolog_conf.c, lib/iolog/iolog_fileio.c,
+	lib/iolog/iolog_loginfo.c:
+	Break out I/O log config handling into iolog_conf.c.
+	[546f503f9bb4]
+
+	* lib/fuzzstub/Makefile.in, lib/iolog/Makefile.in,
+	logsrvd/Makefile.in, plugins/sudoers/Makefile.in:
+	regen Makefile.in
+	[43c54f94e9c8]
+
+	* examples/Makefile.in, lib/eventlog/Makefile.in,
+	plugins/sudoers/Makefile.in:
+	Add some missing files to the clean target
+	[20754fec5ff1]
+
+	* plugins/sudoers/regress/sudoers/test27.in,
+	plugins/sudoers/regress/sudoers/test27.json.ok,
+	plugins/sudoers/regress/sudoers/test27.ldif.ok,
+	plugins/sudoers/regress/sudoers/test27.ldif2sudo.ok,
+	plugins/sudoers/regress/sudoers/test27.out.ok,
+	plugins/sudoers/regress/sudoers/test27.toke.ok:
+	Add netgroup check to sudoers test27
+	[1b45a6794b2d]
+
+	* plugins/sudoers/regress/fuzz/fuzz_sudoers.out.ok:
+	Sync with fuzz_sudoers changes.
+	[1481cef048ad]
+
+	* plugins/sudoers/regress/fuzz/fuzz_sudoers.c:
+	Fuzz with runuser and rungroup specified too.
+	[2d8ceb465cea]
+
+	* MANIFEST, plugins/sudoers/regress/sudoers/test27.in,
+	plugins/sudoers/regress/sudoers/test27.json.ok,
+	plugins/sudoers/regress/sudoers/test27.ldif.ok,
+	plugins/sudoers/regress/sudoers/test27.ldif2sudo.ok,
+	plugins/sudoers/regress/sudoers/test27.out.ok,
+	plugins/sudoers/regress/sudoers/test27.toke.ok:
+	Add test to exercise RunasSpec without a RunasUser.
+	[ee22ac488aca]
+
+	* MANIFEST, plugins/sudoers/regress/sudoers/test22.sudo.ok,
+	plugins/sudoers/regress/sudoers/test23.sudo.ok,
+	plugins/sudoers/regress/sudoers/test24.sudo.ok,
+	plugins/sudoers/regress/sudoers/test26.sudo.ok:
+	Remove unused regress files.
+	[71d943734bb8]
+
+	* logsrvd/regress/fuzz/fuzz_logsrvd_conf.c:
+	Don't try to run getters if we failed to parse the config file.
+	[734bb56c24ed]
+
+2021-02-25  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/regress/fuzz/fuzz_policy.c:
+	Add a stub getaddrinfo(3) to avoid a DNS timeout in CIfuzz.
+	[5f725de1e3ad]
+
+	* plugins/sudoers/regress/fuzz/fuzz_policy.c:
+	Fix runchroot, runcwd, tty_tickets. Add timestampowner.
+	[d8a945bea98d]
+
+	* plugins/sudoers/policy.c:
+	Only add command_info to garbage collector on successful return.
+	Otherwise it will be freed on failure.
+	[c3d0461efaa1]
+
+	* plugins/sudoers/regress/fuzz/fuzz_sudoers.c:
+	Add user millert to group sudo, which is often the exempt group.
+	[fac833a2cf3b]
+
+	* plugins/sudoers/regress/fuzz/fuzz_policy.c:
+	Add some defaults settings in sudo_file_parse(). We don't have a
+	real policy file but we still want to exercise callbacks in
+	sudoers.c.
+	[9f3d3f668973]
+
+	* plugins/sudoers/sudoers.c:
+	Do not free sudo_user.iolog_{file,path} in sudo_user_free(). They
+	are not dynamically allocated.
+	[59c102ba67cf]
+
+	* lib/iolog/regress/fuzz/fuzz_iolog_timing.c:
+	Remove unnecessary warnings, we want to fail silently.
+	[4b1ee5dd2cb4]
+
+	* logsrvd/regress/fuzz/fuzz_logsrvd_conf.c:
+	No longer need to stub out eventlog config functions.
+	[08c40b6a63c9]
+
+	* MANIFEST, logsrvd/Makefile.in,
+	logsrvd/regress/corpus/logsrvd_conf/logsrvd.conf.4,
+	logsrvd/regress/corpus/logsrvd_conf/logsrvd.conf.5,
+	logsrvd/regress/corpus/logsrvd_conf/logsrvd.conf.6,
+	logsrvd/regress/fuzz/fuzz_logsrvd_conf.c:
+	Call public getters in logsrvd.conf fuzzer and add to corpus. Now
+	exercises the syslog config erorr path.
+	[0b314e4e0696]
+
+	* plugins/sudoers/regress/fuzz/fuzz_policy.c:
+	Add more passes to policy fuzzer Now execises list, list other user
+	and show_version.
+	[21a1cc9665ec]
+
+	* plugins/sudoers/defaults.c, plugins/sudoers/policy.c,
+	plugins/sudoers/regress/fuzz/fuzz_policy.c:
+	Implement sudoers_policy_deregister_hooks() Register/deregister
+	hooks in fuzz_policy and also call show_version().
+	[8849644a75de]
+
+	* plugins/sudoers/regress/fuzz/fuzz_policy.c,
+	plugins/sudoers/regress/fuzz/fuzz_sudoers.c,
+	plugins/sudoers/regress/fuzz/fuzz_sudoers_ldif.c:
+	Add sudoers debug register/deregister.
+	[5fba9b19c6fa]
+
+	* plugins/sudoers/defaults.c:
+	Remove unnecessary break statement.
+	[aa18c2957f82]
+
+	* plugins/sudoers/regress/fuzz/fuzz_sudoers.out.ok,
+	plugins/sudoers/regress/sudoers/test14.in,
+	plugins/sudoers/regress/sudoers/test14.json.ok,
+	plugins/sudoers/regress/sudoers/test14.ldif.ok,
+	plugins/sudoers/regress/sudoers/test14.ldif2sudo.ok,
+	plugins/sudoers/regress/sudoers/test14.out.ok,
+	plugins/sudoers/regress/sudoers/test14.toke.ok:
+	Include a sha384 digest in the test corpus.
+	[6c405febff10]
+
+	* plugins/sudoers/regress/fuzz/fuzz_sudoers.c:
+	Parse sudoers file in the C locale.
+	[82d6afbe499b]
+
+	* MANIFEST, plugins/sudoers/regress/sudoers/test26.in,
+	plugins/sudoers/regress/sudoers/test26.json.ok,
+	plugins/sudoers/regress/sudoers/test26.ldif.ok,
+	plugins/sudoers/regress/sudoers/test26.ldif2sudo.ok,
+	plugins/sudoers/regress/sudoers/test26.out.ok,
+	plugins/sudoers/regress/sudoers/test26.sudo.ok,
+	plugins/sudoers/regress/sudoers/test26.toke.ok:
+	Add regress test with all current Defaults settings. Currently skips
+	SELinux and Solaris privilege settings.
+	[79e82a58ccde]
+
+2021-02-24  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* MANIFEST, plugins/sudoers/Makefile.in, plugins/sudoers/env.c,
+	plugins/sudoers/sudoers.h, plugins/sudoers/sudoers_hooks.c:
+	Move env hooks into sudoers_hooks.c.
+	[7296d05b9206]
+
+	* plugins/sudoers/regress/fuzz/fuzz_sudoers.c:
+	No need to call check_defaults() and check_aliases() in quiet mode.
+	[0d0f93849388]
+
+	* plugins/sudoers/gc.c:
+	sudoers_gc_init() is not currently used
+	[e74d2870ae25]
+
+	* MANIFEST, plugins/sudoers/Makefile.in, plugins/sudoers/fmtsudoers.c,
+	plugins/sudoers/fmtsudoers_cvt.c:
+	Split fmtsudoers.c into the parts used by sudoers plugin and
+	cvtsudoers. Only testsudoers and cvtsudoers use the full set of
+	formatting functions.
+	[8c57e80ae655]
+
+	* plugins/sudoers/regress/fuzz/fuzz_sudoers.c:
+	Check defaults settings too.
+	[7dc7d66f47e7]
+
+	* MANIFEST, plugins/sudoers/Makefile.in,
+	plugins/sudoers/regress/fuzz/fuzz_policy.c,
+	plugins/sudoers/regress/fuzz/fuzz_stubs.c,
+	plugins/sudoers/regress/fuzz/fuzz_sudoers.c,
+	plugins/sudoers/regress/fuzz/fuzz_sudoers_ldif.c:
+	Add fuzzer-specific stubs source file.
+	[815c28958d42]
+
+	* Makefile.in:
+	Do not overwrite existing ChangeLog file if there is no hg/git dir.
+	We don't want "make install" from a source tarball to nuke the
+	ChangeLog.
+	[f7aba6a01d85]
+
+	* lib/iolog/Makefile.in, lib/util/Makefile.in, logsrvd/Makefile.in,
+	plugins/sudoers/Makefile.in:
+	Remove fuzzer targets in "make clean"
+	[25b068bc254b]
+
+	* .gitignore, .hgignore:
+	Ignore fuzzer targets
+	[d920254ce731]
+
+	* lib/iolog/regress/fuzz/fuzz_iolog_json.c,
+	lib/iolog/regress/fuzz/fuzz_iolog_legacy.c,
+	lib/iolog/regress/fuzz/fuzz_iolog_timing.c,
+	lib/util/regress/fuzz/fuzz_sudo_conf.c,
+	plugins/sudoers/regress/fuzz/fuzz_policy.c,
+	plugins/sudoers/regress/fuzz/fuzz_sudoers.c,
+	plugins/sudoers/regress/fuzz/fuzz_sudoers_ldif.c:
+	Set program name in fuzzers so we get consisten warnings.
+	[1ee4b5478d1c]
+
+	* plugins/sudoers/Makefile.in,
+	plugins/sudoers/regress/fuzz/fuzz_policy.c:
+	Use real eventlog config fuctions instead of stubs.
+	[eed6fc4df1f6]
+
+	* include/sudo_iolog.h, lib/iolog/iolog_fileio.c,
+	lib/iolog/iolog_loginfo.c:
+	Move iolog info log writing to iolog_loginfo.c
+	[292915dae440]
+
+	* MANIFEST, lib/iolog/Makefile.in, lib/iolog/iolog_loginfo.c,
+	lib/iolog/iolog_timing.c, lib/iolog/iolog_util.c,
+	lib/iolog/regress/iolog_timing/check_iolog_timing.c,
+	lib/iolog/regress/iolog_util/check_iolog_util.c:
+	Split iolog_util.c into iolog_loginfo.c and iolog_timing.c. Also
+	rename check_iolog_util -> check_iolog_timing.
+	[5b5249e4aa96]
+
+	* MANIFEST, lib/iolog/Makefile.in, lib/iolog/iolog_legacy.c,
+	lib/iolog/iolog_util.c:
+	Move legacy I/O log info file parsing to iolog_legacy.c
+	[94b767bb56c7]
+
+	* MANIFEST, include/sudo_eventlog.h, lib/eventlog/Makefile.in,
+	lib/eventlog/eventlog.c, lib/eventlog/eventlog_conf.c:
+	Move eventlog config code into eventlog_conf.c
+	[656d65215e50]
+
+	* MANIFEST, lib/eventlog/Makefile.in, lib/eventlog/eventlog.c,
+	lib/eventlog/eventlog_free.c:
+	Move eventlog_free() into its own file.
+	[a5ff36ac0ebb]
+
+	* logsrvd/regress/fuzz/fuzz_logsrvd_conf.c:
+	Stub out eventlog and iolog configuration setters.
+	[cc32ba7436cd]
+
+	* MANIFEST, plugins/sudoers/defaults.c,
+	plugins/sudoers/regress/fuzz/fuzz_sudoers.c,
+	plugins/sudoers/regress/fuzz/fuzz_sudoers.out.ok:
+	Update Defaults settings after parsing sudoers. Also stub out
+	dump_defaults when fuzzing as it is not used.
+	[fa1e7c7b42c2]
+
+	* plugins/sudoers/Makefile.in, plugins/sudoers/b64_decode.c,
+	plugins/sudoers/b64_encode.c, plugins/sudoers/base64.c:
+	Split base64 encode/decode functions into separate source files.
+	They are independent functions.
+	[ab0904c5122c]
+
+	* plugins/sudoers/regress/fuzz/fuzz_policy.c:
+	fuzz_printf and fuzz_conversation can be stubs.
+	[9b11c9a3f3c3]
+
+2021-02-23  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/regress/fuzz/fuzz_sudoers.c:
+	Exercise tilde expansion if used in runcwd or runchroot.
+	[a6f0995c6a55]
+
+	* plugins/sudoers/check_aliases.c:
+	Move alias checking code out of visudo.c and into check_aliases.c.
+	[5c0a91978441]
+
+	* plugins/sudoers/Makefile.in,
+	plugins/sudoers/regress/fuzz/fuzz_sudoers.c:
+	Check aliases in fuzz_sudoers if the policy parsed correctly.
+	[b272e634f204]
+
+	* MANIFEST, plugins/sudoers/Makefile.in, plugins/sudoers/parse.h,
+	plugins/sudoers/visudo.c:
+	Move alias checking code out of visudo.c and into check_aliases.c.
+	[b9c23c958935]
+
+	* plugins/sudoers/Makefile.in,
+	plugins/sudoers/regress/fuzz/fuzz_sudoers.c:
+	We don't need to link fuzz_sudoers with file.c.
+	[4fcd15e8cdcf]
+
+	* lib/iolog/regress/fuzz/fuzz_iolog_json.dict,
+	lib/util/regress/fuzz/fuzz_sudo_conf.dict,
+	plugins/sudoers/regress/fuzz/fuzz_policy.dict,
+	plugins/sudoers/regress/fuzz/fuzz_sudoers.dict,
+	plugins/sudoers/regress/fuzz/fuzz_sudoers_ldif.dict:
+	Strings in dictionary files need to be quoted.
+	[8a95ea335d2d]
+
+	* MANIFEST, lib/iolog/Makefile.in,
+	lib/iolog/regress/fuzz/fuzz_iolog_json.dict, lib/util/Makefile.in,
+	lib/util/regress/fuzz/fuzz_sudo_conf.dict,
+	plugins/sudoers/Makefile.in,
+	plugins/sudoers/regress/fuzz/fuzz_policy.dict,
+	plugins/sudoers/regress/fuzz/fuzz_sudoers.dict,
+	plugins/sudoers/regress/fuzz/fuzz_sudoers_ldif.dict:
+	Add dictionary files for fuzzers where possible.
+	[4d9147fd50fd]
+
+2021-02-22  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/regress/fuzz/fuzz_sudoers.c:
+	Also free safe_cmnd so it doesn't leak.
+	[5071a1ffa5d0]
+
+	* plugins/sudoers/stubs.c, plugins/sudoers/testsudoers.c:
+	Return NOT_FOUND from the set_cmnd_path() stub since we don't set
+	user_cmnd. The purpose of set_cmnd_path() is to reset user_cmnd
+	based on a new runchroot. For the stub version we don't modify
+	user_cmnd and so must not return a status of FOUND. Fixes oss-fuzz
+	issue #31250 which only affected the fuzzer and not sudo.
+	[36fe416668df]
+
+	* plugins/sudoers/Makefile.in,
+	plugins/sudoers/regress/fuzz/fuzz_sudoers.out.ok:
+	Fix fuzz_sudoers output matching.
+	[6cec1e5aa799]
+
+	* lib/fuzzstub/fuzzstub.c:
+	Print "running" and "executed" lines to stderr like libfuzzer does.
+	[b76b7a4a6ff3]
+
+	* plugins/sudoers/pwutil_impl.c:
+	Support passing sudo_make_gidlist_item() an array of gids. The gids
+	are formatted as strings, not gid_t.
+	[d1608f63ae91]
+
+	* plugins/sudoers/regress/fuzz/fuzz_sudoers.c,
+	plugins/sudoers/regress/fuzz/fuzz_sudoers.out.ok:
+	Prime user/group cached and set the interface list. Also match
+	parsed policy against multiple users.
+	[ec19b5658a2a]
+
+	* plugins/sudoers/pwutil.c, plugins/sudoers/sudoers.h:
+	Add sudo_mkgrent(), to be used to prime the group cache in
+	tests/fuzzers.
+	[333f0887abbc]
+
+2021-02-21  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/Makefile.in,
+	plugins/sudoers/regress/fuzz/fuzz_sudoers.c:
+	Perform matching in fuzz_sudoers for inputs that parse correctly.
+	The fuzzer now exercised the normal match code as well as the
+	pseudo-command (list, validate, etc) match code. Privileges are also
+	listed for well-formed sudoers file.
+	[8caf505d7341]
+
+	* plugins/sudoers/match_command.c, plugins/sudoers/match_digest.c,
+	plugins/sudoers/parse.h:
+	Add back SUDOERS_NAME_MATCH and enable it when fuzzing. This avoids
+	the test environment from influencing sudoers matching.
+	[496b3a7184a8]
+
+	* plugins/sudoers/match_command.c:
+	Add missing globfree(3) in command_matches_glob() when matching a
+	directory.
+	[1d6d28d6eb61]
+
+2021-02-19  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* lib/util/sudo_dso.c:
+	Add support on AIX for loading plugins that are .a (not .so) files.
+	It is possible to specify the member name in parens after the path,
+	e.g. sudoers.a(shr.o) for 32-bit or sudoers.a(shr_64.o) for 64-bit.
+	If no member is specified in the path and dlopen() fails with
+	ENOEXEC, try again with an explicit member, either shr.o or
+	shr_64.o.
+	[90d975989148]
+
+	* Makefile.in, doc/Makefile.in, examples/Makefile.in,
+	include/Makefile.in, lib/eventlog/Makefile.in,
+	lib/fuzzstub/Makefile.in, lib/iolog/Makefile.in,
+	lib/logsrv/Makefile.in, lib/util/Makefile.in, lib/zlib/Makefile.in,
+	logsrvd/Makefile.in, plugins/audit_json/Makefile.in,
+	plugins/group_file/Makefile.in, plugins/python/Makefile.in,
+	plugins/sample/Makefile.in, plugins/sample_approval/Makefile.in,
+	plugins/sudoers/Makefile.in, plugins/system_group/Makefile.in,
+	src/Makefile.in:
+	Add clean rules to .PHONY target.
+	[dea3468f3f7b]
+
+2021-02-18  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* Makefile.in, doc/Makefile.in, examples/Makefile.in,
+	include/Makefile.in, lib/eventlog/Makefile.in,
+	lib/fuzzstub/Makefile.in, lib/iolog/Makefile.in,
+	lib/logsrv/Makefile.in, lib/util/Makefile.in, lib/zlib/Makefile.in,
+	logsrvd/Makefile.in, plugins/audit_json/Makefile.in,
+	plugins/group_file/Makefile.in, plugins/python/Makefile.in,
+	plugins/sample/Makefile.in, plugins/sample_approval/Makefile.in,
+	plugins/sudoers/Makefile.in, plugins/system_group/Makefile.in,
+	src/Makefile.in:
+	Add install-fuzz Makefile target to install the fuzzers and seed
+	corpus. The FUZZ_DESTDIR make variable needs to be set in the
+	environment or on the command line.
+	[89c4dc1e8cb0]
+
+	* plugins/sudoers/Makefile.in:
+	Only display fuzz_policy output if the fuzzer exits with an error.
+	[c6927227be4a]
+
+	* plugins/sudoers/regress/corpus/policy/policy.1,
+	plugins/sudoers/regress/fuzz/fuzz_policy.c:
+	Call list, validate and invalidate entry points too. We need a
+	separate open/close for each one.
+	[fbbc5bdb4541]
+
+	* INSTALL, configure, configure.ac:
+	Add --disable-ssp configure option. This allows for disabling
+	-fstack-protector without turning off the other hardening options.
+	[1d9ca18e4fa9]
+
+	* lib/util/regress/getdelim/getdelim_test.c:
+	Test the error case by closing the underlying fd. Note that we don't
+	use ferror() here since our getdelim() has no way to set the error
+	flag if there is a memory allocation error.
+	[df0464968e2c]
+
+	* lib/util/regress/getdelim/getdelim_test.c:
+	Test the case where getdelim() must reallocate the buffer.
+	Reproduces Bug #960.
+	[df4dbc0830be]
+
+	* lib/eventlog/eventlog.c:
+	When logging JSON to syslog, wrap the contents in a "sudo" object.
+	This makes it easier for log parsers to identify what is a sudo log
+	entry.
+	[2c96aeaabc8e]
+
+	* plugins/sudoers/regress/fuzz/fuzz_policy.c:
+	Restore the check for sudoers_policy.close == NULL. The fuzzers run
+	as part of "make check" too in which case NO_LEAKS won't be defined
+	and the close function will be set to NULL.
+	[8418ff5f6dfb]
+
+	* lib/iolog/iolog_json.c:
+	Use %td when printing the difference of two pointers.
+	[608de9ab3902]
+
+	* plugins/sudoers/parse.c:
+	Don't print a NULL as a string if role/type/privs/limitprivs is not
+	set. We can't rely on printf("%s", NULL) not crashing.
+	[4a04efbcbff9]
+
+	* plugins/sudoers/sudoers.c:
+	Fix compilation error on Solaris introduced with sudo_user_free().
+	[0ce4e0ac807e]
+
+2021-02-17  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* NEWS:
+	Bug #960.
+	[82303f217d8b]
+
+	* plugins/sudoers/toke.c, plugins/sudoers/toke.l:
+	Distinguish between EOF and error using feof(3), not ferror(3). Our
+	getdelim(3) emulation won't set the error flag if the error is due
+	to an allocation failure. This explains the premature EOF without
+	error seen in Bug #960.
+	[5a70875f92fa]
+
+	* lib/util/getdelim.c:
+	Reset end pointer when reallocing the line buffer in getdelim().
+	Fixes excessive memory allocations for long lines. Bug #960.
+	[d6dd6893b38a]
+
+	* lib/eventlog/Makefile.in, lib/iolog/Makefile.in,
+	plugins/sudoers/Makefile.in:
+	Remove duplicated MALLOC_OPTIONS and MALLOC_CONF env variables.
+	[2f7695aadad9]
+
+	* lib/iolog/iolog_json.c:
+	On parse error, display line and column instead of the offending
+	line.
+	[bbda04a5b05d]
+
+	* logsrvd/Makefile.in, plugins/sudoers/Makefile.in:
+	regen
+	[20e093fd76f0]
+
+	* NEWS, configure, configure.ac:
+	Sudo 1.9.6
+	[1c76fe52426f]
+
+2021-02-16  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* lib/iolog/iolog_json.c, lib/iolog/iolog_util.c:
+	Pass I/O log memory allocation errors up to the caller.
+	[4777add71679]
+
+	* INSTALL, config.h.in, configure, configure.ac, doc/sudoers.man.in,
+	doc/sudoers.mdoc.in, pathnames.h.in, plugins/sudoers/def_data.c,
+	plugins/sudoers/def_data.h, plugins/sudoers/def_data.in,
+	plugins/sudoers/defaults.c, plugins/sudoers/timestamp.c:
+	Add admin_flag sudoers option and make --enable-admin-flag take a
+	path. It is now possible to disable the Ubuntu admin flag in sudoers
+	or change its location. GitHub issue #56
+	[d77c3876fa95]
+
+	* plugins/sudoers/exptilde.c,
+	plugins/sudoers/regress/exptilde/check_exptilde.c:
+	Fix tilde expansion of paths with no user like ~/foo. The '/'
+	separator was missing in the resulting path.
+	[dbba61f76d6c]
+
+	* doc/sudo.conf.man.in, doc/sudo.conf.mdoc.in, lib/util/sudo_conf.c,
+	plugins/sudoers/policy.c:
+	Limit max_groups in sudo.conf to 1024. The max_groups setting should
+	no longer be needed anyway.
+	[aee7843e0c7d]
+
+	* plugins/sudoers/policy.c, plugins/sudoers/sudoers.c:
+	In sudoers_policy_close() call sudoers_cleanup() instead of
+	sudo_user_free(). If we didn't call sudoers_policy_main() due to an
+	early error there may be more things to clean up.
+	[683d69d84aa6]
+
+	* plugins/sudoers/policy.c:
+	Check for invalid flag combinations from front-end for all cases.
+	The checks are now performed in the check_policy, list, validate and
+	invalidate functions instead of as part of the open function. We
+	can't perform the checks in open because we don't yet know what
+	operation is going to be performed.
+	[b09105b3bb42]
+
+	* plugins/sudoers/policy.c,
+	plugins/sudoers/regress/fuzz/fuzz_policy.c,
+	plugins/sudoers/sudoers.c:
+	Always dynamically allocate user_cmnd, it is freed in
+	sudo_user_free(). Instead of setting user_cmnd in the policy
+	functions, always set argv. Calling sudoers_policy_main() with argc
+	of 0 is no longer allowed.
+	[820f1f4e5c44]
+
+	* plugins/sudoers/policy.c:
+	No need for sudoers_cleanup() in sudoers_policy_invalidate(). The
+	sudoers close() function is now called even for "sudo -k". Also no
+	need to set user_cmnd, it is not used in this code path.
+	[c2c9832c32f4]
+
+2021-02-15  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* MANIFEST, logsrvd/Makefile.in, logsrvd/logsrvd_conf.c,
+	logsrvd/regress/corpus/logsrvd_conf/logsrvd.conf.1,
+	logsrvd/regress/corpus/logsrvd_conf/logsrvd.conf.2,
+	logsrvd/regress/corpus/logsrvd_conf/logsrvd.conf.3,
+	logsrvd/regress/fuzz/fuzz_logsrvd_conf.c:
+	Add simple fuzzer for sudo_logsrvd.conf parser.
+	[8b5cd9e24656]
+
+	* lib/iolog/regress/fuzz/fuzz_iolog_timing.c:
+	Fix unlinking of timing temp file.
+	[8b0ce6d777c8]
+
+	* lib/eventlog/Makefile.in, lib/iolog/Makefile.in,
+	plugins/python/Makefile.in, plugins/sudoers/Makefile.in:
+	Set MALLOC_OPTIONS and MALLOC_CONF for all regress targets.
+	[47e8b85d1d9a]
+
+	* MANIFEST, lib/util/Makefile.in,
+	lib/util/regress/corpus/sudo_conf/sudo.conf.1,
+	lib/util/regress/corpus/sudo_conf/sudo.conf.2,
+	lib/util/regress/corpus/sudo_conf/sudo.conf.3,
+	lib/util/regress/fuzz/fuzz_sudo_conf.c:
+	Add simple fuzzer for sudo.conf parser.
+	[8a530402f936]
+
+	* plugins/sudoers/policy.c,
+	plugins/sudoers/regress/fuzz/fuzz_policy.c,
+	plugins/sudoers/sudoers.c, plugins/sudoers/sudoers.h:
+	Free struct sudo_user in sudoers_policy_close() and
+	sudoers_cleanup(). Also, do not NULL out the close function if
+	NO_LEAKS is defined.
+	[f3fbf78e6e41]
+
+	* MANIFEST, lib/iolog/Makefile.in,
+	lib/iolog/regress/corpus/log_legacy/id,
+	lib/iolog/regress/corpus/log_legacy/id.log,
+	lib/iolog/regress/corpus/log_legacy/ls,
+	lib/iolog/regress/corpus/log_legacy/ls.log,
+	lib/iolog/regress/corpus/log_legacy/mailq,
+	lib/iolog/regress/corpus/log_legacy/mailq.log,
+	lib/iolog/regress/corpus/log_legacy/make,
+	lib/iolog/regress/corpus/log_legacy/make.log,
+	lib/iolog/regress/corpus/log_legacy/pkg_add,
+	lib/iolog/regress/corpus/log_legacy/pkg_add.log,
+	lib/iolog/regress/corpus/log_legacy/pkg_delete,
+	lib/iolog/regress/corpus/log_legacy/pkg_delete.log,
+	lib/iolog/regress/corpus/log_legacy/printenv,
+	lib/iolog/regress/corpus/log_legacy/printenv.log,
+	plugins/sudoers/Makefile.in:
+	For "make fuzz" only fuzz the seed corpus. This way we avoid files
+	generated by the fuzzer itself.
+	[42ace1dec313]
+
+2021-02-14  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/env.c, plugins/sudoers/gc.c,
+	plugins/sudoers/policy.c,
+	plugins/sudoers/regress/fuzz/fuzz_policy.c,
+	plugins/sudoers/sudoers.c, plugins/sudoers/sudoers.h:
+	Fix sudoers garbage collection and run it in policy fuzzer.
+	[c0d572fd9921]
+
+	* .github/workflows/main.yml:
+	Rename master -> main
+	[57000edd1aff]
+
+	* plugins/sudoers/policy.c:
+	Do not include errno string for invalid params from front-end.
+	[2d0b55b3041f]
+
+	* plugins/sudoers/parse.c, plugins/sudoers/policy.c,
+	plugins/sudoers/regress/fuzz/fuzz_policy.c:
+	Always dynamically allocate user_role, user_type, user_privs,
+	user_limitprivs
+	[f5992824219d]
+
+	* plugins/sudoers/policy.c:
+	Remove dead code, front-end does not set runas_privs or
+	runas_limitprivs
+	[6ce3da323452]
+
+	* plugins/sudoers/iolog.c:
+	Plug memory leak if there are duplicate user_info or command_info
+	entries.
+	[21865246a4dc]
+
+2021-02-13  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* .github/workflows/main.yml:
+	Add CIFuzz workflow to run fuzzers on push or PR.
+	https://google.github.io/oss-fuzz/getting-started/continuous-
+	integration/
+	[47f1c8015ec5]
+
+	* plugins/sudoers/check.h, plugins/sudoers/regress/fuzz/fuzz_policy.c,
+	plugins/sudoers/sudoers.c, plugins/sudoers/timestamp.c:
+	Move create_admin_success_flag() to timestamp.c.
+	[0675f230288c]
+
+	* configure, configure.ac:
+	Error out if fuzzer/sanitizer enabled but not supported by the
+	compiler.
+	[289afba93f79]
+
+	* plugins/sudoers/regress/fuzz/fuzz_policy.c:
+	The push() function was not updating the size after reallocating.
+	[e089aaeee3b2]
+
+	* plugins/sudoers/pwutil_impl.c, src/sudo.c:
+	If sudo_getgrouplist2() returns -1, clamp ngroups based on
+	max_groups. The ngroups parameter is an out parameter that is filled
+	in with the actual number of groups, which may be less than the
+	static number allocated when max_groups is set in sudo.conf. Fixes a
+	potential out of bounds read found by LLVM libFuzzer.
+	[a26461ccf891]
+
+2021-02-12  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/policy.c:
+	Reset sudoers path, owner and mode before parsing plugin arguments.
+	This is only needed when calling sudoers_policy_deserialize_info()
+	more than once, which is true for the policy fuzzer.
+	[a25a6210f48c]
+
+	* plugins/sudoers/sudoers.c:
+	Cleanup sudoers sources on denial and error too.
+	[454b7adcfa21]
+
+	* plugins/sudoers/pwutil.c:
+	Fix sudo_getgrgid reference count bug when gid doesn't exist. This
+	one was missed when the other user/group lookup functions were
+	fixed.
+	[20e3fad6768b]
+
+	* plugins/sudoers/policy.c:
+	Plug memory leak if there are duplicate user_info entries.
+	[b8ddcfa0a051]
+
+	* MANIFEST, plugins/sudoers/Makefile.in,
+	plugins/sudoers/regress/corpus/policy/policy.1,
+	plugins/sudoers/regress/corpus/policy/policy.2,
+	plugins/sudoers/regress/corpus/policy/policy.3,
+	plugins/sudoers/regress/corpus/policy/policy.4,
+	plugins/sudoers/regress/corpus/policy/policy.5,
+	plugins/sudoers/regress/fuzz/fuzz_policy.c,
+	plugins/sudoers/sudoers.c:
+	Fuzz sudoers policy module API. Includes a test case to reproduce
+	CVE-2021-3156.
+	[576d065759cf]
+
+	* lib/iolog/Makefile.in, plugins/sudoers/Makefile.in:
+	Make fuzz targets depend on fuzzer stub library. We really want a
+	dependency on $(LIB_FUZZING_ENGINE) but that could be a flag like
+	"-fsanitize=fuzzer" instead of a path.
+	[0963418f1cf9]
+
+	* lib/util/Makefile.in:
+	regen
+	[dd872eceb19e]
+
+	* MANIFEST, plugins/sudoers/Makefile.in:
+	Move audit.c from libparsesudoers to the sudoers module itself. Now
+	that audit.c contains the audit module it doesn't belong in
+	libparsesudoers.
+	[3df4f6e10f54]
+
+	* configure, configure.ac:
+	Do not pass AX_APPEND_FLAG more than a single flag. GitHub issue #92
+	[ed9ccdd41231]
+
+2021-02-10  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* lib/eventlog/Makefile.in, lib/iolog/Makefile.in,
+	logsrvd/Makefile.in, plugins/sudoers/Makefile.in:
+	Fix up some .la file library dependencies. libsudo_iolog.la already
+	depends on libsudo_util.la and libsudo_eventlog.la so we don't need
+	to list those explicitly when libsudo_iolog.la is listed.
+	[d8b55cf698b5]
+
+	* lib/eventlog/eventlog.c, lib/util/Makefile.in, lib/util/progname.c,
+	lib/util/regress/progname/progname_test.c, lib/util/sudo_conf.c,
+	lib/util/util.exp.in, plugins/sudoers/audit.c,
+	plugins/sudoers/find_path.c, plugins/sudoers/iolog.c,
+	plugins/sudoers/match_command.c, plugins/sudoers/sudoers.c,
+	plugins/sudoers/testsudoers.c, plugins/sudoers/visudo.c,
+	src/sudo_edit.c, src/sudo_noexec.c:
+	Use sudo_basename() instead of doing the equivalent manually.
+	[67e2b5d68a73]
+
+	* MANIFEST, include/sudo_util.h, lib/util/Makefile.in,
+	lib/util/basename.c, lib/util/util.exp.in:
+	Add a GNU-compatible version of basename(3). Unlike POSIX
+	basename(3), the GNU variant does not modify its argument. Note that
+	basename of a path ending in "/" returns an empty string.
+	[693e1d39718a]
+
+2021-02-09  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* lib/iolog/iolog_fileio.c:
+	feof(3) returns non-zero at EOF, not necessarily 1. On Illumos at
+	least it returns a value other than 1.
+	[fc2242fe7c6e]
+
+	* plugins/sudoers/toke.c, plugins/sudoers/toke.l:
+	Portable workaround for getdelim(3) implementations modify buf on
+	EOF. We should assume that the contents of buf are undefined when
+	getdelim(3) returns -1. We now peek ahead one char and skip the
+	getdelim(3) call if EOF is detected. This will preserve the original
+	value of the last line.
+	[1e353f05a0fa]
+
+	* plugins/sudoers/toke.c, plugins/sudoers/toke.l:
+	Some getdelim(3) implementations write a NUL to the buffer on EOF.
+	AIX and Illumos appear to have this behavior. We now preserve the
+	first character of the buffer on EOF to work around this. Fixes
+	reporting of syntax errors on the last line of a file.
+	[22611c14c1d1]
+
+	* plugins/sudoers/Makefile.in:
+	Fuzz the example sudoers file, not the default one. The default
+	sudoers uses @includedir which can result in different output,
+	depending on the permissions of /etc/sudoers.d.
+	[1b325a1d0e0a]
+
+	* configure, configure.ac:
+	illumos has a broken fmemopen(3), don't use it.
+	[d297ee0339e6]
+
+2021-02-08  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* config.h.in, configure, configure.ac, include/sudo_compat.h:
+	Add configure check for SSIZE_MAX
+	[ca7699154705]
+
+	* lib/iolog/iolog_json.c:
+	Suppress PVS Studio false positives.
+	[6d8fcec047e5]
+
+	* src/sesh.c:
+	Silence a clang analyzer false positive.
+	[8bc3e89f6fbb]
+
+	* plugins/sudoers/toke_util.c:
+	Silence a clang analyzer false positive.
+	[2489166fc372]
+
+	* lib/fuzzstub/fuzzstub.c:
+	Fix CID 217123, size check always false on 64-bit systems.
+	[3c018b5d43a8]
+
+	* plugins/sudoers/regress/fuzz/fuzz_sudoers_ldif.c:
+	Make open_sudoers() always return NULL like fuzz_sudoers.c
+	[042de90307ae]
+
+	* plugins/sudoers/regress/sudoers/test4.toke.ok,
+	plugins/sudoers/regress/sudoers/test5.toke.ok,
+	plugins/sudoers/regress/sudoers/test7.toke.ok,
+	plugins/sudoers/regress/sudoers/test8.toke.ok:
+	Update *.toke.ok now that lexer doesn't call sudoerserror() itself.
+	[d60c0d33b5b4]
+
+	* plugins/sudoers/gram.c, plugins/sudoers/gram.h,
+	plugins/sudoers/gram.y, plugins/sudoers/toke.c,
+	plugins/sudoers/toke.h, plugins/sudoers/toke.l:
+	The lexer now sets an error string before returning ERROR. The
+	parser will use that when reporting on an ERROR state. This prevents
+	the lexer from reporting errors about tokens that are not actually
+	consumed by the parser and we don't have to worry about both the
+	lexer and the parser reporting errors. It also means we only get one
+	error per sudoers line.
+	[7ffb0d28862f]
+
+	* plugins/sudoers/gram.c, plugins/sudoers/gram.h,
+	plugins/sudoers/gram.y, plugins/sudoers/toke.c,
+	plugins/sudoers/toke.l:
+	Go back to storing the last error file/line in sudoerserrorf(). This
+	is still the best way to avoid displaying more than one error per
+	line.
+	[21da59d69c5f]
+
+	* configure, configure.ac:
+	Add -fsanitize=fuzzer-no-link to ASAN_LDFLAGS too, not just
+	ASAN_CFLAGS.
+	[d3c719c72d79]
+
+	* MANIFEST, Makefile.in, doc/Makefile.in, examples/Makefile.in,
+	include/Makefile.in, lib/eventlog/Makefile.in,
+	lib/fuzzstub/Makefile.in, lib/iolog/Makefile.in,
+	lib/logsrv/Makefile.in, lib/util/Makefile.in, lib/zlib/Makefile.in,
+	logsrvd/Makefile.in, plugins/audit_json/Makefile.in,
+	plugins/group_file/Makefile.in, plugins/python/Makefile.in,
+	plugins/sample/Makefile.in, plugins/sample_approval/Makefile.in,
+	plugins/sudoers/Makefile.in,
+	plugins/sudoers/regress/fuzz/fuzz_sudoers.out.ok,
+	plugins/system_group/Makefile.in, src/Makefile.in:
+	Add fuzz Makefile target and run fuzzer corpus in make check.
+	[a66085f05dea]
+
+2021-02-07  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* MANIFEST, Makefile.in, configure, configure.ac,
+	lib/fuzzstub/Makefile.in, lib/fuzzstub/fuzzstub.c,
+	lib/iolog/regress/fuzz/fuzz_iolog_json.c,
+	lib/iolog/regress/fuzz/fuzz_iolog_legacy.c,
+	lib/iolog/regress/fuzz/fuzz_iolog_timing.c,
+	plugins/sudoers/regress/fuzz/fuzz_sudoers.c,
+	plugins/sudoers/regress/fuzz/fuzz_sudoers_ldif.c:
+	Add stub library that just feeds files to the fuzzing target. This
+	will allow the fuzzers to be run as part of "make check".
+	[aa8fda20c3f8]
+
+	* scripts/mkpkg:
+	Append to CFLAGS and LDFLAGS instead of overriding them when adding
+	-m64.
+	[d02cf3c28198]
+
+	* config.h.in, configure, configure.ac,
+	lib/iolog/regress/fuzz/fuzz_iolog_json.c,
+	lib/iolog/regress/fuzz/fuzz_iolog_legacy.c,
+	lib/iolog/regress/fuzz/fuzz_iolog_timing.c,
+	plugins/sudoers/regress/fuzz/fuzz_sudoers.c,
+	plugins/sudoers/regress/fuzz/fuzz_sudoers_ldif.c:
+	Fall back to a temp file if fmemopen() is not available().
+	[87f804b98c18]
+
+	* plugins/sudoers/gram.c, plugins/sudoers/gram.y:
+	Add missing return statement when NO_LEAKS is not defined.
+	[25b8e1041b62]
+
+	* lib/eventlog/Makefile.in:
+	Remove remnants of liblogsrv.
+	[5030114bb12f]
+
+	* INSTALL, configure, configure.ac, lib/iolog/Makefile.in,
+	plugins/sudoers/Makefile.in:
+	Add --enable-fuzzer-linker and --enable-fuzzer-engine options. These
+	will allow the fuzzers to be built as part of oss-fuzz.
+	[c3176bd8b95b]
+
+2021-02-06  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* .gitignore, .hgignore:
+	Sync ignore files.
+	[ddf136d412f7]
+
+	* plugins/sudoers/Makefile.in:
+	Fix linking of sudoers fuzzers with static libsudo_util.
+	[86d07a5a671d]
+
+	* INSTALL, configure, configure.ac, lib/iolog/Makefile.in,
+	plugins/sudoers/Makefile.in:
+	Add --enable-fuzzer option to use when building fuzzers
+	[01e31362c2b0]
+
+	* INSTALL, configure, configure.ac:
+	Replace --enable-asan with --enable-sanitizer It is not possible to
+	set the sanitizer flags at configure time.
+	[115d869e1d55]
+
+2021-02-06  Anton Bershanskiy  <45960703+bershanskiy@users.noreply.github.com>
+
+	* src/copy_file.c:
+	Fix comment typo in src/copy_file.c
+	[60dbf6da4712]
+
+2021-02-06  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* lib/iolog/Makefile.in, lib/iolog/regress/fuzz/fuzz_iolog_json.c,
+	lib/iolog/regress/fuzz/fuzz_iolog_legacy.c,
+	lib/iolog/regress/fuzz/fuzz_iolog_timing.c,
+	plugins/sudoers/Makefile.in,
+	plugins/sudoers/regress/fuzz/fuzz_sudoers.c,
+	plugins/sudoers/regress/fuzz/fuzz_sudoers_ldif.c:
+	Build (but don't run) fuzzers as part of "make check". Uses a stub
+	to make it possible to link w/o libfuzzer. The goal is to ensure the
+	fuzzers are always buildable and avoid bit rot.
+	[9186e252b8bf]
+
+	* lib/iolog/Makefile.in, plugins/sudoers/Makefile.in:
+	Add libsudo_eventlog.la as a dependency of libsudo_iolog.la No
+	longer need to link against libsudo_eventlog.la in sudoers.
+	[508097f86035]
+
+2021-02-05  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* MANIFEST, lib/iolog/regress/corpus/log_json/id.json,
+	lib/iolog/regress/corpus/log_json/ls.json,
+	lib/iolog/regress/corpus/log_json/mailq.json,
+	lib/iolog/regress/corpus/log_json/make.json,
+	lib/iolog/regress/corpus/log_json/pkg_add.json,
+	lib/iolog/regress/corpus/log_json/pkg_delete.json,
+	lib/iolog/regress/corpus/log_json/printenv.json,
+	lib/iolog/regress/corpus/log_legacy/id,
+	lib/iolog/regress/corpus/log_legacy/ls,
+	lib/iolog/regress/corpus/log_legacy/mailq,
+	lib/iolog/regress/corpus/log_legacy/make,
+	lib/iolog/regress/corpus/log_legacy/pkg_add,
+	lib/iolog/regress/corpus/log_legacy/pkg_delete,
+	lib/iolog/regress/corpus/log_legacy/printenv,
+	lib/iolog/regress/corpus/timing/timing.1,
+	lib/iolog/regress/corpus/timing/timing.2,
+	lib/iolog/regress/corpus/timing/timing.3,
+	lib/iolog/regress/corpus/timing/timing.4:
+	Add more test files for fuzzers.
+	[22256acfbe23]
+
+2021-02-05  Daniel Milnes  <thebeanogamer@gmail.com>
+
+	* doc/sudo.mdoc.in:
+	Fix the typo in the mdoc
+	[e0ad7f93e678]
+
+	* doc/sudo.man.in:
+	Fix a tiny typo in the Sudo manpage
+	[d52c308677bf]
+
+2021-02-04  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* MANIFEST, lib/iolog/regress/fuzz/fuzz_iolog_timing.c:
+	fuzzer for I/O log timing files
+	[7b32f8eecfd6]
+
+	* lib/iolog/iolog_json.c:
+	In JSON, name/value pairs must be separated by a comma. Previously
+	we didn't require the comma to be there.
+	[bb70cecf6360]
+
+	* lib/iolog/iolog_json.c:
+	Detect integer overflow when converting JSON_ARRAY to string vector.
+	Extremely unlikely to happen but better safe than sorry.
+	[60a7a4d3a1d8]
+
+2021-02-03  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/toke.c, plugins/sudoers/toke.l:
+	Only strip double quotes from an include path if len >= 2. Found
+	locally using libfuzzer/oss-fuzz.
+	[274d0a05081b]
+
+	* plugins/sudoers/regress/fuzz/fuzz_sudoers.c:
+	Don't allow the sudoers fuzzer to open include files. If we allow
+	the fuzzer to choose include paths it will include random files in
+	the file system. This leads to bug reports that cannot be
+	reproduced.
+	[b8ffce94f30a]
+
+	* plugins/sudoers/toke.c, plugins/sudoers/toke.l:
+	If getdelim() returns a string with embedded NULs, truncate on first
+	one. This should avoid some issues with the fuzzer.
+	[e90e61d4bb0e]
+
+	* plugins/sudoers/toke.c, plugins/sudoers/toke.l:
+	Reallocate the buffer correctly when appending a newline. Fixes a
+	potential buffer overflow introduced in the last commit.
+	[50b0f77aed5f]
+
+	* plugins/sudoers/alias.c, plugins/sudoers/gram.c,
+	plugins/sudoers/gram.y:
+	Don't free the alias name in alias_add() if the alias already
+	exists. We need to be able to display it using alias_error(). Only
+	free what we actually allocated in alias_add() on error and let the
+	caller handle cleanup. Note that we cannot completely fill in the
+	alias until it is inserted. Otherwise, we will have modified the
+	file and members parameters even if there was an error. As a result,
+	we have to remove those from the leak list after alias_add(), not
+	before.
+	[6a920646d7d1]
+
+	* plugins/sudoers/toke.c, plugins/sudoers/toke.l:
+	Fix NUL termination when parsing a sudoers file with no ending
+	newline. oss-fuzz issue #30252
+	[5c75d8e15966]
+
+	* plugins/sudoers/toke.c, plugins/sudoers/toke.l:
+	sudoersrestart() does not reset state to INITIAL, do it in
+	init_lexer(). Fixes spurious errors from fuzz_sudoers, which calls
+	the parser multiple times.
+	[bf2c1c3b82e6]
+
+	* plugins/sudoers/regress/parser/check_fill.c, plugins/sudoers/toke.c,
+	plugins/sudoers/toke.h, plugins/sudoers/toke.l,
+	plugins/sudoers/toke_util.c:
+	Push lexer leak tracking down into check_fill.c. This lets us track
+	things correctly when buffers are realloc()d. Rewrote fill() and
+	append() to be more readable.
+	[a1e61a4a7aad]
+
+	* plugins/sudoers/regress/fuzz/fuzz_sudoers.c,
+	plugins/sudoers/sudoers.h, plugins/sudoers/visudo.c:
+	Use sudoersrestart() in fuzz_sudoers.c Since we run the parser
+	multiple times we need to restart it each time.
+	[64792d363f62]
+
+	* plugins/sudoers/regress/fuzz/fuzz_sudoers.c:
+	Parser needs user_shost for the %h escape in @include expansion.
+	Fixes oss-fuzz issue #30238
+	[b043e413be31]
+
+	* INSTALL:
+	The --disable-leaks option is not recommended for production use.
+	[cb37a56f4e99]
+
+	* plugins/sudoers/gram.c, plugins/sudoers/gram.y:
+	Remove options from the leak list before freeing them. Should fix
+	oss-fuzz issue #30236
+	[1ee6dac8c027]
+
+	* MANIFEST, include/sudo_iolog.h, lib/iolog/iolog_util.c,
+	lib/iolog/regress/fuzz/fuzz_iolog_legacy.c:
+	Add fuzzer for legacy I/O log info file.
+	[3f4ed83660ca]
+
+	* doc/Makefile.in, plugins/sudoers/Makefile.in:
+	Fix uninstall target; there were missing line continuation chars.
+	GitHub issue #87
+	[02cffb51c15c]
+
+2021-02-02  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/cvtsudoers.c, plugins/sudoers/parse_ldif.c:
+	Don't close fp in sudoers_parse_ldif() The caller should be the one
+	to handle this.
+	[e8d830851379]
+
+	* .gitignore, .hgignore:
+	Update ignore files.
+	[0c8245d8097c]
+
+	* plugins/sudoers/alias.c, plugins/sudoers/gram.c,
+	plugins/sudoers/gram.y:
+	Got back to calling alias_free() on alias_add() failure. We now need
+	to remove the name and members from the leak list
+	*before* calling alias_add() since alias_add() will consume them for
+	both success and failure.
+	[65c95a84f8ca]
+
+	* plugins/sudoers/regress/fuzz/fuzz_sudoers.c:
+	close sudoersin, not fp, and reset it to be safe
+	[f616d1c7c09a]
+
+	* lib/iolog/regress/fuzz/fuzz_iolog_json.c,
+	plugins/sudoers/regress/fuzz/fuzz_sudoers.c,
+	plugins/sudoers/regress/fuzz/fuzz_sudoers_ldif.c:
+	Add missing fclose(3) of fmemopen(3) stream; it does not modify the
+	data.
+	[9207901dcccd]
+
+	* lib/iolog/iolog_json.c:
+	Check for unexpected value after checking the name, not before.
+	[6f973cc4378d]
+
+	* lib/util/progname.c:
+	Allow getprogname() to succeed as long as __progname is present.
+	Also simplify the progname code so we only need a single
+	implementation.
+	[300a29bd117e]
+
+	* lib/iolog/iolog_json.c:
+	Fix potential leak of evlog->runuser. Also warn if we find an
+	unexpected JSON type.
+	[0ec615b3d4e0]
+
+2021-02-01  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/regress/fuzz/fuzz_sudoers_ldif.c:
+	Parse into a local parse_tree and add missing cleanup. Since
+	parsed_policy is for the sudoers parser we should declare our own.
+	[c418d65e7bb4]
+
+	* plugins/sudoers/regress/fuzz/fuzz_sudoers.c:
+	Call init_parser() after parsing to clean up completely.
+	[2063d26ab401]
+
+	* MANIFEST, plugins/sudoers/gram.c, plugins/sudoers/gram.y,
+	plugins/sudoers/regress/sudoers/test25.in,
+	plugins/sudoers/regress/sudoers/test25.json.ok,
+	plugins/sudoers/regress/sudoers/test25.ldif.ok,
+	plugins/sudoers/regress/sudoers/test25.out.ok,
+	plugins/sudoers/regress/sudoers/test25.toke.ok,
+	plugins/sudoers/toke.c, plugins/sudoers/toke.l,
+	plugins/sudoers/toke_util.c:
+	Plug a few more parser leaks.
+	[c9478efdd65d]
+
+	* plugins/sudoers/gram.c, plugins/sudoers/gram.y:
+	Make parser_leak_remove(type, NULL) a no-op.
+	[7699e99a028a]
+
+	* MANIFEST, lib/iolog/regress/fuzz/fuzz_iolog_json.c,
+	plugins/sudoers/regress/fuzz/fuzz_sudoers.c,
+	plugins/sudoers/regress/fuzz/fuzz_sudoers_ldif.c:
+	Add initial fuzzers to be used by oss-fuzz. These are not yet hooked
+	up to the sudo build.
+	[5593a755f359]
+
+	* plugins/sudoers/gc.c, plugins/sudoers/sudoers.h:
+	Garbage collect unused gc_remove() function.
+	[ff561edd846e]
+
+	* plugins/sudoers/Makefile.in,
+	plugins/sudoers/regress/testsudoers/test11.sh,
+	plugins/sudoers/regress/testsudoers/test12.sh,
+	plugins/sudoers/regress/testsudoers/test13.sh,
+	plugins/sudoers/regress/testsudoers/test4.sh,
+	plugins/sudoers/regress/testsudoers/test5.sh:
+	The parser should be leak free, re-enable leak detection in ASAN.
+	[a89599540a5a]
+
+	* plugins/sudoers/alias.c, plugins/sudoers/gram.c,
+	plugins/sudoers/gram.h, plugins/sudoers/gram.y,
+	plugins/sudoers/parse.h, plugins/sudoers/toke.c,
+	plugins/sudoers/toke.l, plugins/sudoers/toke_util.c:
+	Add garbage collection to the sudoers parser to clean up on error.
+	This makes it possible to avoid memory leaks when there is a parse
+	error.
+	[ef739da324bb]
+
+2021-01-31  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/gram.c, plugins/sudoers/gram.y,
+	plugins/sudoers/ldap.c, plugins/sudoers/ldap_util.c,
+	plugins/sudoers/parse.h, plugins/sudoers/sssd.c,
+	plugins/sudoers/sudo_ldap.h:
+	Move new_member_all to ldap_util.c, it is only used by ldap/sssd.
+	[9df2efb6956a]
+
+2021-01-30  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* lib/iolog/iolog_json.c:
+	Fix crashes trying to parse invalid JSON. Found locally using
+	libfuzzer/oss-fuzz.
+	[b74c8c260d60]
+
+	* lib/iolog/iolog_json.c:
+	Plug memory leak if a key is listed more than once in the log.json
+	file.
+	[764ef247f13e]
+
+	* lib/iolog/regress/iolog_json/check_iolog_json.c:
+	Fix crash when file does not exist.
+	[55a46b75e6ed]
+
+	* plugins/sudoers/gentime.c:
+	Strict tz offset parsing. Fixes an out of bounds read found locally
+	using libfuzzer/oss-fuzz.
+	[72266f1af75d]
+
+	* plugins/sudoers/ldap_util.c:
+	Don't leak memory for duplicate command options. The last option
+	wins but we also now warn about the duplicate. Found locally using
+	libfuzzer/oss-fuzz.
+	[f1cd342e62f7]
+
+	* plugins/sudoers/ldap_util.c:
+	Copy command options when converting a sudoRole with multiple
+	sudoCommands. A sudoRole with multiple sudoCommands is converted to
+	a privilege with multiple cmndspecs. However, we were not copying
+	some of the command options to subsequent cmndspecs in the list.
+	[d8309574a756]
+
+	* plugins/sudoers/parse_ldif.c:
+	Fix memory leak if the last line is folded. Fixes issue 30080 by
+	ClusterFuzz-External
+	[404f38aa19a6]
+
+	* INSTALL, configure, configure.ac:
+	Add --disable-leaks configure option. This enables the extra freeing
+	of memory before exit also enabled by --enable-asan. To be used by
+	oss-fuzz.
+	[faddd42273a4]
+
+	* plugins/sudoers/gentime.c:
+	Stricter parsing of generalized time. Fixes potential out of bounds
+	read found by libfuzzer/oss-fuzz.
+	[4548e29ea5e0]
+
+2021-01-29  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/parse_ldif.c:
+	Don't bother calling ldif_to_sudoers() if there are no roles to
+	convert.
+	[242394d46fb1]
+
+	* lib/iolog/iolog_json.c:
+	In json_stack_push() treat stack exhaustion like memory allocation
+	failure. Return NULL instead of treating as a fatal error. This
+	should make life a little easier for oss-fuzz.
+	[84c7c3b7971a]
+
+	* plugins/sudoers/sudoers.c:
+	Update comment about return values for resolve_host().
+	[0e92fe582db1]
+
+	* plugins/sudoers/logging.c, plugins/sudoers/policy.c:
+	Fix NO_ROOT_MAILER, broken by the eventlog refactor in sudo 1.9.4.
+	init_eventlog_config() is called immediately after initializing the
+	Defaults settings, which is before struct sudo_user is setup. This
+	adds a call to eventlog_set_mailuid() if NO_ROOT_MAILER is defined
+	after the invoking user is determined. Reported by Roman Fiedler.
+	[e0d4f196ba02]
+
+2021-01-28  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* MANIFEST:
+	Add plugins/sudoers/strvec_join.c
+	[1dfeb8ab9fdb]
+
+	* plugins/sudoers/strvec_join.c, plugins/sudoers/sudoers.c:
+	Fix compilation on systems without a native strlcpy() function.
+	[7b28feb4350a]
+
+	* logsrvd/logsrvd.c, logsrvd/sendlog.c:
+	Break up the long help string into multiple printf() statements. AIX
+	xlc compiler doesn't like cpp directives in between strings. Also
+	fixes a complaint from cppcheck and makes translation easier.
+	[e55b4061f598]
+
+	* plugins/sudoers/regress/unescape/check_unesc.c,
+	plugins/sudoers/strvec_join.c, plugins/sudoers/sudoers.h:
+	strvec_join: free result on error and actually use separator char
+	[801546807a8a]
+
+2021-01-27  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/Makefile.in,
+	plugins/sudoers/regress/unescape/check_unesc.c:
+	Test strvec_join() using strlcpy_unesc(). Emulates an overflow like:
+	sudoedit -s '\' `perl -e 'print "A" x 65536'`
+	[8d9a063adde5]
+
+	* plugins/sudoers/Makefile.in, plugins/sudoers/strvec_join.c,
+	plugins/sudoers/sudoers.c, plugins/sudoers/sudoers.h:
+	Refactor code to flatten an argument vector into a string. This is
+	used when building up the user_args string.
+	[a6ae655d91a1]
+
+	* MANIFEST, plugins/sudoers/Makefile.in,
+	plugins/sudoers/regress/unescape/check_unesc.c,
+	plugins/sudoers/strlcpy_unesc.c, plugins/sudoers/sudoers.c,
+	plugins/sudoers/sudoers.h:
+	Add strlcpy_unescape() function to undo escaping from front-end.
+	Includes unit test.
+	[abfaa390d275]
+
+	* plugins/sudoers/parse_ldif.c:
+	Add missing check for reallocarray() failure. Found by OSS-Fuzz.
+	[fcda06966ed7]
+
+2021-01-26  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/python/pyhelpers.c, plugins/python/pyhelpers.h,
+	plugins/python/python_convmessage.c,
+	plugins/python/sudo_python_module.c:
+	Remove Py_SSIZE2SIZE to quiet cppcheck warnings. Tuple size cannot
+	be negative and we already handle the case where it is zero.
+	[d6ec5e558a0e]
+
+	* src/parse_args.c:
+	The program name may now only be "sudo" or "sudoedit". We no longer
+	need to check for any string that ends in "edit".
+	[caed524c6ba0]
+
 2021-01-23  Todd C. Miller  <Todd.Miller@sudo.ws>
 
 	* .hgtags:
 	Added tag SUDO_1_9_5p2 for changeset 83685ffbc4df
-	[74a2ddc3e4a4] [tip] <1.9>
+	[74a2ddc3e4a4] <1.9>
 
 	* Merge sudo 1.9.5p2 from tip
 	[83685ffbc4df] [SUDO_1_9_5p2] <1.9>
@@ -447,6 +1994,13 @@
 	* plugins/sudoers/audit.c:
 	Set sudoers_audit.close to NULL if not using a log server.
 	[231abb92a3b2]
+
+2020-12-08  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* config.guess, config.h.in, config.sub, configure, configure.ac:
+	Regenerate configure script with autoconf 2.71. Also fix some
+	warnings from the new version.
+	[cd1c7615e861]
 
 2020-12-07  Todd C. Miller  <Todd.Miller@sudo.ws>
 
