@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xA9F4C021CEA470FB (Todd.Miller@sudo.ws)
 #
 Name     : sudo
-Version  : 1.9.6p1
-Release  : 76
-URL      : https://www.sudo.ws/dist/sudo-1.9.6p1.tar.gz
-Source0  : https://www.sudo.ws/dist/sudo-1.9.6p1.tar.gz
-Source1  : https://www.sudo.ws/dist/sudo-1.9.6p1.tar.gz.sig
+Version  : 1.9.7
+Release  : 77
+URL      : https://www.sudo.ws/dist/sudo-1.9.7.tar.gz
+Source0  : https://www.sudo.ws/dist/sudo-1.9.7.tar.gz
+Source1  : https://www.sudo.ws/dist/sudo-1.9.7.tar.gz.sig
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : ISC
@@ -22,6 +22,7 @@ Requires: sudo-setuid = %{version}-%{release}
 BuildRequires : Linux-PAM-dev
 BuildRequires : bison
 BuildRequires : groff
+BuildRequires : openssl-dev
 BuildRequires : zlib-dev
 Patch1: 0001-stateless.patch
 Patch2: 0002-Add-read-only-sudoers.d-dir.patch
@@ -109,8 +110,8 @@ setuid components for the sudo package.
 
 
 %prep
-%setup -q -n sudo-1.9.6p1
-cd %{_builddir}/sudo-1.9.6p1
+%setup -q -n sudo-1.9.7
+cd %{_builddir}/sudo-1.9.7
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -122,7 +123,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1615845977
+export SOURCE_DATE_EPOCH=1620831696
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -146,7 +147,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make check || :
 
 %install
-export SOURCE_DATE_EPOCH=1615845977
+export SOURCE_DATE_EPOCH=1620831696
 rm -rf %{buildroot}
 %make_install INSTALL_OWNER=""
 %find_lang sudo

@@ -1,8 +1,1000 @@
+2021-05-11  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* .hgtags:
+	Added tag SUDO_1_9_7 for changeset f0ce54d4288c
+	[58968ec7a457] [tip] <1.9>
+
+	* Merge sudo 1.9.7 from tip
+	[f0ce54d4288c] [SUDO_1_9_7] <1.9>
+
+2021-05-10  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/po/zh_TW.mo, plugins/sudoers/po/zh_TW.po:
+	Updated translations from translationproject.org
+	[3d6d49097b98]
+
+	* plugins/sudoers/log_client.c:
+	Better warning when close function is passed a non-terminal signal.
+	[8b8628249e4d]
+
+	* logsrvd/logsrvd_local.c:
+	Remove line causing store_suspend_local() to return false on
+	success. This is something that should have been removed as part of
+	the local I/O logging refactor.
+	[e8ae1e61b8b2]
+
+	* src/exec_pty.c:
+	Don't set the command status in the closure when the command is
+	suspended. This should only be set for signals that terminate the
+	process. Fixes a bug where the sudo front-end could call the plugin
+	close function with a non-terminal signal argument.
+	[a95024bfb6e8]
+
+2021-05-07  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/python/pyhelpers.c, plugins/python/python_plugin_policy.c:
+	Quiet -Wshadow warnings from gcc.
+	[7ff2985ba650]
+
+	* NEWS, doc/sudoers.man.in, doc/sudoers.mdoc.in:
+	The -g option may also be used with any group the target user
+	belongs to. The description in the Runas_Spec section incorrectly
+	stated that the -g option could not be used if no runas group was
+	set. Bug #975.
+	[67d1948d1aa8]
+
+	* configure, configure.ac:
+	Remove redundant "configuring Sudo version X.YY" line. We now
+	display this along with the summary info at the end.
+	[0d7c908f8d4c]
+
+	* configure, configure.ac:
+	Don't check for -Wl,-z,relro twice.
+	[a30dce71fb26]
+
+2021-05-06  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/po/fi.mo, plugins/sudoers/po/fi.po,
+	plugins/sudoers/po/hr.mo, plugins/sudoers/po/hr.po,
+	plugins/sudoers/po/ko.mo, plugins/sudoers/po/ko.po,
+	plugins/sudoers/po/pl.mo, plugins/sudoers/po/pl.po,
+	plugins/sudoers/po/pt.mo, plugins/sudoers/po/pt.po,
+	plugins/sudoers/po/sv.mo, plugins/sudoers/po/sv.po,
+	plugins/sudoers/po/zh_CN.mo, plugins/sudoers/po/zh_CN.po:
+	Updated translations from translationproject.org
+	[9303a20fe480]
+
+	* scripts/mkpkg:
+	Build python plugin for RHEL 6 as well.
+	[edaa6ec0e255]
+
+	* configure, configure.ac:
+	Remove shell-style quotes in configure warning/error/notice
+	messages. Square bracket quotes are used, no need for shell-style
+	double quotes.
+	[e6de284df511]
+
+	* NEWS, configure, configure.ac:
+	Summarize configure settings after all tests have run. This makes it
+	a lot easier to see what features have been enabled.
+	[12ea96affed5]
+
+2021-05-04  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* INSTALL, configure, configure.ac:
+	Remove --with-efence option, there are better options available.
+	[78fd5ceb2c52]
+
+	* NEWS:
+	Move misplaced changes into the 1.9.7 section where they belong.
+	[1519f7a4669b]
+
+	* lib/util/regress/sudo_conf/conf_test.c:
+	Awful hack to pass on macOS where group_source=dynamic by default.
+	[b038bfab8c34]
+
+	* plugins/sudoers/po/ca.mo, plugins/sudoers/po/ca.po,
+	plugins/sudoers/po/cs.mo, plugins/sudoers/po/cs.po,
+	plugins/sudoers/po/de.mo, plugins/sudoers/po/de.po,
+	plugins/sudoers/po/eo.mo, plugins/sudoers/po/eo.po,
+	plugins/sudoers/po/fr.mo, plugins/sudoers/po/fr.po,
+	plugins/sudoers/po/it.mo, plugins/sudoers/po/it.po,
+	plugins/sudoers/po/ja.mo, plugins/sudoers/po/ja.po,
+	plugins/sudoers/po/sr.mo, plugins/sudoers/po/sr.po,
+	plugins/sudoers/po/sv.mo, plugins/sudoers/po/sv.po,
+	plugins/sudoers/po/uk.mo, plugins/sudoers/po/uk.po, po/ca.mo,
+	po/ca.po, po/it.mo, po/it.po, po/sr.mo, po/sr.po:
+	Updated translations from translationproject.org
+	[7b156da85d13]
+
+	* NEWS:
+	Document late stage 1.9.7 changes.
+	[28756df7dcb4]
+
+	* doc/sudo_sendlog.man.in, doc/sudo_sendlog.mdoc.in,
+	logsrvd/sendlog.c, logsrvd/sendlog.h:
+	sudo_sendlog: rename -m (max-time) to -s (stop-after).
+	[4f016111b242]
+
+	* logsrvd/logsrv_util.c, logsrvd/logsrvd.c, logsrvd/logsrvd_journal.c:
+	Update closure->elapsed_time in journal_seek(). Otherwise the commit
+	point messages won't be accurate when restarting.
+	[6cd4db44b8ee]
+
+	* doc/sudo_sendlog.man.in, doc/sudo_sendlog.mdoc.in,
+	logsrvd/sendlog.c, logsrvd/sendlog.h:
+	Add "-m elapsed" option to specify the max elapsed time of records
+	to send. Useful for testing the ability of the server to handle
+	restarted log transfers.
+	[cd9c9235e320]
+
+2021-05-03  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* logsrvd/logsrvd.c, logsrvd/logsrvd_relay.c:
+	Disable reading from client or relay when sending error to client.
+	We treat an error from the relay as fatal and must stop processing
+	data from both client and relay to make sure we don't get out of
+	sync.
+	[258f9691b3d9]
+
+	* logsrvd/iolog_writer.c, logsrvd/logsrvd.c, logsrvd/logsrvd_local.c:
+	Fix I/O log restart of locally-store logs. This got broken a while
+	ago when evlog in struct connection_closure was changed to a
+	pointer.
+	[8b59122891f9]
+
+	* scripts/pp:
+	Fix detection of the volatile flag when other flags are present.
+	Otherwise flags fields like "volatile,ignore-other" will be ignored
+	by the Debian and BSD back ends.
+	[0d120b9eab71]
+
+	* src/limits.c:
+	Fix debug message when prctl(PR_SET_DUMPABLE, 0, 0, 0, 0) fails.
+	GitHub issue #101
+	[7d266c174457]
+
+	* logsrvd/logsrvd_relay.c, logsrvd/sendlog.c, logsrvd/tls_client.c,
+	logsrvd/tls_common.h, plugins/sudoers/log_client.c:
+	Don't hard-code the TLS connect timeout, use normal connect timeout.
+	For sudo_logsrvd, this is the relay connect_timeout setting. For
+	sudoers, this is the log_server_timeout setting.
+	[49e29f187f5a]
+
+2021-05-02  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* logsrvd/logsrvd_queue.c:
+	Add missing closedir(3) in logsrvd_queue_scan(). Coverity CID 221591
+	[e9745c64a721]
+
+	* NEWS:
+	Mention "log_server_verify" bug fix.
+	[a70060c34e7a]
+
+	* configure, configure.ac, doc/sudo_logsrvd.conf.man.in,
+	doc/sudo_logsrvd.conf.mdoc.in, examples/sudo_logsrvd.conf,
+	m4/sudo.m4, pathnames.h.in:
+	Rename logsrvd log dir to /var/log/sudo_logsrvd.
+	[fb979be9927e]
+
+	* doc/sudo_logsrvd.conf.man.in, doc/sudo_logsrvd.conf.mdoc.in,
+	examples/sudo_logsrvd.conf, logsrvd/logsrvd.h,
+	logsrvd/logsrvd_conf.c, logsrvd/logsrvd_queue.c:
+	Make the failed relay retry interval configurable. This is the
+	amount of time to wait before trying to resend a journal to the
+	relay server after a connection error.
+	[cbc04201a63e]
+
+2021-05-01  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* MANIFEST, logsrvd/Makefile.in, logsrvd/logsrvd.c, logsrvd/logsrvd.h,
+	logsrvd/logsrvd_journal.c, logsrvd/logsrvd_queue.c,
+	logsrvd/logsrvd_relay.c:
+	Send outgoing messages to the relay server on startup. Also attempt
+	to retry messages that could not be relayed periodically.
+	[7ed12983af85]
+
+	* lib/util/fatal.c:
+	Avoid clobbering errno in warning().
+	[3282a7db7f51]
+
+	* logsrvd/logsrvd_relay.c:
+	Set relay name string to NULL after dropping the reference.
+	Otherwise it is possible to decrement the reference more than once.
+	[245d4e60ea21]
+
+2021-04-30  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/iolog.c:
+	Fix cut & pasto that prevented the verify_server option from being
+	set. The "log_server_verify" setting passed from the policy plugin
+	was applied to the "keepalive" option instead of "verify_server".
+	From Krisztian Kovacs.
+	[06f716981ad0]
+
+2021-04-29  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* doc/sudo_logsrvd.man.in, doc/sudo_logsrvd.mdoc.in,
+	logsrvd/logsrvd.c:
+	Write client and server information to debug file on SIGUSR1 This
+	can be used to debug client problems such as a connection not being
+	closed as expected.
+	[e6e3a4ba02f4]
+
+	* doc/sudo_logsrvd.man.in, doc/sudo_logsrvd.mdoc.in:
+	Document journal file directories in store_first mode.
+	[a08de0c20127]
+
+	* logsrvd/logsrvd.c, logsrvd/logsrvd.h, logsrvd/logsrvd_journal.c:
+	Create journal files in an incoming directory, move to outgoing when
+	complete. This will make it possible to process completed journal
+	files periodically if the relay server is down.
+	[5ced00c6eb7e]
+
+	* logsrvd/logsrvd_relay.c:
+	Add missing connection_close() call for relay-only connections. For
+	an immediate relay we will close the connection when the client
+	disconnects (or there is a timeout). However, for store-and-forward
+	mode the client has already disconnected at the time we are
+	relaying.
+	[e51e98489c6d]
+
+2021-04-27  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/po/sudoers.pot:
+	regen
+	[4aa3f848b223]
+
+	* logsrvd/logsrvd_conf.c:
+	Replace non-ascii characters in warning string.
+	[5e99ac170a15]
+
+	* lib/util/regress/getgrouplist/getgrouplist_test.c,
+	lib/util/regress/tailq/hltq_test.c,
+	plugins/sudoers/regress/check_symbols/check_symbols.c,
+	plugins/sudoers/regress/editor/check_editor.c,
+	plugins/sudoers/regress/exptilde/check_exptilde.c,
+	plugins/sudoers/regress/parser/check_base64.c,
+	plugins/sudoers/regress/parser/check_fill.c,
+	plugins/sudoers/regress/parser/check_gentime.c,
+	plugins/sudoers/regress/parser/check_hexchar.c,
+	plugins/sudoers/regress/starttime/check_starttime.c,
+	plugins/sudoers/regress/unescape/check_unesc.c:
+	Quiet clang analyzer false positive in regress tests.
+	[190ad1f287d8]
+
+	* MANIFEST, logsrvd/Makefile.in, logsrvd/iolog_writer.c,
+	logsrvd/logsrvd.c, logsrvd/logsrvd.h, logsrvd/logsrvd_local.c:
+	Move local iolog log functions to logsrvd_local.c
+	[e16e2a1d8209]
+
+	* logsrvd/logsrvd_relay.c:
+	Better client error reporting on relay server connection error. More
+	detailed error messages may be found in the debug log.
+	[d0807790327d]
+
+	* logsrvd/logsrvd.c:
+	Update debug pid string when sudo_logsrvd becomes a daemon.
+	[33069e2da7d5]
+
+2021-04-26  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* logsrvd/logsrvd.c:
+	Must call SSL_shutdown() before closing the underlying socket. This
+	got broken by some code rearrangement when relay mode was added.
+	[a3a8c4d10565]
+
+	* logsrvd/logsrvd.c, logsrvd/logsrvd_relay.c:
+	Recover if the client or relay server closes the TLS connection
+	uncleanly. The other end of the connection should perform a proper
+	TLS shutdown but as long as we are in the correct state there is no
+	need to treat this as a user-visible error.
+	[90887bc2235f]
+
+	* NEWS, aclocal.m4, configure, configure.ac:
+	Sudo 1.9.7
+	[c1ea457eca11]
+
+	* MANIFEST, plugins/python/Makefile.in, plugins/python/lsan_suppr.txt:
+	Add a suppression file for the libpython leaks. This is a big hammer
+	but it seems like the best we can do for now. Allows "make check" to
+	succeed when address sanitizer is used.
+	[4500cd1e835e]
+
+2021-04-25  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/Makefile.in, plugins/sudoers/editor.c,
+	plugins/sudoers/regress/editor/check_editor.c:
+	When spliting EDITOR check for escaped quote characters. Also add
+	check_editor to sudoers "make check".
+	[0d8001299358]
+
+2021-04-24  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* MANIFEST, plugins/sudoers/Makefile.in, plugins/sudoers/editor.c,
+	plugins/sudoers/regress/editor/check_editor.c:
+	Treat a lone backslash at the end of a string as a literal
+	backslash. GitHub issue #99
+	[40a53e523003]
+
+	* doc/sudo_logsrvd.conf.man.in, doc/sudo_logsrvd.conf.mdoc.in:
+	Fix typo.
+	[614379733a17]
+
+2021-04-23  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/python/pyhelpers.c:
+	Avoid a potential NULL dereference when mutating args_str. Coverit
+	CID 221401
+	[69f3c7f8e524]
+
+	* logsrvd/logsrvd_journal.c:
+	Avoid calling fread() with a NUL buffer if msg_len is 0. Coverity
+	CID 221399
+	[ed605b7a3186]
+
+	* logsrvd/logsrvd.c:
+	Set a restrictive umask so new files are only read/write by owner.
+	Coverity CID 221402
+	[595465e4baa2]
+
+	* logsrvd/logsrvd.c:
+	In connection_closure_free() only close sock if it is not -1. When
+	relaying from a journal there will be no socket. Coverity CID 221403
+	[fd4f27067c3f]
+
+	* logsrvd/logsrvd.c:
+	Avoid potential NULL dereference in get_free_buf(). Coverity CID
+	221400
+	[6cb5491bf812]
+
+	* logsrvd/logsrvd.c, logsrvd/logsrvd_relay.c:
+	Remove some now-dead code in the error path. Coverity CID 221397 and
+	221398
+	[edc860f72f98]
+
+	* logsrvd/logsrvd.c, logsrvd/logsrvd.h, logsrvd/logsrvd_journal.c,
+	logsrvd/logsrvd_relay.c:
+	Use function pointers for each client message type instead of
+	conditionals. This separats out the message handler from the
+	functions that store or relay the message contents.
+	[f596480880fa]
+
+	* logsrvd/logsrvd.c, logsrvd/logsrvd.h, logsrvd/logsrvd_relay.c:
+	Add enqueue_error_message() helper function. Formats and enqueues an
+	error message and enables the write event.
+	[122bd89fe5e3]
+
+	* logsrvd/logsrvd.c, logsrvd/logsrvd.h, logsrvd/logsrvd_journal.c,
+	logsrvd/logsrvd_relay.c:
+	Forward the journaled entry after it has been stored locally.
+	[a187d5a7ea28]
+
+	* logsrvd/logsrvd.c, logsrvd/logsrvd.h, logsrvd/logsrvd_journal.c:
+	Stash the value of the store_first config setting in
+	connection_closure. If the configuration changes it should not
+	affect a connection that is already in progress.
+	[6617c2b7ece5]
+
+	* MANIFEST, logsrvd/Makefile.in, logsrvd/iolog_writer.c,
+	logsrvd/logsrvd.c, logsrvd/logsrvd.h, logsrvd/logsrvd_conf.c,
+	logsrvd/logsrvd_journal.c, logsrvd/logsrvd_relay.c:
+	Journal messages to disk when store_first is set in the relay
+	section. Instead of forwarding messages immediately, they are
+	journaled locally in wire format. This will be used to implement
+	relay store-and-forward mode.
+	[aa0c537258e7]
+
+	* INSTALL, configure, configure.ac, doc/sudo_logsrvd.conf.man.in,
+	doc/sudo_logsrvd.conf.mdoc.in, doc/sudo_logsrvd.mdoc.in,
+	logsrvd/logsrvd.h, logsrvd/logsrvd_conf.c, m4/sudo.m4,
+	pathnames.h.in:
+	Add configuration for sudo_logsrvd store-and-forward mode. Adds
+	"relay_dir" and "store_first" settings to sudo_logsrvd.conf in the
+	[relay] section. Also adds a --with-relaydir configure argument to
+	change the default value (usually /var/log/logsrvd-relay.
+	[6f064ed6d20e]
+
+	* src/signal.c:
+	Make sure SIGCHLD is not ignored when sudo is executed. If SIGCHLD
+	is ignored there is a race condition between when the process is
+	executed and when the SIGCHLD handler is installed. This fixes the
+	bug described by GitHub PR #98
+	[b4c91a0f72e7]
+
+2021-04-20  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* config.h.in, configure, configure.ac:
+	Remove the HP-UX 11.0 pread64() hack, it causes problems on modern
+	HP-UX.
+	[fea8ebd0b88d]
+
+	* src/limits.c:
+	Add minimum value to consider when overriding resource limits.
+	Currently only used for RLIMIT_DATA and RLIMIT_AS.
+
+	This works around a problem on HP-UX where setting RLIMIT_DATA
+	changes the resource limits for both 32-bit and 64-bit processes.
+	HP-UX processes start out with RLIMIT_DATA set based on the values
+	of the maxdsiz and maxdsiz_64bit kernel tunables, depending on
+	whether they are 32-bit or 64-bit. By default this limit is 1GB for
+	32-bit processes and 4GB for 64-bit. However, once RLIMIT_DATA is
+	changed, it does not appear to be possible to restore the old
+	values. This can result in a 64-bit process that is executed by a
+	32-bit shell getting the 32-bit RLIMIT_DATA instead of the 64-bit
+	one. Bug #973
+	[8778a27abfaf]
+
+2021-04-19  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* logsrvd/logsrvd_relay.c:
+	Don't use msg_len as a length after converting it to network byte
+	order.
+	[3f2496be1130]
+
+	* logsrvd/logsrvd.c, logsrvd/logsrvd.h, logsrvd/logsrvd_relay.c:
+	Use the packed message buffer when relaying if possible. There's no
+	need to rebuild the message buffer for anything but RestartMessage
+	and ClientHello.
+	[903fa50f48c9]
+
+2021-04-18  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* logsrvd/logsrvd.c, logsrvd/logsrvd.h, logsrvd/logsrvd_relay.c:
+	Allocate the data buffer in get_free_buf() too. We always know the
+	size of the data buffer we need at allocation time.
+	[c02dc245aa40]
+
+2021-04-17  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* logsrvd/logsrvd.c, logsrvd/logsrvd.h, logsrvd/logsrvd_relay.c:
+	Relay ChangeWindowSize and CommandSuspend events too.
+	[cb20a1de47e3]
+
+2021-04-16  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/python/pyhelpers.c, plugins/python/regress/testdata/check_ex
+	ample_debugging_c_calls@diag.log, plugins/python/regress/testdata/ch
+	eck_example_debugging_c_calls@info.log, plugins/python/regress/testd
+	ata/check_example_group_plugin_is_able_to_debug.log:
+	Regenerate test output with python 3.10a7 Also adjust debug tests so
+	they pass on older python versions
+	[03aeda971872]
+
+	* configure, m4/python.m4:
+	determine Python (3.10) version number correctly. from upstream
+	automake
+	[1f4136509aca]
+
+	* MANIFEST, aclocal.m4, m4/python.m4, m4/runlog.m4:
+	Move python.m4 and runlog.m4 to the m4 directory. Previously they
+	were inline in aclocal.m4.
+	[6ec4c92539a7]
+
+2021-04-15  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* configure, configure.ac:
+	Add hiuxmpp where we have hpux for special cases. Also move the HP-
+	UX 11.00 pread(2) workaround into the section where pread(2) is
+	tested for, not before it.
+	[f6cc1820e0fb]
+
+	* etc/sudo-logsrvd.pp, etc/sudo-python.pp:
+	Only replace the last instance of "sudo" in example and doc dir.
+	Otherwise we end up with weird paths for a prefix like /opt/sudo.
+	[113bdf79f00f]
+
+2021-04-13  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* doc/sudoers.ldap.mdoc.in:
+	Fix lint warning.
+	[aa4a4f0b0da1]
+
+	* doc/sudo_logsrvd.man.in, doc/sudo_logsrvd.mdoc.in:
+	Mention relay mode and update TLS example.
+	[a50a23542c05]
+
+	* etc/sudo-logsrvd.pp, etc/sudo.pp:
+	If libssl_dep was not passed in, use ldd to determine its value.
+	Normally, mkpkg will figure this out, but if the user does "make
+	package" outside of the mkpkg script, libssl_dep will not be set.
+	[87329797daca]
+
+2021-04-12  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* INSTALL, configure, configure.ac, doc/UPGRADE:
+	Enable the use of OpenSSL if log client/server not disabled. This
+	adds a dependency on OpenSSL unless it is explicitly disabled
+	(--disable-openssl) or the sudo log client and server are disabled
+	(--disable-log-client and --disable-log-server).
+	[618f504240d2]
+
+2021-04-09  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* etc/codespell.skip:
+	configure aux scripts moved to the scripts directory
+	[1cfcbfd128ed]
+
+	* logsrvd/Makefile.in, logsrvd/logsrvd_conf.c:
+	Set logsrvd_config to NULL in logsrvd_conf_cleanup() after freeing
+	it. Fixes a double free in fuzz_logsrvd_conf (but not sudo_logsrvd
+	itself). Also fix linking fuzz_logsrvd_conf with OpenSSL.
+	[ad78729467d4]
+
+	* logsrvd/regress/corpus/seed/logsrvd_conf/logsrvd.conf.1,
+	logsrvd/regress/corpus/seed/logsrvd_conf/logsrvd.conf.2,
+	logsrvd/regress/corpus/seed/logsrvd_conf/logsrvd.conf.3,
+	logsrvd/regress/corpus/seed/logsrvd_conf/logsrvd.conf.4,
+	logsrvd/regress/corpus/seed/logsrvd_conf/logsrvd.conf.5,
+	logsrvd/regress/corpus/seed/logsrvd_conf/logsrvd.conf.6,
+	logsrvd/regress/fuzz/fuzz_logsrvd_conf.c,
+	logsrvd/regress/fuzz/fuzz_logsrvd_conf.dict:
+	Update sudo_logsrvd.conf fuzzer to match configuration changes.
+	[85ae32ce6f44]
+
+	* doc/sudo_logsrvd.conf.man.in, doc/sudo_logsrvd.conf.mdoc.in,
+	examples/sudo_logsrvd.conf:
+	Document relay configuration changes.
+	[d66eb842a6ef]
+
+2021-04-08  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* logsrvd/logsrvd.c, logsrvd/logsrvd.h, logsrvd/logsrvd_conf.c,
+	logsrvd/logsrvd_relay.c:
+	Move relay configuration into its own section and add TLS options.
+	TLS options in the relay section will be used if specified,
+	otherwise the TLS options from the server section are used.
+	[0695e9b9b067]
+
+	* logsrvd/logsrvd.c, logsrvd/logsrvd.h, logsrvd/logsrvd_conf.c,
+	logsrvd/logsrvd_relay.c:
+	Add "server" and "relay" to getters/callbacks specific to server and
+	relay.
+	[618b4fa5325c]
+
+	* logsrvd/logsrvd.c, logsrvd/logsrvd.h, logsrvd/logsrvd_conf.c,
+	logsrvd/logsrvd_relay.c:
+	Remove struct logsrvd_tls_config. Now that the SSL context is
+	initialized in logsrvd_conf.c there's no need to export TLS
+	configuration other than tls_check_peer.
+	[4fb0fdc417e1]
+
+	* logsrvd/logsrvd.c, logsrvd/logsrvd.h, logsrvd/logsrvd_conf.c,
+	logsrvd/logsrvd_relay.c:
+	No longer need struct logsrvd_tls_runtime, use SSL_CTX instead.
+	[61e0bdf1499d]
+
+	* logsrvd/logsrvd.c, logsrvd/logsrvd_conf.c:
+	Move allocation of the TLS context to logsrvd_conf_apply(). This way
+	we get certificate errors at configuration time, not after. It also
+	means that a change to the config file that renders the TLS settings
+	invalid will no longer cause the server to exit. The new config will
+	just be ignored as if there was a syntax error.
+	[352ecb58618f]
+
+	* logsrvd/tls_init.c:
+	Only initialize the SSL library once.
+	[e17215eec1d6]
+
+2021-04-07  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/timestamp.c:
+	Sanity check struct timespec in timestamp file. Coverity CID 220564
+	[68dfceeb105e]
+
+	* plugins/sudoers/timestamp.c:
+	Check lseek(fd, 0, SEEK_CUR) for -1 return value. Not actually
+	possible in practice. Coverity CID 220568.
+	[27105922d3be]
+
+	* src/net_ifs.c:
+	Check for NULL ifa->ifa_addr and ifa->ifa_netmask in both loops.
+	[373961966099]
+
+2021-04-06  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* src/net_ifs.c:
+	Plug memory leak on overflow; Coverity CID 220556
+	[86b71e5dec5c]
+
+	* logsrvd/logsrvd.c:
+	In schedule_commit_point() do not free the closure on error. It is
+	the caller's responsibility to free resources on error. Coverity CID
+	220557
+	[e6629496ab03]
+
+	* plugins/sudoers/pwutil.c,
+	plugins/sudoers/regress/fuzz/fuzz_sudoers.c:
+	Cast NULL terminator argument to char * when calling sudo_mkgrent().
+	Avoids a portability issue on systems where NULL is not a pointer.
+	[cdb9cf0ad2ea]
+
+	* logsrvd/tls_init.c:
+	Rename LOGSRVD_DEFAULT_CIPHER_LST13 to DEFAULT_CIPHER_LST13
+	[a5d7da05cf09]
+
+	* logsrvd/tls_client.c:
+	Include string.h for strerror(3) prototype.
+	[57f5cfe43a89]
+
+	* logsrvd/logsrvd_relay.c:
+	Move connect_relay_tls() so we don't need a prototype for it. Fixes
+	a warning when sudo is not configured to use OpenSSL.
+	[0c73cfebf32b]
+
+	* doc/sudo_logsrvd.conf.man.in, doc/sudo_logsrvd.conf.mdoc.in,
+	examples/sudo_logsrvd.conf:
+	Document relay and connect_timeout server settings.
+	[a101d54b451e]
+
+	* MANIFEST, logsrvd/Makefile.in, logsrvd/logsrv_util.h,
+	logsrvd/sendlog.c, logsrvd/sendlog.h, logsrvd/tls_client.c,
+	logsrvd/tls_common.h:
+	Move common TLS client code to tls_client.c and use it in sendlog.c.
+	[5334b6c4bef8]
+
+	* logsrvd/logsrvd.c, logsrvd/logsrvd.h, logsrvd/logsrvd_conf.c:
+	Rename listen_address -> server_address and add reference counting.
+	This will be used by the upcoming relay mode.
+	[f8ef9c83c3c8]
+
+	* logsrvd/logsrvd.c:
+	Try to send an error message to client for some client_msg_cb()
+	failures.
+	[0805636e8114]
+
+	* logsrvd/logsrvd.c:
+	Split most of server_commit_cb() out into schedule_commit_point().
+	This allows it to be used by the relay code too.
+	[c985c2f9e5d5]
+
+	* MANIFEST, logsrvd/Makefile.in, logsrvd/logsrvd.c, logsrvd/logsrvd.h,
+	logsrvd/logsrvd_conf.c, logsrvd/logsrvd_relay.c:
+	Add a relay mode to sudo_logsrvd where it forwards instead of
+	stores. Relay hosts are be specified in the server section of
+	sudo_logsrvd.conf.
+	[071c231e76a9]
+
+	* logsrvd/Makefile.in, logsrvd/logsrvd.h, logsrvd/logsrvd_relay.c,
+	logsrvd/sendlog.c, logsrvd/tls_common.h:
+	Add support for relaying to another sudo_logsrvd via TLS.
+	[c47397ce4098]
+
+	* MANIFEST, include/sudo_util.h, lib/util/Makefile.in,
+	lib/util/rcstr.c, lib/util/util.exp.in, plugins/sudoers/Makefile.in,
+	plugins/sudoers/alias.c, plugins/sudoers/check_aliases.c,
+	plugins/sudoers/cvtsudoers.c, plugins/sudoers/gram.c,
+	plugins/sudoers/gram.y, plugins/sudoers/ldap.c,
+	plugins/sudoers/ldap_util.c, plugins/sudoers/rcstr.c,
+	plugins/sudoers/sssd.c, plugins/sudoers/sudoers.h,
+	plugins/sudoers/toke.c, plugins/sudoers/toke.l,
+	plugins/sudoers/visudo.c:
+	Move reference-counted string code from sudoers to libsudo_util. It
+	will be used by sudo_logsrvd too.
+	[d228aaf9b6fa]
+
+	* logsrvd/logsrvd.h, logsrvd/logsrvd_conf.c, logsrvd/logsrvd_relay.c:
+	Add sa_host to struct server_address as a ref counted string. Also
+	convert sa_str to ref counted string.
+	[4e8abb84c11d]
+
+	* logsrvd/logsrvd_conf.c:
+	Don't allow a wildcard address for the relay parameter.
+	[4a80d18d025b]
+
+	* logsrvd/logsrvd.c, logsrvd/logsrvd.h, logsrvd/logsrvd_conf.c:
+	Add logsrvd_conf_cleanup() to free the conf data structures on exit.
+	There is no longer a need to do anything in shutdown_cb() other than
+	break out of the event loop.
+	[9e4d7456fb7a]
+
+	* src/tgetpass.c:
+	Set user group list when executing the askpass helper. Under normal
+	circumstances the existing group list will match the list fetched by
+	sudo. However, if sudo is executed by a process that has changed the
+	group list via setgroups(2) and "group_source" in sudo.conf is set
+	to "dynamic" it is possible for them to be different.
+
+	If group_source in sudo.conf is set to "dynamic" it is possible for
+	the group list
+	[2b1d4ffb9cf6]
+
+	* logsrvd/logsrv_util.h, logsrvd/logsrvd.c, logsrvd/logsrvd.h:
+	Use a tailq of write buffers instead of a single one per connection.
+	This allows us to queue up multiple messages for writing like the
+	sudoers client supports. Currently, each connection has its own free
+	list. In the future we may want a single free list with low and high
+	water marks.
+	[b5df1b4d79c7]
+
+	* configure.ac:
+	Increase autoconf minimum version to 2.70. Some of the macros
+	deprecated in 2.70 are required by older versions. For example,
+	AC_PROG_CC now does the work of AC_PROG_CC_STDC. Bug #972
+	[223a584b6241]
+
+	* MANIFEST, Makefile.in, config.guess, config.sub, configure,
+	configure.ac, doc/Makefile.in, examples/Makefile.in,
+	include/Makefile.in, install-sh, lib/util/Makefile.in,
+	lib/zlib/Makefile.in, logsrvd/Makefile.in, ltmain.sh,
+	plugins/audit_json/Makefile.in, plugins/group_file/Makefile.in,
+	plugins/python/Makefile.in, plugins/sample/Makefile.in,
+	plugins/sample_approval/Makefile.in, plugins/sudoers/Makefile.in,
+	plugins/system_group/Makefile.in, scripts/config.guess,
+	scripts/config.sub, scripts/install-sh, scripts/ltmain.sh,
+	src/Makefile.in:
+	Move autoconf auxiliary files to the scripts directory.
+	[5ea8182c11d9]
+
+2021-04-05  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* doc/sudoers.ldap.man.in, doc/sudoers.ldap.mdoc.in:
+	Document SUCCESS=return support in sudoers nsswitch.conf entries.
+	Based on a patch from Dennis Filder. Bug #971.
+	[1d631d1b6244]
+
+2021-04-01  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/audit.c:
+	Move log_server_accept() out from under the #ifdef
+	SUDOERS_LOG_CLIENT Fixes a link error when sudo is configured with
+	--disable-log-client.
+	[1bb7efdbddd5]
+
+2021-04-01  Radovan Sroka  <rsroka@redhat.com>
+
+	* src/selinux.c:
+	Removed depricated security_context_t
+
+	Signed-off-by: Radovan Sroka <rsroka@redhat.com>
+	[14aba55909fc]
+
+2021-03-31  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* logsrvd/sendlog.c:
+	Return NULL if init_tls_client_context() fails. Otherwise, we will
+	call SSL_new with a freed SSL context. Bug #970
+	[5fbadce88524]
+
+2021-03-30  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* src/parse_args.c:
+	Use separate getopt config for sudoedit. Avoids a problem where the
+	user gets an exclusive usage error message when using a sudo-
+	specific option. GitHub issue #95
+	[b6207568e50a]
+
+	* src/parse_args.c, src/sudo_usage.h.in:
+	Add -h and -V to sudoedit usage and customize help output for
+	sudoedit. Also add missing -B option to usage strings.
+	[0d8fa214f8c3]
+
+	* src/parse_args.c:
+	Don't report a usage error for "sudo -V". GitHub issue #95
+	[a18573251751]
+
+	* etc/sudo-logsrvd.pp, etc/sudo-python.pp, etc/sudo.pp:
+	Do not include parent directories in rpm and deb files. Fixes a
+	directory conflict with the AIX sudo rpm package. Other deb/rpm
+	packages were not affected because parent dirs are omitted for a
+	prefix of /usr.
+	[f7d8db9670bb]
+
+2021-03-29  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* src/net_ifs.c:
+	SCO OpenServer uses SIOCGIFANUM, not SIOCGIFNUM. On OpenServer,
+	SIOCGIFNUM is the number of network interfaces, not the number of
+	ifreq structs.
+	[a992ea37b071]
+
+2021-03-27  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* src/net_ifs.c:
+	Add support for HP-UX SIOCGLIFNUM and SIOCGLIFCONF ioctls. We need
+	to use both SIOCGIFCONF and SIOCGLIFCONF since SIOCGLIFCONF only
+	returns IPv6 addresses.
+	[7a53304872b9]
+
+2021-03-24  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* src/net_ifs.c:
+	Move get_net_ifs stub to the top and remove unused INET_ADDRSTRLEN
+	def.
+	[15bb7bc0ecb8]
+
+	* src/net_ifs.c:
+	No longer need ifr_tmp variable, just reuse ifr. Now that we store
+	the string version of the address before fetching the netmask we can
+	just re-use ifr. This simplifies things and is safer since if there
+	is space for the address there must also be space for the mask.
+	[89ade84d0a6d]
+
+	* src/net_ifs.c:
+	SCO OpenServer 5 returns a bogus value for SIOCGIFNUM. Gleaned from
+	sendmail.
+	[0616f2103f0b]
+
+	* src/net_ifs.c:
+	Use SIOCGSIZIFCONF or SIOCGIFNUM where available. Still falls back
+	to a loop if not but now maxes out at 2048 interfaces instead of
+	potentially looping forever.
+	[f19cd2f827d5]
+
+	* configure, configure.ac, src/net_ifs.c:
+	Remove support for obsolete ISC UNIX and MIPS RISC/OS systems. They
+	were getting in the way of net_its.c simplification.
+	[4e2b7ce2fb7b]
+
+2021-03-22  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* src/net_ifs.c:
+	Use SIOCGLIFCONF to get interface list where supported (Solaris).
+	HP-UX has a SIOCGLIFCONF but it is incompatible (and appears to only
+	return IPv6 addresses). Also add IPv6 support using SIOCGIFCONF
+	(probably AIX only) and make sure ifr_tmpbuf[] is properly aligned.
+	[d2eebba41618]
+
+	* MANIFEST, src/Makefile.in, src/regress/net_ifs/check_net_ifs.c:
+	Add simple regress check to display the network interfaces found.
+	[6c1a5a50056e]
+
+2021-03-19  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* INSTALL:
+	Suggest clang 11 or higher, some fuzzers may hang when used with
+	clang 10.
+	[abcf94949ca2]
+
+2021-03-18  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* MANIFEST, logsrvd/Makefile.in,
+	logsrvd/regress/fuzz/fuzz_logsrvd_conf.dict:
+	Add dictionary file for fuzz_logsrvd_conf.
+	[f9e154751a5f]
+
+	* Makefile.in, doc/Makefile.in, examples/Makefile.in,
+	include/Makefile.in, lib/eventlog/Makefile.in,
+	lib/fuzzstub/Makefile.in, lib/iolog/Makefile.in,
+	lib/logsrv/Makefile.in, lib/util/Makefile.in, lib/zlib/Makefile.in,
+	logsrvd/Makefile.in, plugins/audit_json/Makefile.in,
+	plugins/group_file/Makefile.in, plugins/python/Makefile.in,
+	plugins/sample/Makefile.in, plugins/sample_approval/Makefile.in,
+	plugins/sudoers/Makefile.in, plugins/system_group/Makefile.in,
+	src/Makefile.in:
+	Add a new "fuzz" target that executes the fuzzers for 8192 runs
+	each. To run indefinately, set FUZZ_RUNS=-1, e.g. "make FUZZ_RUNS=-1
+	fuzz"
+	[5fd3d7e9430f]
+
+	* MANIFEST, lib/iolog/Makefile.in,
+	lib/iolog/regress/corpus/log_json/id.json,
+	lib/iolog/regress/corpus/log_json/ls.json,
+	lib/iolog/regress/corpus/log_json/mailq.json,
+	lib/iolog/regress/corpus/log_json/make.json,
+	lib/iolog/regress/corpus/log_json/pkg_add.json,
+	lib/iolog/regress/corpus/log_json/pkg_delete.json,
+	lib/iolog/regress/corpus/log_json/printenv.json,
+	lib/iolog/regress/corpus/log_legacy/id.log,
+	lib/iolog/regress/corpus/log_legacy/ls.log,
+	lib/iolog/regress/corpus/log_legacy/mailq.log,
+	lib/iolog/regress/corpus/log_legacy/make.log,
+	lib/iolog/regress/corpus/log_legacy/pkg_add.log,
+	lib/iolog/regress/corpus/log_legacy/pkg_delete.log,
+	lib/iolog/regress/corpus/log_legacy/printenv.log,
+	lib/iolog/regress/corpus/seed/log_json/id.json,
+	lib/iolog/regress/corpus/seed/log_json/ls.json,
+	lib/iolog/regress/corpus/seed/log_json/mailq.json,
+	lib/iolog/regress/corpus/seed/log_json/make.json,
+	lib/iolog/regress/corpus/seed/log_json/pkg_add.json,
+	lib/iolog/regress/corpus/seed/log_json/pkg_delete.json,
+	lib/iolog/regress/corpus/seed/log_json/printenv.json,
+	lib/iolog/regress/corpus/seed/log_legacy/id.log,
+	lib/iolog/regress/corpus/seed/log_legacy/ls.log,
+	lib/iolog/regress/corpus/seed/log_legacy/mailq.log,
+	lib/iolog/regress/corpus/seed/log_legacy/make.log,
+	lib/iolog/regress/corpus/seed/log_legacy/pkg_add.log,
+	lib/iolog/regress/corpus/seed/log_legacy/pkg_delete.log,
+	lib/iolog/regress/corpus/seed/log_legacy/printenv.log,
+	lib/iolog/regress/corpus/seed/timing/timing.1,
+	lib/iolog/regress/corpus/seed/timing/timing.2,
+	lib/iolog/regress/corpus/seed/timing/timing.3,
+	lib/iolog/regress/corpus/seed/timing/timing.4,
+	lib/iolog/regress/corpus/timing/timing.1,
+	lib/iolog/regress/corpus/timing/timing.2,
+	lib/iolog/regress/corpus/timing/timing.3,
+	lib/iolog/regress/corpus/timing/timing.4, lib/util/Makefile.in,
+	lib/util/regress/corpus/seed/sudo_conf/sudo.conf.1,
+	lib/util/regress/corpus/seed/sudo_conf/sudo.conf.2,
+	lib/util/regress/corpus/seed/sudo_conf/sudo.conf.3,
+	lib/util/regress/corpus/sudo_conf/sudo.conf.1,
+	lib/util/regress/corpus/sudo_conf/sudo.conf.2,
+	lib/util/regress/corpus/sudo_conf/sudo.conf.3, logsrvd/Makefile.in,
+	logsrvd/regress/corpus/logsrvd_conf/logsrvd.conf.1,
+	logsrvd/regress/corpus/logsrvd_conf/logsrvd.conf.2,
+	logsrvd/regress/corpus/logsrvd_conf/logsrvd.conf.3,
+	logsrvd/regress/corpus/logsrvd_conf/logsrvd.conf.4,
+	logsrvd/regress/corpus/logsrvd_conf/logsrvd.conf.5,
+	logsrvd/regress/corpus/logsrvd_conf/logsrvd.conf.6,
+	logsrvd/regress/corpus/seed/logsrvd_conf/logsrvd.conf.1,
+	logsrvd/regress/corpus/seed/logsrvd_conf/logsrvd.conf.2,
+	logsrvd/regress/corpus/seed/logsrvd_conf/logsrvd.conf.3,
+	logsrvd/regress/corpus/seed/logsrvd_conf/logsrvd.conf.4,
+	logsrvd/regress/corpus/seed/logsrvd_conf/logsrvd.conf.5,
+	logsrvd/regress/corpus/seed/logsrvd_conf/logsrvd.conf.6,
+	plugins/sudoers/Makefile.in,
+	plugins/sudoers/regress/corpus/policy/policy.1,
+	plugins/sudoers/regress/corpus/policy/policy.2,
+	plugins/sudoers/regress/corpus/policy/policy.3,
+	plugins/sudoers/regress/corpus/policy/policy.4,
+	plugins/sudoers/regress/corpus/policy/policy.5,
+	plugins/sudoers/regress/corpus/seed/policy/policy.1,
+	plugins/sudoers/regress/corpus/seed/policy/policy.2,
+	plugins/sudoers/regress/corpus/seed/policy/policy.3,
+	plugins/sudoers/regress/corpus/seed/policy/policy.4,
+	plugins/sudoers/regress/corpus/seed/policy/policy.5:
+	Move corpus files to a seed subdirectory.
+	[ba6dd7f30d22]
+
+	* lib/fuzzstub/fuzzstub.c:
+	We can now rely on LLVMFuzzerTestOneInput to flush stdout.
+	[f20f353eeb87]
+
+	* plugins/sudoers/Makefile.in:
+	Fix fuzz_sudoers output comparison when fuzzing is enabled.
+	libFuzzer outputs additional info to stderr that our stub doesn't.
+	[49434e4eceaa]
+
+	* lib/iolog/regress/fuzz/fuzz_iolog_json.c,
+	lib/iolog/regress/fuzz/fuzz_iolog_legacy.c,
+	lib/iolog/regress/fuzz/fuzz_iolog_timing.c,
+	lib/util/regress/fuzz/fuzz_sudo_conf.c,
+	logsrvd/regress/fuzz/fuzz_logsrvd_conf.c,
+	plugins/sudoers/regress/fuzz/fuzz_policy.c,
+	plugins/sudoers/regress/fuzz/fuzz_sudoers.c,
+	plugins/sudoers/regress/fuzz/fuzz_sudoers_ldif.c:
+	Flush stdout before successful return from LLVMFuzzerTestOneInput().
+	Fixes a problem with diag lines from libFuzzer being interspersed
+	with test output.
+	[f0b701120128]
+
+	* configure, configure.ac:
+	Use --allow-multiple-definition to work around an issue with ld.lld.
+	For fuzz_policy we redefine getaddrinfo/freeaddrinfo to work around
+	a DNS timeout problem with name resolution and CIfuzz. However, this
+	causes a link failure when sanitizers are enabled on systems that
+	use ld.lld as their linker. Use a big hammer to avoid the link
+	error.
+	[2b9df5329c0e]
+
+	* MANIFEST, plugins/sudoers/Makefile.in,
+	plugins/sudoers/testsudoers.c, plugins/sudoers/testsudoers_pwutil.c,
+	plugins/sudoers/tsgetgrpw.c, plugins/sudoers/tsgetgrpw.h:
+	Do not redefine system group and passwd functions for testsudoers.
+	Instead, prefix the replacements with "testsudoers_" and use a
+	custom pwutil backend so they get used.
+	[6bfd2f8d01c0]
+
+	* Makefile.in, doc/Makefile.in, examples/Makefile.in,
+	include/Makefile.in, lib/eventlog/Makefile.in,
+	lib/fuzzstub/Makefile.in, lib/iolog/Makefile.in,
+	lib/logsrv/Makefile.in, lib/util/Makefile.in, lib/zlib/Makefile.in,
+	logsrvd/Makefile.in, plugins/audit_json/Makefile.in,
+	plugins/group_file/Makefile.in, plugins/python/Makefile.in,
+	plugins/sample/Makefile.in, plugins/sample_approval/Makefile.in,
+	plugins/sudoers/Makefile.in, plugins/system_group/Makefile.in,
+	src/Makefile.in:
+	Rename "fuzz" makefile target to "check-fuzzer". It's purpose is to
+	run the fuzzers are part of a normal "make check" to avoid bit rot,
+	not to perform a fuzzer run. The fuzz_logsrvd_conf fuzzer was not
+	wired up to "make check" previously.
+	[01c03ccfd3f0]
+
 2021-03-15  Todd C. Miller  <Todd.Miller@sudo.ws>
 
 	* .hgtags:
 	Added tag SUDO_1_9_6p1 for changeset 055f2a618604
-	[5376bc9e3b85] [tip] <1.9>
+	[5376bc9e3b85] <1.9>
 
 	* Merge sudo 1.9.6p1 from tip
 	[055f2a618604] [SUDO_1_9_6p1] <1.9>
@@ -41,6 +1033,12 @@
 	* NEWS:
 	Bug #968
 	[e08853fca88e]
+
+	* MANIFEST, logsrvd/Makefile.in, logsrvd/logsrvd.c, logsrvd/logsrvd.h,
+	logsrvd/sendlog.c, logsrvd/sendlog.h, logsrvd/tls_common.h,
+	logsrvd/tls_init.c:
+	Move common TLS initialization code to tls_init.c.
+	[118c7d41ad48]
 
 	* plugins/sudoers/po/ja.mo, plugins/sudoers/po/ja.po, po/tr.mo,
 	po/tr.po:
