@@ -1,8 +1,150 @@
+2021-06-11  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* Merge sudo 1.9.7p1 from tip
+	[d936a99e842d] [tip] <1.9>
+
+	* NEWS, configure, configure.ac:
+	Sudo 1.9.7p1
+	[29f478993ef3]
+
+2021-06-09  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/audit_json/audit_json.c:
+	Check arrays that are passed in for NULL before using them.
+	[925ba5b0f2cb]
+
+	* configure, configure.ac:
+	Disable nss_search()-based group lookups on HP-UX for now. There is
+	a crash when "group: compat" is used in /etc/nsswitch.conf that I
+	haven't been able to debug. Since HP-UX doesn't ship the appropriate
+	headers it is likely that there is a mismatch between
+	include/compat/nss_dbdefs.h and what HP actually uses.
+	[28b00005c785]
+
+2021-06-08  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* logsrvd/logsrvd.c, logsrvd/logsrvd.h:
+	Remove logsrvd closure ERROR state and use a boolean flag instead.
+	Fixes a bug where we would not insert a journal file that failed to
+	relay into the queue because its state was changed from CONNECTING
+	to ERROR after failing to connect.
+	[638285a4bedb]
+
+	* include/compat/nss_dbdefs.h, lib/util/getgrouplist.c:
+	Add NSS_TRYAGAIN and correct buflen in struct nss_XbyY_buf_t. Add
+	some function argument names. Also use struct nss_db_state * instead
+	of void * in nss_db_root_t. We don't define struct nss_db_state but
+	since it is a pointer all we need is a forward declaration.
+	[bc848fb97671]
+
+2021-06-07  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* lib/fuzzstub/fuzzstub.c, lib/iolog/Makefile.in,
+	lib/util/Makefile.in, logsrvd/Makefile.in:
+	Make sure we link with libsudo_util *after* libfuzzstub. This only
+	affects builds with a static libsudo_util. Also fix a warning on HP-
+	UX about main not being public.
+	[18ff1f108c4e]
+
+	* MANIFEST, lib/util/Makefile.in,
+	lib/util/regress/getgrouplist/getgids.c:
+	Add getgids utility to simular "id -G" using sudo_getgrouplist2()
+	[aed11065818d]
+
+	* lib/util/getgrouplist.c:
+	Make sure we don't read or write past the end of the group buffer.
+	We need to leave room for the terminating NULL in gr_mem. It is
+	possible for gbm->numgids > gbm->maxgids if we ran out of room.
+	[25a3ee849fd4]
+
+2021-06-04  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* lib/util/getgrouplist.c:
+	Add some debugging to sudo_getgrouplist2().
+	[4d79e92c8ee8]
+
+2021-06-02  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* src/load_plugins.c:
+	Fix some debug_decl typos and remove an unneeded cast.
+	[fafa91ac3def]
+
+	* plugins/sudoers/defaults.h:
+	T_TIMEOUT is not a bitwise flag so doesn't need to be a power of 2.
+	[66019af6d642]
+
+2021-05-28  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* src/load_plugins.c:
+	sudo_stat_plugin(): set errno but do not warn if plugin path too
+	long. The caller will display the warning (using errno) so there is
+	no need to do it twice.
+	[c8614b374a35]
+
+2021-05-26  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* doc/sudoreplay.man.in, doc/sudoreplay.mdoc.in:
+	sudoreplay does not parse sudoers to find the value of iolog_dir.
+	The default value for the I/O log directory is set at build time.
+	[3cf72612e992]
+
+	* plugins/sudoers/policy.c:
+	Fix group list ref leak in sudoers_policy_store_result() on error
+	path.
+	[34785448a275]
+
+2021-05-24  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/policy.c:
+	Update comment to match reality.
+	[ec3e0a40d1ec]
+
+2021-05-13  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* configure, configure.ac, scripts/ltmain.sh, src/Makefile.in:
+	Build sudo_noexec.so as a module on systems other then Darwin. On
+	Darwin, shared modules and shared libraries are not interchangable
+	and since we preload sudo_noexec.so via DYLD_INSERT_LIBRARIES it
+	must be a library, not a module. We must relax the requirement that
+	libraries begin with a "lib" prefix to work around this difference.
+	This does mean you must use sudo's libtool on Darwin (macOS) but
+	that is already a requirement on other systems (notably HP-UX and
+	SCO) due to a number of libtool patches we require that haven't be
+	accepted upstream. This is a different fix for PR #102.
+	[2e5454c56d3c]
+
+	* configure, configure.ac:
+	Use -Wno-deprecated-declarations on macOS This quiets warnings about
+	LDAP and audit libraries being deprecated. We will use them until
+	they are removed in a future version of macOS.
+	[6fbdf644865c]
+
+2021-05-12  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* scripts/mkpkg:
+	Use /usr/bin/cc on FreeBSD and macOS.
+	[7d6bcea0e544]
+
+	* plugins/sudoers/log_client.c:
+	Don't include errno in "unable to connect to log server" message.
+	There should be a more specific message, usually with an error
+	string, displayed earlier.
+	[e599f9b0fd1c]
+
+	* src/ttyname.c:
+	Fix compiler warning on FreeBSD.
+	[2c6fc866fb5b]
+
+	* lib/iolog/hostcheck.c:
+	Explicitly include netinet/in.h for struct sockaddr_in and
+	sockaddr+_in6. Fixes a compilation problem on FreeBSD.
+	[2277c8f37c34]
+
 2021-05-11  Todd C. Miller  <Todd.Miller@sudo.ws>
 
 	* .hgtags:
 	Added tag SUDO_1_9_7 for changeset f0ce54d4288c
-	[58968ec7a457] [tip] <1.9>
+	[58968ec7a457] <1.9>
 
 	* Merge sudo 1.9.7 from tip
 	[f0ce54d4288c] [SUDO_1_9_7] <1.9>
@@ -590,6 +732,21 @@
 	* src/net_ifs.c:
 	Check for NULL ifa->ifa_addr and ifa->ifa_netmask in both loops.
 	[373961966099]
+
+2021-04-07  Radovan Sroka  <rsroka@redhat.com>
+
+	* src/sudo_edit.c:
+	Fixed bad condition for sesh args
+
+	In selinux_edit_copy_tfiles() when there is only one file and the
+	open() fails then number of arguments is lower than expected. Sudo
+	should return error with or without "Defaults !sudoedit_checkdir"
+	set.
+
+	This was found with regression testing of CVE-2021-23240.
+
+	Signed-off-by: Radovan Sroka <rsroka@redhat.com>
+	[947ce862c0bf]
 
 2021-04-06  Todd C. Miller  <Todd.Miller@sudo.ws>
 
