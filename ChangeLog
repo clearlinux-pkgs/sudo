@@ -1,7 +1,110 @@
+2021-07-26  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* .hgtags:
+	Added tag SUDO_1_9_7p2 for changeset 590e06825ec4
+	[cf3865846c94] [tip] <1.9>
+
+	* configure, configure.ac:
+	Bump version to 1.9.7p2
+	[590e06825ec4] [SUDO_1_9_7p2] <1.9>
+
+	* NEWS:
+	Sudo 1.9.7p2
+	[c3bd2eb0d779] <1.9>
+
+	* config.h.in, configure, configure.ac, include/sudo_compat.h,
+	logsrvd/tls_client.c, logsrvd/tls_init.c,
+	plugins/sudoers/log_client.c:
+	Use TLS_method() instead of TLS_client_method() throughout. OpenSSL
+	returns an error for SSL_accept() if TLS_client_method() was used to
+	generate the context (LibreSSL doesn't care).
+
+	Prior to sudo 1.9.7, TLS_client_method() and TLS_server_method()
+	were used in the TLS client and server initialization code
+	respectively. This was refactored in sudo 1.9.7 to allow the code to
+	be shared. Bug #988
+	[f2bf4aca30d4] <1.9>
+
+	* plugins/sudoers/regress/fuzz/fuzz_policy.c:
+	Only replace getaddrinfo for
+	FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION. This works around an issue
+	on SCO which uses inline functions in the header files which call
+	the actual, versioned, library function.
+	[f010d83f0168] <1.9>
+
+2021-07-26  MertsA  <andrewmerts@gmail.com>
+
+	* src/utmp.c:
+	Rewind utmp file pointer after searching for entry (#108)
+
+	getutline() advances the file pointer until it matches or reaches
+	EOF. pututline() starts from the current position in utmp. This
+	rewinds the file pointer to the beginning to avoid allocating
+	additional spurious utmp entries.
+	[af1463026fd1] <1.9>
+
+2021-07-25  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* config.h.in, configure, configure.ac, include/sudo_compat.h:
+	Add configure check for va_copy instead of using #ifdef This
+	prevents the va_copy compat #define from being used if sudo_compat.h
+	is somehow included before stdarg.h.
+	[6d283753e47b] <1.9>
+
+2021-07-23  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* src/limits.c:
+	Avoid using RLIM_INFINITY for the nofile soft limit to prevent
+	closefrom_fallback() from closing too many file descriptors.
+	[edbcd5c82d4d] <1.9>
+
+2021-07-08  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/python/python_plugin_common.c:
+	Check that the python module we actually loaded is what we intended.
+	This is intended to provide a more useful error message if the user
+	defines a module which conflicts with a system python module. For
+	example, a module called test.py would conflicts with the system
+	python test module.
+	[345523b6e87d] <1.9>
+
+2021-06-26  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* src/sesh.c, src/sudo.c, src/sudo_edit.c:
+	Don't assume that the number of groups returned by getgroups() is
+	static. On systems where getgroups() returns results based on more
+	than just the per-process group vector in the kernel it is possible
+	for the number of groups to change in between invocations. Based on
+	GitHub PR #106 from Pierre-Olivier Martel.
+	[832fa2480024] <1.9>
+
+2021-06-21  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* lib/fuzzstub/fuzzstub.c:
+	Change ms from size_t to long. Avoids a spurious test failure on
+	Solaris 9
+	[5e204b959000] <1.9>
+
+	* plugins/sudoers/interfaces.c, src/net_ifs.c:
+	Move definition of INADDR_NONE from interfaces.c to net_ifs.c. Fixes
+	compilation on Solaris 9.
+	[d05bca21f145] <1.9>
+
+2021-06-16  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/audit_json/audit_json.c:
+	Make sure we store an octal number (like umask) as a string. JSON
+	doesn't (portably) support octal numbers with a leading zero.
+	[a0c8392f2f7a] <1.9>
+
 2021-06-11  Todd C. Miller  <Todd.Miller@sudo.ws>
 
+	* .hgtags:
+	Added tag SUDO_1_9_7p1 for changeset d936a99e842d
+	[9bc246c519f3] <1.9>
+
 	* Merge sudo 1.9.7p1 from tip
-	[d936a99e842d] [tip] <1.9>
+	[d936a99e842d] [SUDO_1_9_7p1] <1.9>
 
 	* NEWS, configure, configure.ac:
 	Sudo 1.9.7p1

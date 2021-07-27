@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xA9F4C021CEA470FB (Todd.Miller@sudo.ws)
 #
 Name     : sudo
-Version  : 1.9.7p1
-Release  : 78
-URL      : https://www.sudo.ws/dist/sudo-1.9.7p1.tar.gz
-Source0  : https://www.sudo.ws/dist/sudo-1.9.7p1.tar.gz
-Source1  : https://www.sudo.ws/dist/sudo-1.9.7p1.tar.gz.sig
+Version  : 1.9.7p2
+Release  : 79
+URL      : https://www.sudo.ws/dist/sudo-1.9.7p2.tar.gz
+Source0  : https://www.sudo.ws/dist/sudo-1.9.7p2.tar.gz
+Source1  : https://www.sudo.ws/dist/sudo-1.9.7p2.tar.gz.sig
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : ISC
@@ -110,8 +110,8 @@ setuid components for the sudo package.
 
 
 %prep
-%setup -q -n sudo-1.9.7p1
-cd %{_builddir}/sudo-1.9.7p1
+%setup -q -n sudo-1.9.7p2
+cd %{_builddir}/sudo-1.9.7p2
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -123,15 +123,15 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1623451906
+export SOURCE_DATE_EPOCH=1627407262
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -fzero-call-used-regs=used "
-export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -fzero-call-used-regs=used "
-export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -fzero-call-used-regs=used "
-export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -fzero-call-used-regs=used "
+export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=auto -fstack-protector-strong -fzero-call-used-regs=used "
+export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto -fstack-protector-strong -fzero-call-used-regs=used "
+export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto -fstack-protector-strong -fzero-call-used-regs=used "
+export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=auto -fstack-protector-strong -fzero-call-used-regs=used "
 %configure --disable-static --with-pam \
 --with-env-editor \
 --with-ignore-dot \
@@ -147,7 +147,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make check || :
 
 %install
-export SOURCE_DATE_EPOCH=1623451906
+export SOURCE_DATE_EPOCH=1627407262
 rm -rf %{buildroot}
 %make_install INSTALL_OWNER=""
 %find_lang sudo
