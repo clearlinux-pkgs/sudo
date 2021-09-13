@@ -22,7 +22,7 @@ index 73d7692..993108e 100644
  file or, optionally in LDAP.
  The policy format is described in detail in the
  \fISUDOERS FILE FORMAT\fR
-@@ -2669,14 +2669,14 @@ by default.
+@@ -2710,14 +2710,14 @@ by default.
  .TP 18n
  ignore_local_sudoers
  If set via LDAP, parsing of
@@ -40,7 +40,7 @@ index 73d7692..993108e 100644
  does not even need to exist.
  Since this flag tells
  \fBsudo\fR
-@@ -5141,7 +5141,7 @@ will log a message and, in most cases, send a message to the
+@@ -5299,7 +5299,7 @@ will log a message and, in most cases, send a message to the
  administrator via email.
  Possible errors include:
  .TP 3n
@@ -49,7 +49,7 @@ index 73d7692..993108e 100644
  \fBsudoers\fR
  encountered an error when parsing the specified file.
  In some cases, the actual error may be one line above or below the
-@@ -5163,7 +5163,7 @@ The time stamp directory owner, as specified by the
+@@ -5321,7 +5321,7 @@ The time stamp directory owner, as specified by the
  \fItimestampowner\fR
  setting, could not be found in the password database.
  .TP 3n
@@ -58,7 +58,7 @@ index 73d7692..993108e 100644
  The
  \fIsudoers\fR
  file could not be opened for reading.
-@@ -5177,7 +5177,7 @@ tries to open the
+@@ -5335,7 +5335,7 @@ tries to open the
  \fIsudoers\fR
  file using group permissions to avoid this problem.
  Consider either changing the ownership of
@@ -67,7 +67,7 @@ index 73d7692..993108e 100644
  or adding an argument like
  \(lqsudoers_uid=N\(rq
  (where
-@@ -5191,17 +5191,17 @@ line in the
+@@ -5349,17 +5349,17 @@ line in the
  sudo.conf(@mansectform@)
  file.
  .TP 3n
@@ -90,7 +90,7 @@ index 73d7692..993108e 100644
  The
  \fIsudoers\fR
  file has the wrong owner.
-@@ -5220,7 +5220,7 @@ line in the
+@@ -5378,7 +5378,7 @@ line in the
  sudo.conf(@mansectform@)
  file.
  .TP 3n
@@ -99,7 +99,7 @@ index 73d7692..993108e 100644
  The permissions on the
  \fIsudoers\fR
  file allow all users to write to it.
-@@ -5237,7 +5237,7 @@ line in the
+@@ -5395,7 +5395,7 @@ line in the
  sudo.conf(@mansectform@)
  file.
  .TP 3n
@@ -108,7 +108,7 @@ index 73d7692..993108e 100644
  The
  \fIsudoers\fR
  file has the wrong group ownership.
-@@ -5588,7 +5588,7 @@ will truncate and re-use any existing I/O logs.
+@@ -5746,7 +5746,7 @@ will truncate and re-use any existing I/O logs.
  \fI@sysconfdir@/sudo.conf\fR
  Sudo front end configuration
  .TP 26n

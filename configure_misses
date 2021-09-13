@@ -1,11 +1,9 @@
 Configure miss: arc4random
-Configure miss: closefrom
 Configure miss: exect
 Configure miss: execvP
 Configure miss: freezero
 Configure miss: getutsid
 Configure miss: netgroup.h
-Configure miss: openpty
 Configure miss: procfs.h
 Configure miss: pw_dup
 Configure miss: sendmail
@@ -24,6 +22,5 @@ Configure miss: sysctl
 Configure miss: time zone data directory
 Configure miss: utmps.h
 Configure miss: vi
-Configure miss: whether F_CLOSEM is declared
 Configure miss: whether putenv takes a const argument
 Configure miss: whether unsetenv returns void

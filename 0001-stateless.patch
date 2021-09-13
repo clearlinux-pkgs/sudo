@@ -38,7 +38,7 @@ index f2bb38e..6003a9b 100644
  
  # User and group ids the installed files should be "owned" by
  install_uid = 0
-@@ -514,9 +514,7 @@ install-plugin: sudoers.la install-dirs
+@@ -573,9 +573,7 @@ install-plugin: sudoers.la install-dirs
  
  install-sudoers: install-dirs
  	$(INSTALL) -d $(INSTALL_OWNER) -m 0750 $(DESTDIR)$(sudoersdir)/sudoers.d
