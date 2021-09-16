@@ -1,8 +1,65 @@
+2021-09-16  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* .hgtags:
+	Added tag SUDO_1_9_8p1 for changeset feb396a0d60d
+	[e5f560a935fc] [tip] <1.9>
+
+	* configure, configure.ac:
+	Merge sudo 1.9.8p1 from tip
+	[feb396a0d60d] [SUDO_1_9_8p1] <1.9>
+
+	* NEWS:
+	Bug #994.
+	[14ea3a741b25]
+
+	* plugins/sudoers/ldap_util.c:
+	Always allocate a struct sudo_command for the command, even for ALL.
+	This was missed in the previous set of changes, resulting in a crash
+	for LDAP and SSSD rules that give sudo "ALL" privileges. Bug #994.
+	[91d0379b068a]
+
+	* plugins/sudoers/Makefile.in:
+	Add SUDOERS_LDFLAGS to FUZZ_LDFLAGS Fixes a fuzzer link error when
+	building with ldap if the ldap libs are not in the default library
+	search path.
+	[a450881f9763]
+
+	* configure, configure.ac:
+	Fix the OpenSSL link order for the non-pkg-config case. Since -lssl
+	depends on -lcrypto, -lcrypto must be listed after -lssl. Fixes
+	linking of non-dynamic OpenSSL libs.
+	[787724ab6e87]
+
+2021-09-15  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* NEWS, configure, configure.ac:
+	Sudo 1.9.8p1
+	[fc8c69d55348]
+
+	* src/sudo_intercept_common.c:
+	sudo_interposer_init: verify message type from sudo We should only
+	get a HelloResponse from sudo at this point.
+	[a021319260b3]
+
+	* include/intercept.pb-c.h, src/exec_intercept.c,
+	src/intercept.pb-c.c, src/intercept.proto,
+	src/sudo_intercept_common.c:
+	Avoid symbol name clash to fix --enable-static-sudoers linking.
+	[5cc5e415844f]
+
+2021-09-14  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/defaults.c, plugins/sudoers/policy.c:
+	append_defaults() should not be passed a value for boolean flags.
+	The operation should simply be set to true/false. Also treat a NULL
+	file as coming from the front-end. Bug #993.
+	[86e69d358916]
+
 2021-09-09  Todd C. Miller  <Todd.Miller@sudo.ws>
 
 	* .hgtags:
 	Added tag SUDO_1_9_8 for changeset e25cff5d148b
-	[4067d7a889fa] [tip] <1.9>
+	[4067d7a889fa] <1.9>
 
 	* config.h.in, configure, configure.ac, include/sudo_compat.h,
 	logsrvd/tls_init.c, plugins/sudoers/regress/fuzz/fuzz_policy.c:
