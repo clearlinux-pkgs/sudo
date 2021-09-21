@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xA9F4C021CEA470FB (Todd.Miller@sudo.ws)
 #
 Name     : sudo
-Version  : 1.9.8p1
-Release  : 81
-URL      : https://www.sudo.ws/dist/sudo-1.9.8p1.tar.gz
-Source0  : https://www.sudo.ws/dist/sudo-1.9.8p1.tar.gz
-Source1  : https://www.sudo.ws/dist/sudo-1.9.8p1.tar.gz.sig
+Version  : 1.9.8p2
+Release  : 82
+URL      : https://www.sudo.ws/dist/sudo-1.9.8p2.tar.gz
+Source0  : https://www.sudo.ws/dist/sudo-1.9.8p2.tar.gz
+Source1  : https://www.sudo.ws/dist/sudo-1.9.8p2.tar.gz.sig
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : BSD-3-Clause ISC
@@ -121,8 +121,8 @@ setuid components for the sudo package.
 
 
 %prep
-%setup -q -n sudo-1.9.8p1
-cd %{_builddir}/sudo-1.9.8p1
+%setup -q -n sudo-1.9.8p2
+cd %{_builddir}/sudo-1.9.8p2
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -134,7 +134,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1631822719
+export SOURCE_DATE_EPOCH=1632244110
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -158,10 +158,10 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make check || :
 
 %install
-export SOURCE_DATE_EPOCH=1631822719
+export SOURCE_DATE_EPOCH=1632244110
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/sudo
-cp %{_builddir}/sudo-1.9.8p1/doc/LICENSE %{buildroot}/usr/share/package-licenses/sudo/18d9ac4e949447f20a0c2f874d47b769800e506b
+cp %{_builddir}/sudo-1.9.8p2/doc/LICENSE %{buildroot}/usr/share/package-licenses/sudo/18d9ac4e949447f20a0c2f874d47b769800e506b
 %make_install INSTALL_OWNER=""
 %find_lang sudo
 %find_lang sudoers

@@ -1,8 +1,48 @@
+2021-09-20  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* .hgtags:
+	Added tag SUDO_1_9_8p2 for changeset 9edebc604c58
+	[67357c8687d3] [tip] <1.9>
+
+	* NEWS, configure, configure.ac:
+	Sudo 1.9.8p2
+	[9edebc604c58] [SUDO_1_9_8p2] <1.9>
+
+	* logsrvd/logsrvd_journal.c:
+	Reuse existing journal file for an accepted/rejected sub-command.
+	Otherwise we end up with zero-length files in the incoming queue dir
+	and may end up relaying one of those instead of the actual journal
+	file.
+	[4789371a43f3] <1.9>
+
+	* plugins/sudoers/auth/pam.c:
+	Don't re-initialize PAM for sub-commands.
+	[41d7d61e4ac5] <1.9>
+
+	* logsrvd/logsrvd_local.c:
+	sudo_logsrvd: only send log ID for first command of a session There
+	is no need to send the log ID for each sub-command.
+	[e21b40af74f2] <1.9>
+
+	* plugins/sudoers/log_client.c:
+	Only store the first log id received from the server. Plugs a small
+	memory leak in intercept mode if the log server sends the log ID
+	again for sub-commands.
+	[e20563f3e152] <1.9>
+
+2021-09-19  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/sudoers.c:
+	sudo -i: missing NULL terminator when moving argv to make room for
+	--login Fixes a potential crash for "sudo -i" when the target user
+	has bash as the shell (which needs the --login option). Bug #998.
+	[32644aae1eab] <1.9>
+
 2021-09-16  Todd C. Miller  <Todd.Miller@sudo.ws>
 
 	* .hgtags:
 	Added tag SUDO_1_9_8p1 for changeset feb396a0d60d
-	[e5f560a935fc] [tip] <1.9>
+	[e5f560a935fc] <1.9>
 
 	* configure, configure.ac:
 	Merge sudo 1.9.8p1 from tip
