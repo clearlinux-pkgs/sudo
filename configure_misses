@@ -1,3 +1,4 @@
+Configure miss: SSL_CTX_set0_tmp_dh_pkey
 Configure miss: arc4random
 Configure miss: exect
 Configure miss: execvP
@@ -18,6 +19,7 @@ Configure miss: struct tm.tm_gmtoff
 Configure miss: struct utmpx.ut_exit.__e_termination
 Configure miss: sys/bsdtypes.h
 Configure miss: sys/stropts.h
+Configure miss: sys/sysctl.h
 Configure miss: sysctl
 Configure miss: time zone data directory
 Configure miss: utmps.h

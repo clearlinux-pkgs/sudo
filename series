@@ -1,5 +1,5 @@
 0001-stateless.patch
 0002-Add-read-only-sudoers.d-dir.patch
 0003-visudo-Use-sane-default-file.patch
-0004-man-pages-add-stateless-locations.patch
+#0004-man-pages-add-stateless-locations.patch
 0005-keep-proxy-settings-environment-variables.patch
