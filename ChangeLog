@@ -1,8 +1,835 @@
+2022-03-03  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* .hgtags:
+	Added tag SUDO_1_9_10 for changeset 3557db693da4
+	[edcb9bf4d4c3] [tip] <1.9>
+
+	* NEWS, config.h.in, configure, configure.ac, include/sudo_compat.h,
+	plugins/sudoers/regress/fuzz/fuzz_policy.c:
+	Merge sudo 1.9.10 from tip.
+	[3557db693da4] [SUDO_1_9_10] <1.9>
+
+	* lib/eventlog/Makefile.in, lib/iolog/Makefile.in,
+	lib/util/Makefile.in, logsrvd/Makefile.in,
+	plugins/python/Makefile.in, plugins/sudoers/Makefile.in,
+	src/Makefile.in:
+	For 'make check-verbose' run fuzzers with -verbose=1 This is the
+	default for libFuzzer but not for the stub fuzzer lib.
+	[7f2551a87c08]
+
+2022-03-02  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* INSTALL.md:
+	INSTALL.md: Mention "make check" and "make check-verbose"
+	[17a30e329ba7]
+
+	* scripts/generate_test_coverage.sh:
+	Repair generate_test_coverage.sh after move to scripts directory.
+	[ffef93da0436]
+
+	* Makefile.in, docs/Makefile.in, examples/Makefile.in,
+	include/Makefile.in, lib/eventlog/Makefile.in,
+	lib/fuzzstub/Makefile.in, lib/iolog/Makefile.in,
+	lib/logsrv/Makefile.in, lib/protobuf-c/Makefile.in,
+	lib/util/Makefile.in, lib/zlib/Makefile.in, logsrvd/Makefile.in,
+	plugins/audit_json/Makefile.in, plugins/group_file/Makefile.in,
+	plugins/python/Makefile.in, plugins/sample/Makefile.in,
+	plugins/sample_approval/Makefile.in, plugins/sudoers/Makefile.in,
+	plugins/system_group/Makefile.in, src/Makefile.in:
+	Add check-verbose Makefile target that runs tests in verbose mode.
+	[929d079dbfc7]
+
+	* lib/eventlog/regress/logwrap/check_wrap.c,
+	lib/iolog/regress/host_port/host_port_test.c,
+	lib/iolog/regress/iolog_filter/check_iolog_filter.c,
+	lib/iolog/regress/iolog_json/check_iolog_json.c,
+	lib/iolog/regress/iolog_mkpath/check_iolog_mkpath.c,
+	lib/iolog/regress/iolog_path/check_iolog_path.c,
+	lib/iolog/regress/iolog_timing/check_iolog_timing.c,
+	lib/util/regress/closefrom/closefrom_test.c,
+	lib/util/regress/fnmatch/fnm_test.c,
+	lib/util/regress/getdelim/getdelim_test.c,
+	lib/util/regress/getgrouplist/getgids.c,
+	lib/util/regress/getgrouplist/getgrouplist_test.c,
+	lib/util/regress/glob/globtest.c,
+	lib/util/regress/mktemp/mktemp_test.c,
+	lib/util/regress/parse_gids/parse_gids_test.c,
+	lib/util/regress/progname/progname_test.c,
+	lib/util/regress/strsig/strsig_test.c,
+	lib/util/regress/strsplit/strsplit_test.c,
+	lib/util/regress/strtofoo/strtobool_test.c,
+	lib/util/regress/strtofoo/strtoid_test.c,
+	lib/util/regress/strtofoo/strtomode_test.c,
+	lib/util/regress/strtofoo/strtonum_test.c,
+	lib/util/regress/sudo_conf/conf_test.c,
+	lib/util/regress/sudo_parseln/parseln_test.c,
+	lib/util/regress/tailq/hltq_test.c,
+	lib/util/regress/uuid/uuid_test.c:
+	Add -v option parsing to regress tests, currently a no-op. This will
+	be used by a "check-verbose" target in the future.
+	[9cdcc23e6a70]
+
+2022-03-01  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/python/regress/check_python_examples.c,
+	plugins/python/regress/testhelpers.h:
+	Less verbose output unless the -v option is used. Also display a
+	test summary at the end.
+	[b18a8f6526e9]
+
+	* src/regress/net_ifs/check_net_ifs.c,
+	src/regress/noexec/check_noexec.c,
+	src/regress/ttyname/check_ttyname.c:
+	verbose flag is boolean, not int
+	[8663ac48be27]
+
+	* configure.ac:
+	Update copyright year.
+	[461698b72a64]
+
+	* plugins/sudoers/Makefile.in, src/Makefile.in:
+	Regenerate dependencies.
+	[f007ec225986]
+
+	* MANIFEST, configure, configure.ac, lib/util/Makefile.in,
+	lib/util/regress/closefrom/closefrom_test.c:
+	Add sudo_closefrom() regression test.
+	[14f4439a8437]
+
+	* NEWS, config.h.in, configure, configure.ac, lib/util/closefrom.c:
+	Use close_range(2) in closefrom() emulation if available. On Linux,
+	prefer our own closefrom() emulation since the glibc version may
+	fail if /proc is not present and close_range() is not supported. On
+	FreeBSD, closefrom(3) will either call the closefrom or close_range
+	system call, depending on which is available.
+	[d84eff07783f]
+
+	* configure, configure.ac:
+	Repair --enable-pvs-studio on Linux.
+	[add3c7fff7f5]
+
+	* configure, configure.ac:
+	Mention apple radar 3710161 in the comment about broken macOS
+	poll(2).
+	[ffb6c8c070dc]
+
+2022-02-28  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* src/regress/net_ifs/check_net_ifs.c,
+	src/regress/noexec/check_noexec.c,
+	src/regress/ttyname/check_ttyname.c:
+	Only display test totals unless run in verbose mode.
+	[f543b41f226e]
+
+	* lib/util/regress/harness.in, plugins/sudoers/regress/harness.in:
+	Allow test harness to be run from any directory. Also add missing
+	copyright notice.
+	[5e60bc5beb52]
+
+	* lib/util/regress/harness.in:
+	Adapt test harness for lib/util and move to regress directory.
+	[f415d958bca7]
+
+	* .gitignore, .hgignore, MANIFEST, configure, configure.ac,
+	lib/util/Makefile.in, plugins/sudoers/Makefile.in,
+	plugins/sudoers/harness.in, plugins/sudoers/regress/harness.in:
+	Adapt test harness for lib/util and move to regress directory.
+	[5f488712f797]
+
+	* lib/fuzzstub/fuzzstub.c:
+	Make fuzzer stub main() quiet by default. LLVM LibFuzzer displays
+	the input and running time by default but we don't care about that
+	for the stub fuzzer library.
+	[728005c2de78]
+
+	* .gitignore, .hgignore, MANIFEST, configure, configure.ac,
+	plugins/sudoers/Makefile.in, plugins/sudoers/harness.in:
+	Move the cvtsudoers/sudoers/testsudoers/visudo tests into a script.
+	It is easier to maintain these tests in script form. The output now
+	more closely matches that of the other tests. The harness script can
+	be invoked directly and supports running specific tests.
+	[fbad6e93201e]
+
+2022-02-27  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/po/fi.mo, plugins/sudoers/po/fi.po:
+	Updated translations from translationproject.org
+	[b2622a56fcbc]
+
+2022-02-25  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* logsrvd/regress/fuzz/fuzz_logsrvd_conf.c:
+	sudo_regex_compile_v1 stub: set errstr on error
+	[2da61535e60d]
+
+	* logsrvd/Makefile.in, logsrvd/regress/fuzz/fuzz_logsrvd_conf.c:
+	fuzz_logsrvd_conf: add stub version of sudo_regex_compile_v1(). We
+	want to fuzz our parser, not the libc regular expression code.
+	[2662a181acc8]
+
+	* plugins/sudoers/regress/testsudoers/test18.out.ok,
+	plugins/sudoers/regress/testsudoers/test18.sh:
+	testsudoers/test18: don't rely on /usr/bin/w being present Fixes a
+	test failure on Alpine Linux.
+	[5b3915cef32b]
+
+2022-02-24  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* configure, configure.ac:
+	Add configure check for gzclearerr() when using system zlib.
+	[388dd60cd577]
+
+	* configure, configure.ac:
+	Fix PVS-Studio platform check for macOS.
+	[cc46ae5d60a3]
+
+	* plugins/sudoers/ldap.c:
+	sudo_ldap_parse_options: fix memory leak of sudoRole cn string.
+	Coverity CID 249976
+	[bcf86c362e05]
+
+	* src/sudo_intercept_common.c:
+	command_allowed: plug memory leak on strdup() failure. Coverity CID
+	249972
+	[f15a58ed68d6]
+
+2022-02-23  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/check.c:
+	display_lecture: just return if callback is NULL
+	[3e7352fbc28b]
+
+	* lib/eventlog/eventlog.c:
+	For alert messages it is possible for evlog to be NULL. Coverity CID
+	238641
+	[3e89523699fd]
+
+	* logsrvd/logsrv_util.c:
+	iolog_seekto: initialize struct timing_closure before using.
+	Coverity CID 249977
+	[ea53680a2367]
+
+	* logsrvd/iolog_writer.c:
+	iolog_rewrite: initialize struct timing_closure before using.
+	Coverity CID 249971
+	[d214237f3ce8]
+
+	* scripts/mkpkg:
+	Allow ARCH_FLAGS to be overridden and handle macOS 12.
+	[f04f3405fa50]
+
+	* scripts/mkpkg:
+	Prefer if [ ... ]; then over if test ...; then.
+	[4ba3e6ed7280]
+
+	* .circleci/config.yml:
+	Do not build with -Werror on macOS. Some macOS warnings are bogus,
+	for instance it has an incorrect getgrouplist(3) definition.
+	[7e5f469cb0ec]
+
+	* .circleci/config.yml:
+	Build and test macos with circleci.
+	[fc62dc986646]
+
+2022-02-22  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* NEWS:
+	Mention lecture behavior change.
+	[cc034a54eb11]
+
+	* lib/iolog/regress/iolog_filter/check_iolog_filter.c:
+	Fix compilation on systems without a real openat(2).
+	[25067ad6772b]
+
+	* plugins/sudoers/match_digest.c:
+	Better warning message when the digest in sudoers is the wrong
+	length.
+	[c2043906f356]
+
+	* lib/iolog/regress/fuzz/fuzz_iolog_json.c,
+	lib/iolog/regress/fuzz/fuzz_iolog_legacy.c,
+	lib/iolog/regress/fuzz/fuzz_iolog_timing.c,
+	lib/util/regress/fuzz/fuzz_sudo_conf.c,
+	logsrvd/regress/fuzz/fuzz_logsrvd_conf.c,
+	plugins/sudoers/regress/fuzz/fuzz_policy.c,
+	plugins/sudoers/regress/fuzz/fuzz_sudoers.c,
+	plugins/sudoers/regress/fuzz/fuzz_sudoers_ldif.c:
+	Do not disable fuzzer output if SUDO_FUZZ_VERBOSE env variable is
+	set.
+	[fd3d5706ffda]
+
+2022-02-21  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/auth/afs.c, plugins/sudoers/auth/dce.c,
+	plugins/sudoers/auth/sudo_auth.c, plugins/sudoers/check.c,
+	plugins/sudoers/check.h, plugins/sudoers/timestamp.c:
+	Display the lecture immediately before prompting for a password.
+	This means we no longer display the lecture unless the user is going
+	to enter a password. Authentication methods that don't interact with
+	the user via the terminal don't trigger the lecture.
+	[17ef981664c3]
+
+	* NEWS, plugins/sudoers/logging.c:
+	Add back warning when a user is not allowed to run a command.
+	Previously, the warning was displayed when a user was not in the
+	sudoers file, or was present but not listed for the local host. The
+	new behavior is to display the warning if a command is denied and
+	mail is sent to the administrator. Whether or not mail is sent is
+	controlled by the "mail_*" flags in sudoers. The warning text is now
+	"This incident has been reported to the administrator." which is
+	hopefully less confusing. The message will not be printed if either
+	the "mailto" or "mailerpath" sudoers settings are disabled.
+	[dcaeadb7e558]
+
+	* docs/sudoers.man.in, docs/sudoers.mdoc.in:
+	Document that negating mailto or mailerpath disables sending mail.
+	[02d8aabd9af3]
+
+	* TODO:
+	Remove obsolete TODO file.
+	[98e112abab92]
+
+2022-02-20  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/logging.c:
+	Don't try to send mail if mailto not set or the mailer is not
+	present.
+	[37166e692a9c]
+
+2022-02-18  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/po/cs.mo, plugins/sudoers/po/cs.po,
+	plugins/sudoers/po/de.mo, plugins/sudoers/po/de.po,
+	plugins/sudoers/po/eo.mo, plugins/sudoers/po/eo.po,
+	plugins/sudoers/po/fr.mo, plugins/sudoers/po/fr.po,
+	plugins/sudoers/po/hr.mo, plugins/sudoers/po/hr.po,
+	plugins/sudoers/po/ja.mo, plugins/sudoers/po/ja.po,
+	plugins/sudoers/po/ko.mo, plugins/sudoers/po/ko.po,
+	plugins/sudoers/po/pl.mo, plugins/sudoers/po/pl.po,
+	plugins/sudoers/po/sr.mo, plugins/sudoers/po/sr.po,
+	plugins/sudoers/po/uk.mo, plugins/sudoers/po/uk.po,
+	plugins/sudoers/po/zh_CN.mo, plugins/sudoers/po/zh_CN.po,
+	plugins/sudoers/po/zh_TW.mo, plugins/sudoers/po/zh_TW.po, po/cs.mo,
+	po/cs.po, po/de.mo, po/de.po, po/eo.mo, po/eo.po, po/fi.mo,
+	po/fi.po, po/fr.mo, po/fr.po, po/hr.mo, po/hr.po, po/ja.mo,
+	po/ja.po, po/ko.mo, po/ko.po, po/pl.mo, po/pl.po, po/ro.mo,
+	po/ro.po, po/sr.mo, po/sr.po, po/uk.mo, po/uk.po, po/vi.mo,
+	po/vi.po, po/zh_CN.mo, po/zh_CN.po, po/zh_TW.mo, po/zh_TW.po:
+	Updated translations from translationproject.org
+	[194b42011062]
+
+	* MANIFEST, lib/iolog/Makefile.in,
+	lib/iolog/regress/iolog_filter/check_iolog_filter.c,
+	lib/iolog/regress/iolog_filter/test1/log,
+	lib/iolog/regress/iolog_filter/test1/timing,
+	lib/iolog/regress/iolog_filter/test1/ttyin,
+	lib/iolog/regress/iolog_filter/test1/ttyin.filtered,
+	lib/iolog/regress/iolog_filter/test1/ttyout,
+	lib/iolog/regress/iolog_filter/test2/log,
+	lib/iolog/regress/iolog_filter/test2/timing,
+	lib/iolog/regress/iolog_filter/test2/ttyin,
+	lib/iolog/regress/iolog_filter/test2/ttyin.filtered,
+	lib/iolog/regress/iolog_filter/test2/ttyout,
+	lib/iolog/regress/iolog_filter/test3/log,
+	lib/iolog/regress/iolog_filter/test3/timing,
+	lib/iolog/regress/iolog_filter/test3/ttyin,
+	lib/iolog/regress/iolog_filter/test3/ttyin.filtered,
+	lib/iolog/regress/iolog_filter/test3/ttyout:
+	Add tests for iolog filtering. This is the functionality used by the
+	log_passwords and passprompt_regex options.
+	[07e587dfd765]
+
+	* lib/iolog/iolog_filter.c:
+	iolog_pwfilt_run: apply regex on ttyout even if we disabled
+	filtering. The heuristic used to decide when to disable filtering is
+	when we see another ttyout buffer or find a cr or nl in the ttyin
+	buffer. However, we should also check the buffer that caused us to
+	disable filtering for a matching regex that would re-enable
+	filtering. Programs that prompt for a password twice might otherwise
+	not have the second password filtered.
+	[f34bf167c3b4]
+
+2022-02-16  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* INSTALL.md, README.LDAP.md, docs/TROUBLESHOOTING.md,
+	docs/UPGRADE.md, docs/sudo.conf.man.in, docs/sudo.conf.mdoc.in,
+	docs/sudo.man.in, docs/sudo.mdoc.in, docs/sudo_logsrv.proto.man.in,
+	docs/sudo_logsrv.proto.mdoc.in, docs/sudo_logsrvd.conf.man.in,
+	docs/sudo_logsrvd.conf.mdoc.in, docs/sudo_plugin.man.in,
+	docs/sudo_plugin.mdoc.in, docs/sudo_plugin_python.man.in,
+	docs/sudo_plugin_python.mdoc.in, docs/sudoers.ldap.man.in,
+	docs/sudoers.ldap.mdoc.in, docs/sudoers.man.in,
+	docs/sudoers.mdoc.in, docs/sudoreplay.man.in,
+	docs/sudoreplay.mdoc.in, docs/visudo.man.in, docs/visudo.mdoc.in,
+	examples/sudo_logsrvd.conf.in:
+	Avoid using "note that" and "note: " in documentation.
+	[d75995c86fe0]
+
+	* INSTALL.md, README.LDAP.md, README.md, docs/CONTRIBUTING.md,
+	docs/CONTRIBUTORS.md, docs/SECURITY.md, docs/TROUBLESHOOTING.md,
+	docs/UPGRADE.md, docs/cvtsudoers.man.in, docs/cvtsudoers.mdoc.in,
+	docs/sudo.conf.man.in, docs/sudo.conf.mdoc.in, docs/sudo.man.in,
+	docs/sudo.mdoc.in, docs/sudo_logsrv.proto.man.in,
+	docs/sudo_logsrv.proto.mdoc.in, docs/sudo_logsrvd.conf.man.in,
+	docs/sudo_logsrvd.conf.mdoc.in, docs/sudo_logsrvd.man.in,
+	docs/sudo_logsrvd.mdoc.in, docs/sudo_plugin.man.in,
+	docs/sudo_plugin.mdoc.in, docs/sudo_plugin_python.man.in,
+	docs/sudo_plugin_python.mdoc.in, docs/sudo_sendlog.man.in,
+	docs/sudo_sendlog.mdoc.in, docs/sudoers.ldap.man.in,
+	docs/sudoers.ldap.mdoc.in, docs/sudoers.man.in,
+	docs/sudoers.mdoc.in, docs/sudoers_timestamp.man.in,
+	docs/sudoers_timestamp.mdoc.in, docs/sudoreplay.man.in,
+	docs/sudoreplay.mdoc.in, docs/visudo.man.in, docs/visudo.mdoc.in:
+	Remove "please" from the documentation, it is considered bad style.
+	[9c4a7bc1b48c]
+
+	* docs/UPGRADE.md:
+	Mention regular expressions and "sudo -l -U user" behavior change.
+	[9bf947ed3e30]
+
+	* docs/sudoers.man.in, docs/sudoers.mdoc.in:
+	Add security notes about regular expressions in sudoers rules.
+	[1748e3a05906]
+
+	* NEWS:
+	Update NEWS for GitHub issue #134.
+	[c69636554901]
+
+2022-02-15  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* lib/eventlog/eventlog.c:
+	do_logfile_sudo: plug memory leak of full_line Coverity CID 249329
+	[d1d2bc51077a]
+
+	* plugins/sudoers/logging.c:
+	log_server_alert: plug potential memory leak Coverity CID 249328
+	[4d01a8e7dffb]
+
+	* plugins/sudoers/logging.c:
+	fmt_authfail_message: compute the exact amount of space needed.
+	Instead of truncating on overflow, warn and return NULL.
+	[96542ddc9674]
+
+	* plugins/sudoers/parse.c:
+	Fix potential NULL deref if getpwuid(0) fails. Coverity CID 249326
+	[23249273cd01]
+
+2022-02-14  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* docs/sudo.man.in, docs/sudo.mdoc.in, plugins/sudoers/parse.c,
+	plugins/sudoers/policy.c:
+	Restrict "sudo -U other -l" to users with sudo ALL for root or
+	"other". Having "sudo ALL" permissions in no longer sufficient to be
+	able to list another user's privileges. The invoking user must now
+	have "sudo ALL" for root or the target user. GitHub issue #134
+	[e2b4f8400599]
+
+2022-02-13  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* NEWS:
+	Reword some of the NEWS items for 1.9.10.
+	[b2d757e7889c]
+
+2022-02-12  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* docs/sudo_logsrvd.conf.man.in, docs/sudo_logsrvd.conf.mdoc.in,
+	docs/sudoers.man.in, docs/sudoers.mdoc.in, lib/util/regex.c,
+	po/sudo.pot:
+	Limit regular expressions to 1024 characters each. Avoids a problem
+	with the fuzzer creating large regular expressions that blow up the
+	glibc regcomp().
+	[83b1cac11c79]
+
+2022-02-11  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* .gitignore, .hgignore, MANIFEST, configure, configure.ac,
+	examples/Makefile.in, examples/sudo.conf.in, examples/syslog.conf,
+	examples/syslog.conf.in:
+	Substitute values in the example syslog.conf too. Also update ignore
+	files for example changes
+	[b13a7e6a630c]
+
+	* MANIFEST, configure, configure.ac, docs/sudo.conf.man.in,
+	docs/sudo.conf.mdoc.in, docs/sudo.man.in, docs/sudo.mdoc.in,
+	docs/sudo_logsrvd.conf.man.in, docs/sudo_logsrvd.conf.mdoc.in,
+	docs/sudo_plugin_python.man.in, docs/sudo_plugin_python.mdoc.in,
+	docs/sudoers.man.in, docs/sudoers.mdoc.in, examples/Makefile.in,
+	examples/sudo_logsrvd.conf, examples/sudo_logsrvd.conf.in,
+	examples/sudoers, examples/sudoers.in:
+	Substitute paths set by configure in examples. Bug #1023
+	[f528fe7a8f88]
+
+	* plugins/sudoers/po/sudoers.pot, po/sudo.pot:
+	Update Project-Id-Version to 1.9.10.
+	[0ad7934baa9f]
+
+	* plugins/sudoers/po/sudoers.pot:
+	Update .pot files for 1.9.10
+	[c7a477455e2e]
+
+	* NEWS, configure, configure.ac:
+	Sudo 1.9.10
+	[b437c4c37971]
+
+	* MANIFEST, docs/sudo_logsrvd.conf.man.in,
+	docs/sudo_logsrvd.conf.mdoc.in, docs/sudoers.man.in,
+	docs/sudoers.mdoc.in, include/sudo_util.h, lib/iolog/iolog_filter.c,
+	lib/util/Makefile.in, lib/util/regex.c, lib/util/util.exp.in,
+	plugins/sudoers/defaults.c, plugins/sudoers/match_command.c,
+	plugins/sudoers/regress/sudoers/test28.in,
+	plugins/sudoers/regress/sudoers/test28.json.ok,
+	plugins/sudoers/regress/sudoers/test28.ldif.ok,
+	plugins/sudoers/regress/sudoers/test28.ldif2sudo.ok,
+	plugins/sudoers/regress/sudoers/test28.out.ok,
+	plugins/sudoers/regress/sudoers/test28.toke.ok,
+	plugins/sudoers/sudoreplay.c, plugins/sudoers/toke.c,
+	plugins/sudoers/toke.h, plugins/sudoers/toke.l,
+	plugins/sudoers/toke_util.c:
+	Add helper function to compile a regex that supports (?i).
+	[d680d423d2df]
+
+2022-02-10  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* MANIFEST, configure, configure.ac, docs/sudoers.man.in,
+	docs/sudoers.mdoc.in, examples/sudoers,
+	plugins/sudoers/fmtsudoers.c, plugins/sudoers/match_command.c,
+	plugins/sudoers/parse.h, plugins/sudoers/regress/sudoers/test28.in,
+	plugins/sudoers/regress/sudoers/test28.json.ok,
+	plugins/sudoers/regress/sudoers/test28.ldif.ok,
+	plugins/sudoers/regress/sudoers/test28.ldif2sudo.ok,
+	plugins/sudoers/regress/sudoers/test28.out.ok,
+	plugins/sudoers/regress/sudoers/test28.toke.ok,
+	plugins/sudoers/regress/sudoers/test29.in,
+	plugins/sudoers/regress/sudoers/test29.json.ok,
+	plugins/sudoers/regress/sudoers/test29.ldif.ok,
+	plugins/sudoers/regress/sudoers/test29.out.ok,
+	plugins/sudoers/regress/sudoers/test29.toke.ok,
+	plugins/sudoers/regress/testsudoers/test18.out.ok,
+	plugins/sudoers/regress/testsudoers/test18.sh,
+	plugins/sudoers/toke.c, plugins/sudoers/toke.h,
+	plugins/sudoers/toke.l, plugins/sudoers/toke_util.c:
+	Add support for matching command and args using regular expressions.
+	Either the command, its arguments or both may be (separate) regular
+	expressions.
+	[bef0b1a14771]
+
+	* plugins/sudoers/gram.c, plugins/sudoers/gram.y:
+	Clear sudoers_errstr after it is used. This way we avoid printing
+	the same error message more than once if there are multiple ERROR
+	tokens returned from the lexer.
+	[8a7509cd1c46]
+
+	* logsrvd/logsrvd_local.c:
+	store_iobuf_local: fix potential double free on the error path.
+	[f9a0e3cb3c7f]
+
+	* docs/cvtsudoers.man.in, docs/cvtsudoers.mdoc.in,
+	docs/sudo.conf.man.in, docs/sudo.conf.mdoc.in, docs/sudo.man.in,
+	docs/sudo.mdoc.in, docs/sudo_logsrv.proto.man.in,
+	docs/sudo_logsrv.proto.mdoc.in, docs/sudo_logsrvd.conf.man.in,
+	docs/sudo_logsrvd.conf.mdoc.in, docs/sudo_logsrvd.man.in,
+	docs/sudo_logsrvd.mdoc.in, docs/sudo_plugin.man.in,
+	docs/sudo_plugin.mdoc.in, docs/sudo_plugin_python.man.in,
+	docs/sudo_plugin_python.mdoc.in, docs/sudo_sendlog.man.in,
+	docs/sudo_sendlog.mdoc.in, docs/sudoers.ldap.man.in,
+	docs/sudoers.ldap.mdoc.in, docs/sudoers.man.in,
+	docs/sudoers.mdoc.in, docs/sudoers_timestamp.man.in,
+	docs/sudoers_timestamp.mdoc.in, docs/sudoreplay.man.in,
+	docs/sudoreplay.mdoc.in, docs/visudo.man.in, docs/visudo.mdoc.in:
+	Update links to sudo web site and reference markdown docs.
+	[da9a9eb04f04]
+
+	* docs/cvtsudoers.man.in, docs/cvtsudoers.mdoc.in,
+	docs/sudo.conf.man.in, docs/sudo.conf.mdoc.in, docs/sudo.man.in,
+	docs/sudo.mdoc.in, docs/sudo_logsrvd.man.in,
+	docs/sudo_logsrvd.mdoc.in, docs/sudo_plugin_python.man.in,
+	docs/sudo_plugin_python.mdoc.in, docs/sudoers.man.in,
+	docs/sudoers.mdoc.in, docs/sudoreplay.man.in,
+	docs/sudoreplay.mdoc.in, docs/visudo.man.in, docs/visudo.mdoc.in:
+	Use a 4n indent for code blocks instead of the default 6n.
+	[7322dd26a3d4]
+
+	* plugins/sudoers/testsudoers.c:
+	testsudoers: disable argument permutation in GNU getopt This makes
+	it easier to test commands with arguments.
+	[fb005b03a75e]
+
+	* lib/iolog/iolog_filter.c:
+	iolog_pwfilt_run: fix types in error return
+	[663deea257d0]
+
+	* lib/iolog/iolog_filter.c, plugins/sudoers/iolog.c:
+	Free potential leaks of passprompt_regex_handle. Coverity CID 249057
+	[d562ea42ab66]
+
+2022-02-09  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* Merge pull request #133 from Dzejrou/main
+
+	Do not unset user timeout when no default timeout is set.
+	[58504381014e]
+
+2022-02-09  Jaroslav Jindrak  <dzejrou@gmail.com>
+
+	* plugins/sudoers/policy.c:
+	Do not unset user timeout when no default timeout is set.
+	[25f32be7d18d]
+
+2022-02-08  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/fmtsudoers.c, plugins/sudoers/parse.h,
+	plugins/sudoers/regress/sudoers/test2.in,
+	plugins/sudoers/regress/sudoers/test2.json.ok,
+	plugins/sudoers/regress/sudoers/test2.ldif.ok,
+	plugins/sudoers/regress/sudoers/test2.ldif2sudo.ok,
+	plugins/sudoers/regress/sudoers/test2.out.ok,
+	plugins/sudoers/regress/sudoers/test2.toke.ok:
+	Don't escape double quotes (") in a command when printing it.
+	Previously, cvtsudoers and "sudo -l" would escape double quotes in a
+	command or command line argument, which is not valid sudoers syntax.
+	[3bd0505b03e2]
+
+	* docs/sudoers.man.in, docs/sudoers.mdoc.in:
+	A few minor (mostly cosmetic) fixes. Add missing ALL to Runas_Member
+	and Host. Replace some tabs with spaces. Fix the syntax of a
+	sudoedit example.
+	[a943116eb35b]
+
+2022-02-04  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* Merge pull request #132 from ninedotnine/patch-1
+
+	Sync example sudoers with default sudoers
+	[8c903452e624]
+
+2022-02-04  dan soucy  <ninedotnine@users.noreply.github.com>
+
+	* examples/sudoers:
+	Sync example sudoers with default sudoers
+
+	`sudoers.in` was changed by 1d13533
+	[f34657ff9345]
+
+2022-02-04  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* ABOUT-NLS, INSTALL.md, NEWS, README.LDAP.md, docs/CONTRIBUTING.md,
+	plugins/sudoers/po/README, po/README:
+	Upgrade http links to https where possible and fix some broken
+	links.
+	[e33d61fdafdb]
+
+2022-02-03  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/logging.c:
+	Remove "This incident will be reported." from user warnings. This
+	used to indicate that email had been sent to the administrator
+	telling them that someone tried to run sudo. Whether or not sudo
+	sends email is now configurable, so the warning may not be accurate.
+	It is also confusing to the user since they will not know who the
+	incident is being reported to. See also https://xkcd.com/838/
+	[b2860bb51393]
+
+	* plugins/sudoers/sssd.c:
+	Log fn_get_values() return code in the debug log on error. Also move
+	a nested switch() statement out of 'case 0' for improved
+	readability.
+	[ad609804a70c]
+
+	* plugins/sudoers/sssd.c:
+	Do not return an error if we cannot connect to the SSSD connector.
+	This may simply mean that nsswitch.conf lists sss as a sudoers
+	source but SSSD is not configured for sudo. Otherwise, the user will
+	receive a useless "problem with defaults entries" when the sssd
+	backend tries to fetch the global defaults. Bug #1022.
+	[60bb147ed3e6]
+
+	* plugins/sudoers/log_client.c, plugins/sudoers/logging.c:
+	Set client_closure to NULL after freeing it.
+	[20da8f0c9226]
+
+	* plugins/sudoers/log_client.c:
+	client_closure_alloc: init write_bufs/free_bufs before other
+	allocations. We must initialize the tail queues before any possible
+	call to client_closure_free(), such as due to malloc() failure.
+	[5dd7d1ba2b76]
+
+	* logsrvd/logsrvd_journal.c:
+	Add missing default return in last commit.
+	[e17820ba6ff8]
+
+	* logsrvd/logsrvd_journal.c:
+	sudo_logsrvd: make sure journal exists before writing the alert
+	message. Fixes a potential NULL dereference when journaling an alert
+	message.
+	[19d109fb1420]
+
+	* include/sudo_compat.h:
+	Fix compilation on Debian kFreeBSD. The configure script correctly
+	detects that utimensat() and futimens() are missing but the headers
+	define stub versions of the functions. Including sys/stat.h pulls in
+	the system definitions so we can override them safely. Bug #1021.
+	[10775e14164a]
+
+2022-02-02  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* src/ttyname.c:
+	Add fallback if /proc/self/stat or /proc/pid/psinfo is missing or
+	invalid. If the /proc file indicates no terminal is present there is
+	no fallback. Bug #1020
+	[c32620c9f115]
+
+2022-02-01  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* docs/sudoers.man.in, docs/sudoers.mdoc.in, plugins/sudoers/check.c,
+	plugins/sudoers/def_data.c, plugins/sudoers/def_data.h,
+	plugins/sudoers/def_data.in, plugins/sudoers/defaults.c:
+	Add sudoers option to perform authentication even in non-interative
+	mode. If noninteractive_auth is set, authentication methods that do
+	not require input from the user's terminal may proceed. It is off by
+	default, which restores the pre-1.9.9 behavior of "sudo -n".
+	[f06dcd0957d0]
+
+	* MANIFEST, lib/iolog/iolog_filter.c,
+	logsrvd/regress/corpus/seed/logsrvd_conf/logsrvd.conf.7:
+	Work around a glibc regcomp() bug with repeated '+' operators. Glibc
+	regcomp() has a bug where it uses excessive memory for repeated '+'
+	ops. Collapse them to avoid running the fuzzer out of memory.
+	[db423326311f]
+
+	* logsrvd/regress/corpus/seed/logsrvd_conf/logsrvd.conf.1,
+	logsrvd/regress/corpus/seed/logsrvd_conf/logsrvd.conf.2,
+	logsrvd/regress/corpus/seed/logsrvd_conf/logsrvd.conf.3,
+	logsrvd/regress/corpus/seed/logsrvd_conf/logsrvd.conf.4,
+	logsrvd/regress/corpus/seed/logsrvd_conf/logsrvd.conf.5,
+	logsrvd/regress/corpus/seed/logsrvd_conf/logsrvd.conf.6:
+	Rebase seed corpus on updated sudo_logsrvd.conf example.
+	[1f30b95c6ce6]
+
+	* logsrvd/logsrvd_conf.c:
+	Fix parsing of "retry_interval" in the relay section. The setting
+	was present but the callback was missing so it could not be parsed
+	in the conf file.
+	[09666425a392]
+
+	* logsrvd/logsrvd_conf.c:
+	Use TIME_T_MAX as the upper limit when parsing timeouts.
+	[989eaa812d4e]
+
+	* plugins/sudoers/auth/pam.c:
+	converse: don't set response pointer on error Linux pam_conv(3) says
+	not to set the pointer on PAM_CONV_ERR.
+	[79934c8631c0]
+
+2022-01-31  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* MANIFEST, plugins/sudoers/regress/cvtsudoers/sudoers4:
+	Add missing sudoers4 test file for new cvtsudoers test.
+	[5b9f3084d9e9]
+
+	* MANIFEST, plugins/sudoers/cvtsudoers_merge.c,
+	plugins/sudoers/regress/cvtsudoers/test38.out.ok,
+	plugins/sudoers/regress/cvtsudoers/test38.sh:
+	defaults_check_conflict: it is only really a conflict if the binding
+	match If the Defaults name matched but the binding does not, we can
+	simply leave it be. Fixes a problem where given two sudoers sources
+	that have a host specified, if they contain conflicting Defaults
+	entries we would drop one of the Defaults instead of keeping both
+	after making them host-specific.
+	[9b8ad3d1e163]
+
+	* MANIFEST, plugins/sudoers/cvtsudoers_merge.c,
+	plugins/sudoers/regress/cvtsudoers/sudoers1,
+	plugins/sudoers/regress/cvtsudoers/sudoers2,
+	plugins/sudoers/regress/cvtsudoers/sudoers3,
+	plugins/sudoers/regress/cvtsudoers/test34.out.ok,
+	plugins/sudoers/regress/cvtsudoers/test34.sh,
+	plugins/sudoers/regress/cvtsudoers/test35.out.ok,
+	plugins/sudoers/regress/cvtsudoers/test35.sh,
+	plugins/sudoers/regress/cvtsudoers/test36.out.ok,
+	plugins/sudoers/regress/cvtsudoers/test36.sh,
+	plugins/sudoers/regress/cvtsudoers/test37.out.ok,
+	plugins/sudoers/regress/cvtsudoers/test37.sh:
+	Make it possible to merge a host-based Defaults with a global one.
+	We convert the global Defaults to a host-based one with a single
+	"ALL" member. Later, when we simplify the host list, we'll convert
+	this back to a global Defaults.
+	[152c16a608c1]
+
+2022-01-29  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* logsrvd/logsrvd_conf.c:
+	Check for garbage after [section] in sudo_logsrvd.conf.
+	[46a222b60747]
+
+	* logsrvd/regress/fuzz/fuzz_logsrvd_conf.dict,
+	plugins/sudoers/regress/fuzz/fuzz_sudoers.dict:
+	Sync fuzzing dictionary with current configuration keyword list.
+	[9af3929a2f6a]
+
+2022-01-28  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* docs/sudo_logsrvd.conf.man.in, docs/sudo_logsrvd.conf.mdoc.in,
+	examples/sudo_logsrvd.conf, logsrvd/logsrvd.h,
+	logsrvd/logsrvd_conf.c, logsrvd/logsrvd_local.c:
+	Add new log_passwords and passprompt_regex settings. When logging
+	terminal input, if log_passwords is false and any of the regular
+	expressions in the passprompt_regex list are found in the terminal
+	output, terminal input will be replaced with '*' characters until a
+	newline or carriage return is found in the input or an output
+	character is received.
+	[1d07eaada99c]
+
+	* MANIFEST, plugins/sudoers/Makefile.in, plugins/sudoers/iolog.c,
+	plugins/sudoers/policy.c,
+	plugins/sudoers/regress/serialize_list/check_serialize_list.c,
+	plugins/sudoers/regress/unescape/check_unesc.c,
+	plugins/sudoers/serialize_list.c, plugins/sudoers/sudoers.h,
+	plugins/sudoers/unesc_str.c:
+	Escape/unescape commas when serializing/deserializing a stringlist.
+	[17c422c0b236]
+
+	* plugins/sudoers/defaults.c, plugins/sudoers/defaults.h,
+	plugins/sudoers/group_plugin.c, plugins/sudoers/iolog.c,
+	plugins/sudoers/locale.c, plugins/sudoers/logging.h,
+	plugins/sudoers/regress/fuzz/fuzz_policy.c,
+	plugins/sudoers/sudoers.c, plugins/sudoers/sudoers.h,
+	plugins/sudoers/testsudoers.c:
+	Pass the operator to the Defaults callback too. That way we can tell
+	what to do in callbacks for lists.
+	[d541809b62bf]
+
+	* MANIFEST, include/sudo_iolog.h, lib/iolog/Makefile.in,
+	lib/iolog/iolog_filter.c:
+	lib/iolog: add support for filtering password out of tty input If a
+	password regex is found in the tty output, tty input will be
+	replaced with '*' chars until a newline or another tty output
+	character is received.
+	[19c3a58dfe29]
+
+	* docs/sudoers.man.in, docs/sudoers.mdoc.in,
+	plugins/sudoers/Makefile.in, plugins/sudoers/def_data.c,
+	plugins/sudoers/def_data.h, plugins/sudoers/def_data.in,
+	plugins/sudoers/defaults.c, plugins/sudoers/defaults.h,
+	plugins/sudoers/iolog.c, plugins/sudoers/policy.c,
+	plugins/sudoers/sudoers.c:
+	Add a new sudoers settings log_passwords and passprompt_regex. When
+	logging terminal input, if log_passwords is disabled and any of the
+	regular expressions in the passprompt_regex list are found in the
+	terminal output, terminal input will be replaced with '*' characters
+	until a newline or carriage return is found in the input or an
+	output character is received.
+	[5fa969cfdef4]
+
+	* plugins/sudoers/def_data.c, plugins/sudoers/def_data.in,
+	plugins/sudoers/defaults.c, plugins/sudoers/defaults.h:
+	Add a flag to avoid splitting list entries on white space.
+	[32ac4cd5eae7]
+
 2022-01-27  Todd C. Miller  <Todd.Miller@sudo.ws>
 
 	* .hgtags:
 	Added tag SUDO_1_9_9 for changeset 296f4f986a7a
-	[cba838829505] [tip] <1.9>
+	[cba838829505] <1.9>
 
 	* NEWS, config.h.in, configure, configure.ac, include/sudo_compat.h,
 	logsrvd/tls_init.c, plugins/sudoers/regress/fuzz/fuzz_policy.c:

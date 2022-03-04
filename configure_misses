@@ -24,5 +24,6 @@ Configure miss: sysctl
 Configure miss: time zone data directory
 Configure miss: utmps.h
 Configure miss: vi
+Configure miss: whether F_CLOSEM is declared
 Configure miss: whether putenv takes a const argument
 Configure miss: whether unsetenv returns void

@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xA9F4C021CEA470FB (Todd.Miller@sudo.ws)
 #
 Name     : sudo
-Version  : 1.9.9
-Release  : 83
-URL      : https://www.sudo.ws/dist/sudo-1.9.9.tar.gz
-Source0  : https://www.sudo.ws/dist/sudo-1.9.9.tar.gz
-Source1  : https://www.sudo.ws/dist/sudo-1.9.9.tar.gz.sig
+Version  : 1.9.10
+Release  : 84
+URL      : https://www.sudo.ws/dist/sudo-1.9.10.tar.gz
+Source0  : https://www.sudo.ws/dist/sudo-1.9.10.tar.gz
+Source1  : https://www.sudo.ws/dist/sudo-1.9.10.tar.gz.sig
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : ISC MIT
@@ -32,7 +32,7 @@ Patch4: 0005-keep-proxy-settings-environment-variables.patch
 
 %description
 NLS Translations for sudo are coordinated through the Translation
-Project, at http://translationproject.org/
+Project, at https://translationproject.org/
 
 %package bin
 Summary: bin components for the sudo package.
@@ -117,8 +117,8 @@ setuid components for the sudo package.
 
 
 %prep
-%setup -q -n sudo-1.9.9
-cd %{_builddir}/sudo-1.9.9
+%setup -q -n sudo-1.9.10
+cd %{_builddir}/sudo-1.9.10
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -129,7 +129,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1643395227
+export SOURCE_DATE_EPOCH=1646419396
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -153,10 +153,10 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make check || :
 
 %install
-export SOURCE_DATE_EPOCH=1643395227
+export SOURCE_DATE_EPOCH=1646419396
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/sudo
-cp %{_builddir}/sudo-1.9.9/LICENSE.md %{buildroot}/usr/share/package-licenses/sudo/95071ff033ffdf7b5f9ceb8258a6e16b01b2fcdc
+cp %{_builddir}/sudo-1.9.10/LICENSE.md %{buildroot}/usr/share/package-licenses/sudo/95071ff033ffdf7b5f9ceb8258a6e16b01b2fcdc
 %make_install INSTALL_OWNER=""
 %find_lang sudo
 %find_lang sudoers
