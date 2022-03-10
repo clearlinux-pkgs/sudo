@@ -3,3 +3,4 @@
 --with-ignore-dot
 --with-tty-tickets
 --with-editor=/usr/bin/vim:/usr/bin/vi:/usr/bin/nano
+--with-insults=disabled
