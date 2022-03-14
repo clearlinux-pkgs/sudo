@@ -6,7 +6,7 @@
 #
 Name     : sudo
 Version  : 1.9.10
-Release  : 84
+Release  : 85
 URL      : https://www.sudo.ws/dist/sudo-1.9.10.tar.gz
 Source0  : https://www.sudo.ws/dist/sudo-1.9.10.tar.gz
 Source1  : https://www.sudo.ws/dist/sudo-1.9.10.tar.gz.sig
@@ -129,7 +129,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1646419396
+export SOURCE_DATE_EPOCH=1647299924
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -142,7 +142,8 @@ export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=auto -fstack-protector-st
 --with-env-editor \
 --with-ignore-dot \
 --with-tty-tickets \
---with-editor=/usr/bin/vim:/usr/bin/vi:/usr/bin/nano
+--with-editor=/usr/bin/vim:/usr/bin/vi:/usr/bin/nano \
+--with-all-insults
 make  %{?_smp_mflags}
 
 %check
@@ -153,7 +154,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make check || :
 
 %install
-export SOURCE_DATE_EPOCH=1646419396
+export SOURCE_DATE_EPOCH=1647299924
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/sudo
 cp %{_builddir}/sudo-1.9.10/LICENSE.md %{buildroot}/usr/share/package-licenses/sudo/95071ff033ffdf7b5f9ceb8258a6e16b01b2fcdc
