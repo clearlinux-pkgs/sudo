@@ -27,3 +27,4 @@ Configure miss: vi
 Configure miss: whether F_CLOSEM is declared
 Configure miss: whether putenv takes a const argument
 Configure miss: whether unsetenv returns void
+Configure miss: x86_64-generic-linux-gnu-file

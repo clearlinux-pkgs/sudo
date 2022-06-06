@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xA9F4C021CEA470FB (Todd.Miller@sudo.ws)
 #
 Name     : sudo
-Version  : 1.9.10
-Release  : 85
-URL      : https://www.sudo.ws/dist/sudo-1.9.10.tar.gz
-Source0  : https://www.sudo.ws/dist/sudo-1.9.10.tar.gz
-Source1  : https://www.sudo.ws/dist/sudo-1.9.10.tar.gz.sig
+Version  : 1.9.11
+Release  : 86
+URL      : https://www.sudo.ws/dist/sudo-1.9.11.tar.gz
+Source0  : https://www.sudo.ws/dist/sudo-1.9.11.tar.gz
+Source1  : https://www.sudo.ws/dist/sudo-1.9.11.tar.gz.sig
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : ISC MIT
@@ -117,8 +117,8 @@ setuid components for the sudo package.
 
 
 %prep
-%setup -q -n sudo-1.9.10
-cd %{_builddir}/sudo-1.9.10
+%setup -q -n sudo-1.9.11
+cd %{_builddir}/sudo-1.9.11
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -129,7 +129,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1647299924
+export SOURCE_DATE_EPOCH=1654539332
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -154,10 +154,10 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make check || :
 
 %install
-export SOURCE_DATE_EPOCH=1647299924
+export SOURCE_DATE_EPOCH=1654539332
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/sudo
-cp %{_builddir}/sudo-1.9.10/LICENSE.md %{buildroot}/usr/share/package-licenses/sudo/95071ff033ffdf7b5f9ceb8258a6e16b01b2fcdc
+cp %{_builddir}/sudo-1.9.11/LICENSE.md %{buildroot}/usr/share/package-licenses/sudo/95071ff033ffdf7b5f9ceb8258a6e16b01b2fcdc
 %make_install INSTALL_OWNER=""
 %find_lang sudo
 %find_lang sudoers
@@ -212,11 +212,11 @@ rm -rfv %{buildroot}/etc
 /usr/share/man/man5/sudo.conf.5
 /usr/share/man/man5/sudo_logsrv.proto.5
 /usr/share/man/man5/sudo_logsrvd.conf.5
+/usr/share/man/man5/sudo_plugin.5
 /usr/share/man/man5/sudoers.5
 /usr/share/man/man5/sudoers_timestamp.5
 /usr/share/man/man8/sudo.8
 /usr/share/man/man8/sudo_logsrvd.8
-/usr/share/man/man8/sudo_plugin.8
 /usr/share/man/man8/sudo_sendlog.8
 /usr/share/man/man8/sudoedit.8
 /usr/share/man/man8/sudoreplay.8
