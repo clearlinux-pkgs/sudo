@@ -1,8 +1,126 @@
+2022-06-08  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* .hgtags:
+	Added tag SUDO_1_9_11p1 for changeset 06b0f12fe91c
+	[feb8ae553833] [tip] <1.9>
+
+	* NEWS, config.h.in, configure, configure.ac:
+	Merge sudo 1.9.11p1 from tip.
+	[06b0f12fe91c] [SUDO_1_9_11p1] <1.9>
+
+	* NEWS, configure, configure.ac:
+	Sudo 1.9.11p1
+	[7fcfdaacb15e]
+
+2022-06-07  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* src/exec_pty.c:
+	Make read and write events persistent and disable as needed. For the
+	read callback, disable reader when the buffer is full. For the write
+	callback, disable writer when the buffer is consumed.
+	[2b6953dc4224]
+
+	* config.h.in, configure, configure.ac, src/sudo_exec.h,
+	src/sudo_noexec.c:
+	Check for SECCOMP_MODE_FILTER not SECCOMP_SET_MODE_FILTER. This
+	matches the actual prctl() call we use.
+	[4222768293d1]
+
+	* Merge pull request #157 from 0x2b3bfa0/improve-tag-spec-ebnf-docs
+
+	Improve Tag_Spec EBNF documentation
+	[f528335aded5]
+
+	* logsrvd/logsrvd.c, logsrvd/logsrvd_relay.c, logsrvd/sendlog.c:
+	Treat EINTR in a callback like we do EAGAIN. We shouldn't get EINTR
+	in practice since we set SA_RESTART when registering signal handlers
+	but it doesn't hurt to be consistent.
+	[acf3394e2df2]
+
+	* Merge pull request #156 from delroth/aarch64-build
+
+	exec_ptrace: fix missing sudo_pt_regs on aarch64
+	[a7062c609a96]
+
+2022-06-07  Pierre Bourdon  <delroth@gmail.com>
+
+	* src/exec_ptrace.h:
+	exec_ptrace: fix missing sudo_pt_regs on aarch64
+
+	AArch64 already had an existing "user_pt_regs" struct and didn't
+	need a struct alias before the renaming to "sudo_pt_regs". Make the
+	code build again by adding the now missing alias.
+
+	Fixes: 2eb8ff17
+	[3b55f40e9b83]
+
+2022-06-07  Helio Machado  <0x2b3bfa0+git@googlemail.com>
+
+	* docs/sudoers.man.in, docs/sudoers.mdoc.in:
+	Improve Tag_Spec EBNF documentation
+	[7e23ec31d124]
+
+2022-06-07  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* Merge pull request #154 from 0x2b3bfa0/fix-tag-spec-docs
+
+	Add missing colon in Tag_Spec documentation
+	[ec8f4610b677]
+
+	* Merge pull request #152 from particleflux/fix-sudoers-typo
+
+	Fix typo in sudoers comment
+	[bbbcff4c14ba]
+
+2022-06-07  Helio Machado  <0x2b3bfa0+git@googlemail.com>
+
+	* docs/sudoers.man.in, docs/sudoers.mdoc.in:
+	Add missing colon in Tag_Spec documentation
+	[e6f4c612e22a]
+
+2022-06-07  Stefan Linke  <particleflux@gmail.com>
+
+	* plugins/sudoers/sudoers.in:
+	Fix typo in sudoers comment
+
+	Fix a typo in the sudoers comment about `maxseq` param.
+
+	Introduced by 906eb19ece47023c659b4b3db2e7a6bb57dff0d9 in 1.9.11.
+	[b38fae41b3eb]
+
 2022-06-06  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* lib/protobuf-c/protobuf-c.c:
+	Only shift unsigned values to avoid implementation-specific
+	behavior. This converts the arithmetic shifts to logical shifts.
+	[e25aa8e9891a]
+
+	* lib/protobuf-c/protobuf-c.c:
+	Fix issue protobuf-c#499: unsigned integer overflow Signed-off-by:
+	10054172 <hui.zhang@thalesgroup.com>
+	[f3637be4df4f]
+
+	* include/sudo_event.h, lib/util/event_select.c:
+	Fix building with select (not poll) when fd_set is not defined in
+	sys/types.h. We can use a void * for the fd_set arrays and just add
+	a cast when using the FD_SET macros.
+	[5c636cbc11f0]
+
+	* src/exec_pty.c:
+	Reinstall the event handler if we get EAGAIN from read/write
+	callback. The read and write events do not set SUDO_EV_PERSIST so we
+	need to explicitly re-enable the event if there is still data to be
+	read. Bug #963.
+	[0006cb6531f4]
+
+	* logsrvd/logsrvd.c, logsrvd/logsrvd_relay.c, logsrvd/sendlog.c:
+	If write(2) returns EAGAIN just re-enter the event loop. This is
+	consistent with how we handle EAGAIN for read(2).
+	[e6478d917a0f]
 
 	* .hgtags:
 	Added tag SUDO_1_9_11 for changeset d495c99554f7
-	[74c59bc5c323] [tip] <1.9>
+	[74c59bc5c323] <1.9>
 
 	* NEWS, config.h.in, configure, configure.ac, include/sudo_compat.h,
 	logsrvd/tls_init.c, plugins/sudoers/regress/fuzz/fuzz_policy.c:
