@@ -1,8 +1,61 @@
+2022-06-12  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* .hgtags:
+	Added tag SUDO_1_9_11p2 for changeset 9e4705cb1db5
+	[2a4b6b814432] [tip] <1.9>
+
+	* NEWS, configure, configure.ac, include/sudo_compat.h:
+	Merge sudo 1.9.11p2 from tip.
+	[9e4705cb1db5] [SUDO_1_9_11p2] <1.9>
+
+	* NEWS, configure, configure.ac:
+	Sudo 1.9.11p2
+	[9505276e5c97]
+
+2022-06-11  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* src/exec_ptrace.h:
+	Fix compilation on Linux/x32; GitHub issue #158
+	[8cebfdd49205]
+
+2022-06-10  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/policy.c:
+	Fix pasto in comment after HAVE_PRIV_SET #endif
+	[2275ab3b016d]
+
+	* include/sudo_compat.h:
+	Fix typo, we should define SSIZE_MAX if it is not defined.
+	[51c68f801479]
+
+2022-06-09  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/env.c:
+	Change black list -> blocklist This was missed in the previous
+	conversion.
+	[da610ebb5cb1]
+
+	* plugins/sudoers/audit.c, plugins/sudoers/iolog.c,
+	plugins/sudoers/log_client.c, plugins/sudoers/log_client.h,
+	plugins/sudoers/logging.c, plugins/sudoers/logging.h,
+	plugins/sudoers/policy.c,
+	plugins/sudoers/regress/iolog_plugin/check_iolog_plugin.c,
+	plugins/sudoers/sudoers.h:
+	Save a pointer to the event_alloc parameter in the plugin open
+	function. That way we don't need to pass event_alloc around to the
+	log client functions.
+	[a8a47f3770b3]
+
+	* lib/protobuf-c/protobuf-c.c:
+	Fix regression with zero-length messages introduced in protobuf-c PR
+	500.
+	[42062b9f75d5]
+
 2022-06-08  Todd C. Miller  <Todd.Miller@sudo.ws>
 
 	* .hgtags:
 	Added tag SUDO_1_9_11p1 for changeset 06b0f12fe91c
-	[feb8ae553833] [tip] <1.9>
+	[feb8ae553833] <1.9>
 
 	* NEWS, config.h.in, configure, configure.ac:
 	Merge sudo 1.9.11p1 from tip.
