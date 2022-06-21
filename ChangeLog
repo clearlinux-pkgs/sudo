@@ -1,8 +1,56 @@
+2022-06-20  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* .hgtags:
+	Added tag SUDO_1_9_11p3 for changeset 6e671475b373
+	[59e5766213e9] [tip] <1.9>
+
+	* NEWS, configure, configure.ac:
+	Merge sudo 1.9.11p3 from tip.
+	[6e671475b373] [SUDO_1_9_11p3] <1.9>
+
+	* NEWS, configure, configure.ac:
+	Sudo 1.9.11p3
+	[c96ded63ae46]
+
+	* src/exec_intercept.c, src/sudo_intercept_common.c:
+	Set TCP_NODELAY on the socket used for intercept IPC to reduce
+	latency. On some systems, Nagle's algorithm was delaying receipt of
+	the data, causing commands with intercept or log_subcmds to run
+	slowly. Related to Bug #1034.
+	[11b129850ac1]
+
+	* src/sudo_intercept_common.c:
+	Use blocking I/O when talking to the sudo process. Also check for
+	EAGAIN/EINTR when reading the message size. Fixes a problem seen on
+	AIX where recv_intercept_response() could fail unexpectedly. Bug
+	#1034.
+	[8554618665a2]
+
+	* src/exec_intercept.c:
+	Add debug printfs when send/recv return EAGAIN or EINTR. These are
+	not actually errors but can help gain insight into what is going on
+	and, in the case of EAGAIN, whether or not there may be a kernel
+	resource starvation problem.
+	[fd2dee906d2f]
+
+2022-06-14  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/logging.c:
+	log_exit_status: make local variables match struct evlog members.
+	[f93d5141e818]
+
+2022-06-13  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* lib/util/getgrouplist.c:
+	Quiet a compiler warning on macOS. The getgrouplist() groups array
+	on macOS is int * instead of gid_t *.
+	[c64bf72a1416]
+
 2022-06-12  Todd C. Miller  <Todd.Miller@sudo.ws>
 
 	* .hgtags:
 	Added tag SUDO_1_9_11p2 for changeset 9e4705cb1db5
-	[2a4b6b814432] [tip] <1.9>
+	[2a4b6b814432] <1.9>
 
 	* NEWS, configure, configure.ac, include/sudo_compat.h:
 	Merge sudo 1.9.11p2 from tip.
