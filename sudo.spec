@@ -6,7 +6,7 @@
 #
 Name     : sudo
 Version  : 1.9.11p3
-Release  : 89
+Release  : 90
 URL      : https://www.sudo.ws/dist/sudo-1.9.11p3.tar.gz
 Source0  : https://www.sudo.ws/dist/sudo-1.9.11p3.tar.gz
 Source1  : https://www.sudo.ws/dist/sudo-1.9.11p3.tar.gz.sig
