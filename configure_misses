@@ -1,5 +1,3 @@
-Configure miss: SSL_CTX_set0_tmp_dh_pkey
-Configure miss: arc4random
 Configure miss: exect
 Configure miss: execvP
 Configure miss: freezero
