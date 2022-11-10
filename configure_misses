@@ -2,6 +2,7 @@ Configure miss: exect
 Configure miss: execvP
 Configure miss: freezero
 Configure miss: getutsid
+Configure miss: mkdtempat
 Configure miss: netgroup.h
 Configure miss: procfs.h
 Configure miss: pw_dup
