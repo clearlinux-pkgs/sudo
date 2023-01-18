@@ -1,8 +1,67 @@
+2023-01-18  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* .hgtags:
+	Added tag SUDO_1_9_12p2 for changeset 05149e3ee7db
+	[8763a9e70ddd] [tip] <1.9>
+
+2023-01-17  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* configure, configure.ac:
+	Add back the linker check for -fstack-clash-protection. This is
+	expected to fix GitHub issue #231.
+	[40bda374ae08] <1.9>
+
+2023-01-12  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* lib/iolog/iolog_mkdtemp.c:
+	iolog_mkdtemp: fix pasto in last commit Set mode to iolog_dirmode,
+	not iolog_filemode
+	[9926f1c92729] <1.9>
+
+	* NEWS, configure, configure.ac:
+	Sudo 1.9.2p2
+	[05149e3ee7db] [SUDO_1_9_12p2] <1.9>
+
+	* plugins/sudoers/editor.c, plugins/sudoers/sudoers.c,
+	plugins/sudoers/visudo.c:
+	sudoedit: do not permit editor arguments to include "--"
+	(CVE-2023-22809) We use "--" to separate the editor and arguments
+	from the files to edit. If the editor arguments include "--", sudo
+	can be tricked into allowing the user to edit a file not permitted
+	by the security policy. Thanks to Matthieu Barjole and Victor
+	Cutillas of Synacktiv (https://synacktiv.com) for finding this bug.
+	[eb7f573a4a92] <1.9>
+
+2023-01-03  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* lib/iolog/iolog_mkdtemp.c:
+	iolog_mkdtemp: fix failure when the specified path contains
+	subdirectories. This fixes a bug introduced in sudo 1.9.12.
+	[ac86f3b0d94b] <1.9>
+
+2022-12-07  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* plugins/sudoers/parse.c:
+	Fix potential crash introduced in the fix for GitHub issue #134. If
+	a user's sudoers entry did not have any RunAs user's set, running
+	"sudo -U otheruser -l" would dereference a NULL pointer. We need to
+	compare the default RunAs user if the sudoers entry does not specify
+	one explicitly. Problem reported by Andreas Mueller who also
+	suggested a different solution in PR #219.
+	[360e04f13024] <1.9>
+
+2022-11-10  Todd C. Miller  <Todd.Miller@sudo.ws>
+
+	* src/exec_ptrace.h:
+	Include linux/elf.h, not elf.h to make sure we get
+	NT_ARM_SYSTEM_CALL. The NT_PRSTATUS define is present in both files.
+	[161f41f644ca] <1.9>
+
 2022-11-04  Todd C. Miller  <Todd.Miller@sudo.ws>
 
 	* .hgtags:
 	Added tag SUDO_1_9_12p1 for changeset 39cf4d8052ff
-	[28ed2d994f40] [tip] <1.9>
+	[28ed2d994f40] <1.9>
 
 	* NEWS, configure, configure.ac:
 	Merge sudo 1.9.12p1 from tip.

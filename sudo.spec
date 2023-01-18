@@ -5,17 +5,18 @@
 # Source0 file verified with key 0xA9F4C021CEA470FB (Todd.Miller@sudo.ws)
 #
 Name     : sudo
-Version  : 1.9.12p1
-Release  : 92
-URL      : https://www.sudo.ws/dist/sudo-1.9.12p1.tar.gz
-Source0  : https://www.sudo.ws/dist/sudo-1.9.12p1.tar.gz
-Source1  : https://www.sudo.ws/dist/sudo-1.9.12p1.tar.gz.sig
+Version  : 1.9.12p2
+Release  : 93
+URL      : https://www.sudo.ws/dist/sudo-1.9.12p2.tar.gz
+Source0  : https://www.sudo.ws/dist/sudo-1.9.12p2.tar.gz
+Source1  : https://www.sudo.ws/dist/sudo-1.9.12p2.tar.gz.sig
 Summary  : No detailed summary available
 Group    : Development/Tools
-License  : ISC
+License  : BSD-3-Clause ISC
 Requires: sudo-bin = %{version}-%{release}
 Requires: sudo-data = %{version}-%{release}
 Requires: sudo-libexec = %{version}-%{release}
+Requires: sudo-license = %{version}-%{release}
 Requires: sudo-locales = %{version}-%{release}
 Requires: sudo-man = %{version}-%{release}
 Requires: sudo-setuid = %{version}-%{release}
@@ -24,6 +25,9 @@ BuildRequires : bison
 BuildRequires : groff
 BuildRequires : openssl-dev
 BuildRequires : zlib-dev
+# Suppress stripping binaries
+%define __strip /bin/true
+%define debug_package %{nil}
 Patch1: 0001-stateless.patch
 Patch2: 0002-Add-read-only-sudoers.d-dir.patch
 Patch3: 0003-visudo-Use-sane-default-file.patch
@@ -39,6 +43,7 @@ Group: Binaries
 Requires: sudo-data = %{version}-%{release}
 Requires: sudo-libexec = %{version}-%{release}
 Requires: sudo-setuid = %{version}-%{release}
+Requires: sudo-license = %{version}-%{release}
 
 %description bin
 bin components for the sudo package.
@@ -76,9 +81,18 @@ doc components for the sudo package.
 %package libexec
 Summary: libexec components for the sudo package.
 Group: Default
+Requires: sudo-license = %{version}-%{release}
 
 %description libexec
 libexec components for the sudo package.
+
+
+%package license
+Summary: license components for the sudo package.
+Group: Default
+
+%description license
+license components for the sudo package.
 
 
 %package locales
@@ -106,8 +120,8 @@ setuid components for the sudo package.
 
 
 %prep
-%setup -q -n sudo-1.9.12p1
-cd %{_builddir}/sudo-1.9.12p1
+%setup -q -n sudo-1.9.12p2
+cd %{_builddir}/sudo-1.9.12p2
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -118,15 +132,15 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1668099155
+export SOURCE_DATE_EPOCH=1674066064
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=auto "
-export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto "
-export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto "
-export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=auto "
+export CFLAGS="$CFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -fstack-protector-strong -fzero-call-used-regs=used -g1 -gno-column-info -gno-variable-location-views -gz "
+export FCFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -fstack-protector-strong -fzero-call-used-regs=used -g1 -gno-column-info -gno-variable-location-views -gz "
+export FFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -fstack-protector-strong -fzero-call-used-regs=used -g1 -gno-column-info -gno-variable-location-views -gz "
+export CXXFLAGS="$CXXFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -fstack-protector-strong -fzero-call-used-regs=used -g1 -gno-column-info -gno-variable-location-views -gz "
 %configure --disable-static --with-pam \
 --with-env-editor \
 --with-ignore-dot \
@@ -143,8 +157,10 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make check || :
 
 %install
-export SOURCE_DATE_EPOCH=1668099155
+export SOURCE_DATE_EPOCH=1674066064
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/sudo
+cp %{_builddir}/sudo-%{version}/LICENSE.md %{buildroot}/usr/share/package-licenses/sudo/1c8f37c253fde672d31f69384a099de8630ab643 || :
 %make_install INSTALL_OWNER=""
 %find_lang sudo
 %find_lang sudoers
@@ -187,6 +203,10 @@ rm -rfv %{buildroot}/etc
 /usr/libexec/sudo/sudo_noexec.so
 /usr/libexec/sudo/sudoers.so
 /usr/libexec/sudo/system_group.so
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/sudo/1c8f37c253fde672d31f69384a099de8630ab643
 
 %files man
 %defattr(0644,root,root,0755)
