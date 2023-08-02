@@ -7,7 +7,7 @@
 #
 Name     : sudo
 Version  : 1.9.14p3
-Release  : 94
+Release  : 99
 URL      : https://www.sudo.ws/dist/sudo-1.9.14p3.tar.gz
 Source0  : https://www.sudo.ws/dist/sudo-1.9.14p3.tar.gz
 Source1  : https://www.sudo.ws/dist/sudo-1.9.14p3.tar.gz.sig
@@ -15,6 +15,7 @@ Summary  : No detailed summary available
 Group    : Development/Tools
 License  : BSD-3-Clause ISC
 Requires: sudo-bin = %{version}-%{release}
+Requires: sudo-data = %{version}-%{release}
 Requires: sudo-libexec = %{version}-%{release}
 Requires: sudo-license = %{version}-%{release}
 Requires: sudo-locales = %{version}-%{release}
@@ -29,8 +30,9 @@ BuildRequires : zlib-dev
 # Suppress stripping binaries
 %define __strip /bin/true
 %define debug_package %{nil}
-Patch1: 0001-Add-new-sudoer-group-role.patch
+Patch1: 0001-Update-sudoers-default-config.patch
 Patch2: 0002-keep-proxy-settings-environment-variables.patch
+Patch3: 0003-visudo-Use-sane-default-file.patch
 
 %description
 NLS Translations for sudo are coordinated through the Translation
@@ -39,6 +41,7 @@ Project, at https://translationproject.org/
 %package bin
 Summary: bin components for the sudo package.
 Group: Binaries
+Requires: sudo-data = %{version}-%{release}
 Requires: sudo-libexec = %{version}-%{release}
 Requires: sudo-setuid = %{version}-%{release}
 Requires: sudo-license = %{version}-%{release}
@@ -47,10 +50,19 @@ Requires: sudo-license = %{version}-%{release}
 bin components for the sudo package.
 
 
+%package data
+Summary: data components for the sudo package.
+Group: Data
+
+%description data
+data components for the sudo package.
+
+
 %package dev
 Summary: dev components for the sudo package.
 Group: Development
 Requires: sudo-bin = %{version}-%{release}
+Requires: sudo-data = %{version}-%{release}
 Provides: sudo-devel = %{version}-%{release}
 Requires: sudo = %{version}-%{release}
 
@@ -113,13 +125,14 @@ setuid components for the sudo package.
 cd %{_builddir}/sudo-1.9.14p3
 %patch -P 1 -p1
 %patch -P 2 -p1
+%patch -P 3 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1690939201
+export SOURCE_DATE_EPOCH=1691003946
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -133,7 +146,9 @@ export CXXFLAGS="$CXXFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonl
 --with-ignore-dot \
 --with-tty-tickets \
 --with-editor=/usr/bin/vim:/usr/bin/vi:/usr/bin/nano \
---with-all-insults
+--with-all-insults \
+--enable-adminconf=/etc \
+--sysconfdir=/usr/share/defaults/sudo
 make  %{?_smp_mflags}
 
 %check
@@ -144,7 +159,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make check || :
 
 %install
-export SOURCE_DATE_EPOCH=1690939201
+export SOURCE_DATE_EPOCH=1691003946
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/sudo
 cp %{_builddir}/sudo-%{version}/LICENSE.md %{buildroot}/usr/share/package-licenses/sudo/c2ba3629efe22105261b63be3019a3f60be20a5a || :
@@ -166,6 +181,13 @@ rm -rfv %{buildroot}/etc
 /usr/bin/sudoedit
 /usr/bin/sudoreplay
 /usr/bin/visudo
+
+%files data
+%defattr(-,root,root,-)
+/usr/share/defaults/sudo/sudo.conf
+/usr/share/defaults/sudo/sudo_logsrvd.conf
+/usr/share/defaults/sudo/sudoers
+/usr/share/defaults/sudo/sudoers.dist
 
 %files dev
 %defattr(-,root,root,-)

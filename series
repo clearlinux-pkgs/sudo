@@ -1,2 +1,3 @@
-0001-Add-new-sudoer-group-role.patch
+0001-Update-sudoers-default-config.patch
 0002-keep-proxy-settings-environment-variables.patch
+0003-visudo-Use-sane-default-file.patch

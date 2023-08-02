@@ -4,3 +4,5 @@
 --with-tty-tickets
 --with-editor=/usr/bin/vim:/usr/bin/vi:/usr/bin/nano
 --with-all-insults
+--enable-adminconf=/etc
+--sysconfdir=/usr/share/defaults/sudo
