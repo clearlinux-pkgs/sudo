@@ -1,6 +1,8 @@
 Configure miss: exect
 Configure miss: execvP
 Configure miss: freezero
+Configure miss: gcc option for timestamps after 2038
+Configure miss: gcc option to enable large file support
 Configure miss: getutsid
 Configure miss: mkdtempat
 Configure miss: netgroup.h
@@ -21,9 +23,9 @@ Configure miss: sys/stropts.h
 Configure miss: sys/sysctl.h
 Configure miss: sysctl
 Configure miss: time zone data directory
-Configure miss: utmps.h
 Configure miss: vi
 Configure miss: whether F_CLOSEM is declared
+Configure miss: whether SYMLOOP_MAX is declared
 Configure miss: whether putenv takes a const argument
 Configure miss: whether unsetenv returns void
 Configure miss: x86_64-generic-linux-gnu-file
