@@ -1,26 +1,25 @@
-From be8634b658ff8f01963e5beaa9fe14e0f4e7b49d Mon Sep 17 00:00:00 2001
+From c2e132743bead35cf5968616789ad51c9e2dcc7d Mon Sep 17 00:00:00 2001
 From: William Douglas <william.douglas@intel.com>
-Date: Wed, 2 Aug 2023 10:58:43 -0700
+Date: Tue, 16 Jan 2024 12:37:32 -0800
 Subject: [PATCH 3/3] visudo: Use sane default file
 
-Signed-off-by: William Douglas <william.douglas@intel.com>
 ---
  plugins/sudoers/visudo.c | 8 ++++++++
  1 file changed, 8 insertions(+)
 
 diff --git a/plugins/sudoers/visudo.c b/plugins/sudoers/visudo.c
-index 088117c..8eaa6bc 100644
+index 735d7af..dad3b38 100644
 --- a/plugins/sudoers/visudo.c
 +++ b/plugins/sudoers/visudo.c
-@@ -141,6 +141,7 @@ main(int argc, char *argv[])
+@@ -138,6 +138,7 @@ main(int argc, char *argv[])
      int ch, oldlocale, editor_argc, exitcode = 0;
-     bool use_perms, use_owner, quiet, strict, fflag;
+     bool use_perms, use_owner, fflag;
      debug_decl(main, SUDOERS_DEBUG_MAIN);
 +    __attribute__ ((unused)) struct stat st = {0};
  
  #if defined(SUDO_DEVEL) && defined(__OpenBSD__)
      {
-@@ -159,6 +160,10 @@ main(int argc, char *argv[])
+@@ -156,6 +157,10 @@ main(int argc, char *argv[])
      if (argc < 1)
  	usage();
  
@@ -28,12 +27,12 @@ index 088117c..8eaa6bc 100644
 +        (void)mkdir("/etc/sudoers.d", 00755);
 +    }
 +
-     /* Register fatal/fatalx callback. */
+     /* Register callbacks. */
      sudo_fatal_callback_register(visudo_cleanup);
- 
-@@ -176,6 +181,9 @@ main(int argc, char *argv[])
+     set_callbacks();
+@@ -171,6 +176,9 @@ main(int argc, char *argv[])
      /* Parse sudoers plugin options, if any. */
-     parse_sudoers_options();
+     parse_sudoers_options(&ctx);
  
 +    /* Set default sudoers file, can be overriden with -f, --file */
 +    path_sudoers = "/etc/sudoers.d/visudo";
@@ -42,5 +41,5 @@ index 088117c..8eaa6bc 100644
       * Arg handling.
       */
 -- 
-2.41.0
+2.43.0
 

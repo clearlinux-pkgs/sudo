@@ -25,7 +25,7 @@ Configure miss: sysctl
 Configure miss: time zone data directory
 Configure miss: vi
 Configure miss: whether F_CLOSEM is declared
-Configure miss: whether SYMLOOP_MAX is declared
+Configure miss: whether ioctl() takes an int request argument
 Configure miss: whether putenv takes a const argument
 Configure miss: whether unsetenv returns void
 Configure miss: x86_64-generic-linux-gnu-file
